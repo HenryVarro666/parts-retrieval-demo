@@ -1,0 +1,210 @@
+part_id,pageid,keep,marking_legible,marking,group,decided_by,judged_size,round,note
+2N3055,1328630,n,y,2N3055,-,agree,600x600,2,"Motorola 2N3055 shown with TO-126, TO-92 and SOT-23 transistors; several different parts"
+2N3055,2125221,n,n,,-,agree,799x599,2,"opened TO-3 can showing the die, annotated C/B/E; decapped"
+2N3055,4245075,n,y,2N3055,-,agree,222x463,1,"composite: PNP circuit diagram plus photo of four different transistors, one an Ei 2N3055 TO-3"
+2N3055,10063922,n,y,2N3055,-,agree,869x639,2,upside-down 2N3055 beside a TO-92 and an IRF530 TO-220; different parts side by side
+2N3055,15087999,y,y,2N3055,g1,agree,960x697,1,"close-up of single Toshiba 2N3055 TO-3 can, red marking"
+2N3055,19104800,n,y,2N3055,-,agree,960x585,2,GE/RCA 2N3055 next to a Motorola BUX13; two different part numbers
+2N3055,23122242,n,y,2N3055,-,agree,960x717,2,"lone ST 2N3055 on a desk, but the part fills only about 6% of the frame"
+2N3055,25672856,n,y,2N3055,-,agree,960x720,1,"two ST 2N3055 on heatsink inside a wired build with pots, breadboard, power resistors"
+2N3055,50219570,y,y,2N3055,g2,agree,332x448,2,single RCA 2N3055 TO-3 can filling the frame
+2N3055,80876576,y,y,2N3055GR,g3,agree,960x1050,1,"close-up of single RCA 2N3055 TO-3 can, printed marking"
+2N3055,80876577,n,n,,-,agree,960x864,1,decapped internal view: die and bond straps
+2N3055,80876578,n,n,,-,agree,960x625,2,macro of the die and bond leads inside an opened can; die shot
+2N3055,94229451,y,y,2N3055H,g4,agree,960x1109,2,single 2N3055H TO-3 can in front of a ruler
+ATMEGA328P,23315198,y,y,ATMEGA328P-PU,g1,agree,960x640,1,Single ATmega328P-PU DIP-28 on white studio background
+ATMEGA328P,39645084,n,n,,-,agree,960x964,3,"die micrograph of decapped chip (whole die), no package or marking"
+ATMEGA328P,39645114,n,n,,-,agree,960x945,1,"Die shot of decapped chip (second view), no package"
+ATMEGA328P,40551893,y,y,ATMEGA328P-PU,g1,agree,960x640,1,"Single ATmega328P-PU DIP-28 on white, rotated; same oomlout studio setup as 23315198, different unit (date 1318)"
+ATMEGA328P,40551963,y,y,MEGA328P AU,g1,agree,960x640,2,single Atmel TQFP-32 MEGA328P AU (date 1244) on white; same oomlout studio setup as g1 DIP shots
+ATMEGA328P,67384023,n,y,ATMEGA328P,-,agree,500x375,1,"Peggy 2LE board; chip is one component among other ICs, caps and headers"
+ATMEGA328P,75189907,y,y,ATMEGA328P-PU,g2,agree,960x717,1,"Single ATmega328P-PU DIP-28 on packing foam, crystal behind it, fabric background"
+ATMEGA328P,98900407,n,n,,-,agree,960x640,3,"die micrograph close-up of chip art (ram logo, Xiao Bao, Aries), no package"
+ATMEGA328P,98900408,n,n,,-,agree,960x640,2,"die micrograph of decapped chip corner; only a 2018-09 die date visible, no part number"
+ATMEGA328P,133222141,y,n,,g3,tiebreak,486x486,2,"macro close-up of Atmel-logo TQFP-32 filling frame on Uno-clone PCB; marking soft, reads ~MEGA?28P U-KR, digit before 28P not resolvable so 328 unconfirmed; kept on title Mega328P [tie-break; A: close-up of Atmel-logo TQFP-32 filling frame on Uno-clone PCB; marking too blurred to confirm 328 (reads ~MEGA?28P U-KR), title names Mega328P; B: macro close-up of one TQFP-32 Atmel MEGA328P filling the frame on a clone Uno board; marking slightly soft but readable]"
+ATMEGA328P,149126951,y,y,ATMEGA328P-PU,g4,agree,960x449,1,Single ATmega328P-PU DIP-28 close-up on light background
+ATMEGA328P,149127006,n,n,,-,agree,960x524,1,Whole ArduTouch kit laid out; chip is one small part among many
+ATMEGA8,3161098,y,y,ATMEGA8-16PU,g1,agree,960x619,2,Atmel ATmega8-16PU DIP-28 alone on gray textured background
+ATMEGA8,5054949,n,y,ATMEGA8-16PU,-,agree,960x722,1,"Three different AVR parts side by side (ATmega8-16PU, ATxmega128A1, ATtiny45)"
+ATMEGA8,5788829,n,n,,-,agree,960x435,2,homemade programmer in cardboard box with parallel cable; no chip visible
+ATMEGA8,5788839,n,n,,-,agree,960x512,2,"inside of programmer box, wires and resistors on connector; no chip visible"
+ATMEGA8,13291894,n,n,,-,agree,960x534,1,"Broken-open package exposing the die; decapped chip, top marking unreadable"
+ATMEGA8,20525248,n,n,,-,agree,960x1177,2,"perfboard dev board with LCD; DIP chip is one component among many, marking unreadable"
+ATMEGA8,25140187,n,n,,-,agree,960x933,2,die shot micrograph of decapped chip
+ATMEGA8,74561381,y,y,ATMEGA8L 8AU,g2,agree,960x731,2,Atmel ATmega8L TQFP-32 on white; same author and white-backdrop setup as g1 (consecutive upload)
+ATMEGA8,74561382,y,y,ATMEGA8A-PU,g2,agree,960x709,3,single Atmel ATMEGA8A-PU PDIP-28 on white; same Ubahnverleih white-background session as g1 (consecutive upload)
+ESP32,57745131,y,y,ESP32-D0WDQ6,g1,agree,800x800,2,Close-up of ESP-WROOM-32 module with shield removed on carrier board; ESP32 chip marking readable
+ESP32,70088856,n,n,,-,agree,960x720,1,TTGO LoRa32 dev board with OLED; ESP32 chip not visible
+ESP32,74560838,y,y,ESP32-WROOM-32,g2,agree,960x802,2,Loose shielded ESP32-WROOM-32 module on white background
+ESP32,80349393,n,n,,-,agree,960x1260,2,"ESP32-CAM dev board, camera side; ESP32 module not visible (only board silkscreen)"
+ESP32,96576289,n,y,ESP32-WROOM-32,-,agree,960x1198,2,Maixduino dev board; WROOM-32 module is one of many parts
+ESP32,97701682,y,y,ESP32-D0WDQ6,g3,agree,960x1252,1,macro close-up centered on ESP32-D0WDQ6 QFN on Lolin32 Lite clone board; chip is the clear focus
+ESP32,116791330,n,n,,-,agree,500x482,1,"die shot micrograph, not a packaged unit"
+ESP32,117048431,y,y,ESP32-D0WDQ6,g3,agree,960x673,2,Close-up of ESP32-D0WDQ6 chip on Lolin32 Lite clone; same unit and lot code as g1
+ESP32,148581552,n,n,,-,agree,960x640,1,"dev board lying on a slice of bread; module small, marking unreadable"
+ESP32,157191664,n,n,,-,agree,960x1280,2,Whole ESP32 DevKit dev board; module shield text washed out
+ESP32,157191667,n,n,,-,agree,960x1280,1,30-pin ESP32 devkit on perfboard beside a breadboard; module marking unreadable
+ESP32,157391237,n,n,,-,agree,960x723,2,LILYGO T-Beam board with antenna outdoors; ESP32 not visible
+ESP32,157406945,n,n,,-,agree,960x742,2,NerdMiner finished device with display; no ESP32 unit visible
+ESP32,157406992,n,n,,-,agree,960x669,1,"Heltec dev board (Nerdminer); QFN chip small, marking unreadable, GPIO 43/44 labels suggest ESP32-S3"
+ESP32,194957265,n,n,,-,agree,960x708,2,ESP32 DevKit on expansion board with wires; module marking unreadable
+ESP8266,45382794,n,n,,-,agree,960x408,2,"Pretzel dev board (Arduino Nano style MCU + ESP8266); ESP8266 is one component among many, its text unreadable"
+ESP8266,47364770,n,y,ESP8266MOD,-,agree,960x720,1,"ESP-12 module wired to a coin cell in a binder clip; hack assembly, module small in frame"
+ESP8266,48947855,n,n,ESP8089,-,agree,960x1011,2,"die shot, not a packaged unit; tiny die label reads ESP8089"
+ESP8266,50769722,y,n,,g1,agree,960x640,2,"ESP-01 module (AI-Cloud inside silkscreen) top view on wood; chip text unreadable, title names ESP8266"
+ESP8266,54458803,y,y,ESP8266MOD,g2,agree,960x1280,3,"Five AI-Thinker ESP-12 style modules (ESP8266MOD) on white pin-header breakout adapters; the module is the only active part on each adapter, and the front unit is in sharp focus"
+ESP8266,56733450,y,y,ESP-WROOM-02,g3,agree,500x483,1,"Espressif ESP-WROOM-02 (ESP8266) module between steel rulers; marking gives the module name, not ESP8266"
+ESP8266,57331438,y,y,ESP8266EX,g4,agree,600x600,1,SparkFun studio shot of a black ESP-01 module; ESP8266EX chip marking clear
+ESP8266,58385650,n,y,ESP-8266,-,agree,960x803,2,WeMos D1 mini development board carrying an ESP-8266 shielded module
+ESP8266,67098451,y,y,ESP8266EX,g5,agree,600x600,2,"blue ESP-01 module top view, SparkFun white-background shot; same unit as g5 (AH1441 25Q41BT flash)"
+ESP8266,67098454,y,y,ESP8266EX,g5,agree,600x600,1,SparkFun studio shot of a blue ESP-01 module; ESP8266EX marking rotated but readable
+ESP8266,153964355,n,n,,-,agree,960x1016,2,"ESP8266EX die micrograph, not a packaged unit; die label too faint to read"
+I80286,1849209,y,y,N80286-10,g1,agree,960x658,2,"Single N80286-10 68-pin PLCC, angled close-up on white"
+I80286,5174316,y,y,N80286-12,g2,agree,225x230,2,Small (225px) top-view camera photo of one N80286-12 PLCC
+I80286,6976587,y,y,A80286-10,g3,agree,960x978,2,"Single A80286-10 PGA, top view on bright white (ZyMOS series)"
+I80286,7448828,y,y,N80286-10,g3,agree,960x964,2,Single N80286-10 PLCC top view; same author as 6976587 but grey-green background and different lighting
+I80286,33483924,n,y,80286,-,agree,960x947,1,"die shot (micrograph of the bare die), not a packaged unit; on-die text reads 80286"
+I80286,46635176,y,y,C80286-6,g4,agree,960x640,2,"C80286-6 ceramic LCC gold lid, with a second chip's underside beside it"
+I80286,80505101,n,n,,-,agree,960x640,1,museum display case of many different Intel x86 CPUs; the 286 is a tiny unreadable PLCC
+I80286,80676776,n,n,,-,agree,960x640,2,"Intel CPU lineup (4004 to Pentium), many different part numbers; 286 PLCC marking unreadable"
+I80286,112284492,y,y,A80286-10,g5,agree,960x960,2,"Single A80286-10 PGA alone on bubble wrap, centered"
+I80286,158840809,n,y,N80286-10,-,agree,960x297,1,"size lineup of different chips (N80286-10, 80387, 80386, 80486, Pentium MMX)"
+I80286,158840810,n,y,N80286-10,-,agree,960x349,1,"size lineup of different chips (N80286-10, 80387, 80386, 80486)"
+I80286,158840814,n,y,N80286-10,-,agree,960x438,2,Size comparison beside A80386DX-33 and A80486DX-33; different part numbers
+I8080,91615,y,y,C8080A,g1,agree,790x287,2,Flat top view of Intel C8080A white ceramic gold-lid DIP
+I8080,6691932,y,y,D8080A,g2,agree,960x541,2,Intel D8080A dark ceramic DIP on white background
+I8080,11953251,n,n,,-,agree,500x652,1,"Scanned 1977 magazine price-list ad, text only, no chip pictured"
+I8080,15306923,n,n,,-,agree,960x640,1,"Scanned 1974 Intel print ad; Intellec 8 system, manuals and tapes dominate, chips tiny with no readable marking"
+I8080,55534764,y,y,8080,g3,agree,640x453,2,Intel 8080 white ceramic gold-lid DIP on orange gradient
+I8080,55534766,y,y,8080A,g3,agree,773x500,2,Intel 8080A white ceramic gold-lid DIP on orange gradient
+I8080,55534885,y,y,C8080-8,g3,agree,794x472,2,Intel C8080-8 white ceramic gold-lid DIP on orange gradient
+I8080,55534887,y,y,C8080A-1,g3,agree,794x485,2,Intel C8080A-1 white ceramic gold-lid DIP on orange gradient
+I8085,453350,y,y,P8085AH-2,g1,agree,960x321,2,Top view of one plastic DIP-40 Intel P8085AH-2 on white background
+I8085,1067106,n,n,,-,agree,692x397,2,"Pinout/bus diagram labelled 8085, not a photo"
+I8085,55534910,y,y,C8085A-2,g2,agree,655x446,2,One ceramic DIP-40 C8085A-2 at an angle on yellow-orange gradient (Bassow series)
+I8085,55534915,y,y,C8085AH,g2,agree,960x659,2,"One gold-lid ceramic DIP-40 C8085AH, also marked KS22193L2, on Bassow gradient background"
+I8085,55535070,y,y,P8085AH-2,g2,agree,620x408,2,One plastic DIP-40 P8085AH-2 at an angle on Bassow yellow-red gradient
+I8085,76465119,n,n,,-,agree,500x363,1,"8085A pin diagram (drawn pinout labeled '8085 A'), not a photograph of a physical chip"
+I8086,6589708,y,y,D8086-2,g1,agree,960x491,2,"Intel D8086-2 gray ceramic DIP on white background, marking sharp"
+I8086,7895244,n,n,,-,agree,319x509,2,"8086 pinout diagram, not a photo"
+I8086,7989970,n,n,,-,agree,683x252,2,"8086 flag register diagram (Polish), not a photo"
+I8086,8029351,n,n,,-,agree,402x372,1,"Diagram of 8086 segment addressing, not a photograph"
+I8086,13337877,n,n,,-,agree,960x672,1,"Scanned printed 8086 block diagram (EU/BIU), not a photo of a chip"
+I8086,15625453,y,y,D8086,g2,agree,300x125,2,"small low-res photo of Intel D8086 gray ceramic DIP, marking small but readable"
+I8086,55534917,y,y,C8086,g3,agree,489x295,2,Intel C8086 purple ceramic DIP with gold lid on orange background
+I8086,55534979,y,n,,g3,agree,534x342,2,"gray Intel ceramic DIP, same orange-background session; marking faint and glare-washed, only D808?-1 discernible, kept on title"
+I8086,55534981,y,y,D8086,g3,agree,561x358,2,"Intel D8086 gray ceramic DIP on orange background, same session as C8086 shot"
+I8086,55535005,n,n,,-,agree,960x792,2,"IDC 86 single-board computer, CPU is one chip among many; its marking too small to read"
+I8086,80505101,n,n,,-,agree,960x640,1,"Museum case of Intel x86 family chips (8086 to Pentium 4); many different parts, 8086 tiny and unreadable"
+I8086,80769596,n,n,,-,agree,500x392,1,"Print of a microprocessor die photo (die shot), not a packaged unit"
+I8088,6692144,y,y,TD8088,g1,agree,960x510,2,Ceramic TD8088 DIP40 close-up on white background
+I8088,24080855,n,y,8088,-,agree,960x529,2,ALF AD8088 processor card; the 8088-labelled CPU is one part among many on the board
+I8088,55534991,y,y,D8088,g2,agree,526x336,2,Ceramic D8088 DIP40 on orange gradient background
+I8088,55535075,y,n,,g2,agree,544x342,2,"Plastic DIP40, same Bassow orange-background session; marking washed out, kept on title P8088-2"
+I8088,66104581,y,y,P8088-6,g3,agree,960x364,2,"Dusty plastic P8088-6 DIP40, top view"
+I8088,78876305,y,y,P80C88A-2,g4,agree,960x409,2,"Intel P80C88A-2 (CMOS 8088 variant) plastic DIP40, top view"
+I8088,80505101,n,n,,-,agree,960x640,1,"Museum case of many different Intel CPUs (8088 through Pentium 4); mixed parts, chip marking unreadable"
+I8088,118339722,n,y,P8088,-,agree,960x711,1,IBM 5150 motherboard close-up; P8088 is one chip among many
+I8088,118339724,n,y,P8088,-,agree,960x711,3,"Close-up of IBM 5150 motherboard corner; P8088 is one chip among many (8259A, 8288, 8253, 8255 etc.), not the focus"
+I8088,118339730,n,n,P8088,-,agree,960x640,1,"Whole IBM 5150 motherboard; 8088 is one component, marking glyphs too small"
+I8088,118339733,n,y,P8088,-,agree,960x1280,3,"Whole IBM 5150 motherboard, front and back; 8088 is a small component on the board (marking tiny but readable)"
+I8088,118339739,n,n,P8088,-,agree,960x640,2,Whole IBM 5150 motherboard; 8088 is a tiny part among many chips
+I8088,118339742,n,n,,-,agree,960x363,1,"5150 motherboard front and back side by side; board shot, not the chip"
+LM317,1677084,n,y,LM317T,-,agree,960x887,2,TO-220 package views mixing ST L7805CV with a National LM317T; different part numbers side by side
+LM317,14784539,y,y,LM317T,g1,agree,960x1038,2,"ST LM317T bolted to aluminium heatsink bracket, centered and sharp, only component in view"
+LM317,23636678,y,y,LM317HV,g2,agree,960x720,1,TO-39 metal can LM317HV (high-voltage variant) macro close-up on PCB; last letter lost on the curve
+LM317,38346694,n,n,,-,agree,385x193,1,"schematic of the standard application circuit, not a photo"
+LM317,74886172,y,y,LM317T,g3,agree,960x1280,1,ST LM317T TO-220 close-up on PCB
+LM317,75704312,y,y,LM317T,g4,agree,960x960,2,"Macro close-up of ON Semi LM317T (LM / 317T on two lines) in Auerswald DECT base station; new device, not g2/g3"
+LM317,77034051,y,y,LM317HVT,g3,agree,960x960,3,Close-up of NS LM317HVT TO-220 in situ on Emerson PSU board; part is clear focus
+LM317,108120526,y,y,LM317D2T,g5,agree,500x500,1,"Motorola D2PAK marked LM / 317D2T, close-up on PCB"
+LM317,127532396,y,y,LM317T,g6,agree,960x640,1,"ON Semi TO-220 marked LM / 317T on white, angled view; same unit as 127532397"
+LM317,127532397,y,y,LM317T,g6,agree,954x1431,1,"ON Semi TO-220 marked LM / 317T on white, front view"
+LM317,168142010,n,y,B3170V,-,agree,960x640,1,HFO B3170V in a box: East German equivalent sold under a different part number
+LM317,175708821,n,y,"B3170VX, B3171V",-,agree,960x573,1,two HFO parts B3170VX and B3171V side by side: different part numbers
+LM7805,23310382,y,y,LM7805C,g1,agree,960x640,1,"Fairchild LM7805C TO-220 alone on white background, product photo"
+LM7805,95295913,n,y,LM78L05ACM,-,agree,960x960,1,SO-8 LM78L05ACM close-up on PCB; 78L05 low-power regulator is a different part number
+LM7805,177751130,y,y,L7805CV,g2,agree,330x330,1,"ST L7805CV TO-220 close-up standing on Philips board, part is the focus"
+LM7805,184425797,n,y,78M05,-,agree,960x1280,2,"Close-up of a DPAK 78M05 on a board. That is the 500 mA 78Mxx series, a different part number from 7805"
+LM7805,191752117,n,n,,-,agree,500x333,1,"opened TO-3 case showing bare die and bond wires (decapped), no marking"
+LM7805,192306906,n,y,LM78L05ACM,-,agree,960x960,2,"Close-up of a National LM78L05ACM SO-8 on a board. That is the 100 mA 78Lxx series, a different part number from 7805"
+LM7805,194982655,y,y,MC7805CT,g3,agree,960x960,1,"ON Semi MC7805CT TO-220 close-up lying on Siedle board, part fills frame"
+MAX232,780754,n,y,MAX232CPE,-,agree,960x718,1,"Maxim DIP-16 held in palm; chip is about 1% of the frame, hand dominates"
+MAX232,780794,y,y,MAX232CPE,g1,agree,960x720,1,close-up of Maxim MAX232CPE DIP-16 on white background
+MAX232,27538963,n,y,MAX232A,-,agree,960x1488,3,"die shot of a decapped TI MAX232 (die text MAX232A, TI 1990), not a packaged unit; title names the packaged chip"
+MAX232,27538989,y,y,MAX232N,g2,agree,960x720,1,"TI MAX232N DIP-16 on stone surface, fills frame"
+MAX232,27546989,n,n,,-,agree,330x215,1,"die shot of decapped chip (die text 51672A), not a packaged unit"
+MAX232,31269863,n,y,MAX232EPE,-,agree,960x720,2,three Onesanya RS232-to-TTL converter boards with DB9 connectors and cables; the MAX232EPE chip is one component among many on each module
+MAX232,33491785,n,n,MAXE3232F,-,agree,960x615,3,"die micrograph of a TI MAX3232 (different part number), not a packaged unit"
+MAX232,110379628,y,y,MAX232ECPE,g3,agree,960x720,1,Maxim MAX232ECPE DIP-16 (ESD variant) on lined paper
+MAX232,178879707,y,y,MAX232 ESE,g4,agree,960x720,1,close-up of SOIC-16 MAX232ESE soldered on PCB; chip fills most of the frame
+MC68000,662068,n,n,,-,agree,960x657,1,"bare 64-lead DIP lead frame, not a packaged chip, no marking"
+MC68000,1139113,y,y,XC68000L,g1,agree,960x315,2,"Motorola XC68000L pre-production ceramic DIP on red background, close-up"
+MC68000,6976161,y,y,MC68000R10,g2,agree,960x952,2,"MC68000R10 ceramic PGA, top view close-up"
+MC68000,7448815,n,n,1820-2505,-,agree,960x320,1,Motorola gold-lid ceramic DIP-64 house-marked HP 1820-2505; marking never names 68000
+MC68000,8041354,y,y,MC68000FN10,g3,agree,888x894,2,"MC68000FN10 PLCC on white, Lanzet studio series"
+MC68000,8041355,y,y,MC68000ZB10,g3,agree,584x585,2,"MC68000ZB10 ceramic leadless chip carrier on white, same Lanzet series"
+MC68000,8963286,y,y,MC68000L4,g3,agree,960x436,2,"MC68000L4 ceramic DIP, angled on white, same Lanzet studio setup"
+MC68000,36700029,n,n,,-,agree,960x678,1,"68k supervisor register diagram, not a photo"
+MC68000,36700030,n,n,,-,agree,960x678,2,"register model diagram, not a photo"
+MC68000,41018739,n,n,,-,agree,500x274,1,"opened Neo Geo AES console; CPU is one small part on the board, unreadable"
+MC68000,41018750,n,n,,-,agree,960x536,1,opened Neo Geo AES console from another angle; board with many chips
+MC68000,41018754,n,n,,-,agree,960x520,2,"opened Neo Geo AES console board, CPU is one chip among many"
+MC68000,41226917,n,n,,-,agree,960x608,1,"opened Neo Geo CD console; board with many chips, none readable"
+MC68000,41226923,n,n,,-,agree,960x601,2,"opened Neo Geo CD console, chip not the subject and unreadable"
+MC68000,41226929,n,n,,-,agree,960x611,1,"opened Neo Geo CD console, other side; board with many chips"
+MC68000,55535754,y,y,MC68000L12,g4,agree,521x159,2,"MC68000L12 ceramic DIP top view, small image, Bassow upload batch"
+MC68000,55535769,y,n,,g4,agree,478x413,2,"PGA underside, pins up, no marking visible; title says MC68HC000RC12F (CMOS variant)"
+MC68000,55535809,y,y,MC68000L4,g4,agree,573x287,2,"MC68000L4 ceramic DIP with end caps on orange gradient, Bassow batch"
+MC68000,66534429,n,y,MC68HC000FN8,-,agree,960x626,1,Sega Nomad motherboard; PLCC 68HC000 is one component among many
+MC68000,109406162,n,n,,-,agree,960x623,2,"Amiga 500 Plus computer exterior, chip not visible"
+NE555,28724,n,n,,-,agree,640x480,1,"die photo with bond wires, not a packaged unit"
+NE555,351550,y,y,NE555N,g1,agree,800x600,2,Signetics NE555N DIP-8 on white background; different unit and author from g2/g3/g4
+NE555,745629,n,n,,-,agree,800x544,1,hand-drawn 555 block diagram
+NE555,2464667,n,n,,-,agree,320x246,1,555 internal block diagram (Chinese labels)
+NE555,6730179,n,n,,-,agree,430x365,1,"perfboard circuit; DIP-8 is one component among many, no readable marking"
+NE555,6909174,n,n,,-,agree,413x383,1,timing waveform diagram
+NE555,6909191,n,n,,-,agree,428x381,1,"schematic of 555 monostable labelled ULY 7855, not a photo"
+NE555,15170051,n,n,,-,agree,960x638,1,"Atari Punk Console kit; 14-pin chip is one part of a finished device, marking unreadable"
+NE555,20729665,y,y,NE555N,g2,agree,960x720,1,Signetics NE555N DIP-8 close-up; looks like a real chip despite the footstool title
+NE555,22764784,y,y,NE555P; NE555,g3,agree,960x766,1,"TI NE555P DIP-8 and NE555 SOIC-8, same part in two packages"
+NE555,27608793,n,n,KA558,-,agree,960x965,1,"die shot of KA558 quad timer, different part"
+NE555,27678521,n,n,,-,agree,960x966,2,"die shot, and the title names an NE558 quad timer, which is a different part"
+NE555,33491791,n,n,,-,agree,960x925,1,die micrograph of 7555 CMOS timer (die code L4625A)
+NE555,38383548,y,y,NE555N,g4,agree,480x452,1,ST NE555N DIP-8 on black foam; title says LM555
+NE555,48947128,n,y,LMC555,-,agree,960x917,2,"die shot of a National LMC555 (decapped die, LMC555 printed on the die)"
+UA741,484975,y,y,SSS 741 CJ,g1,agree,425x688,1,"single 741 TO-5 metal can (SSS 741 CJ, 7908) beside a cm ruler"
+UA741,640144,n,y,LM741CN; UA741CN,-,agree,883x494,1,"eight different DIP-8 op-amps side by side (LMC6042, TLC251, LF412, TL062, LM741, UA741, 5532, 072)"
+UA741,11738236,n,y,UA741CP,-,agree,960x976,1,subject is the Fairchild ADO-13 amplifier module; tiny UA741CP DIP only for scale
+UA741,12429535,y,y,µA741C,g2,agree,960x640,1,"single Fairchild uA741C TO-99 metal can, marking sharp but upside down"
+UA741,18166197,n,n,,-,agree,749x569,1,"inside of a homemade charger; 741s are small parts on the PCB, LM-741 text is an overlay label"
+UA741,22611079,n,y,741,-,agree,960x720,1,breadboard amplifier circuit; the 741 is one component among many
+UA741,31580116,n,n,,-,agree,960x720,1,"single DIP-8, marking too faint to read; title untrustworthy since same session's '741 op amp (3)' is an LF412CP"
+UA741,31580119,n,n,LF412CP,-,agree,960x720,1,"single DIP-8 marked LF412CP (lot 16409VM), a different op-amp despite the 741 title"
+UA741,31580124,n,n,,-,agree,960x720,1,"five out-of-focus DIP-8s, markings unreadable; same session labels an LF412CP as 741, so identity unverified"
+UA741,31580125,n,n,,-,agree,960x720,1,"blurry DIP-8 lying legs-up, marking faces the table; same session labels an LF412CP as 741"
+UA741,56426698,y,y,LM741CN,g3,agree,960x720,2,Close-up of one National Semiconductor LM741CN DIP-8 soldered on a green PCB; the chip fills the frame and no other components are visible
+UA741,64573796,y,y,741P,g4,agree,960x720,1,"two DIP-14 units marked 741P (Botevgrad 1UO741R, date codes 8547/8414)"
+UA741,68626041,y,y,741P,g5,agree,960x228,2,"Three Botevgrad 741P DIP-14 units in a blue tray; date codes 8511/8520/8609 differ from g3's 8547/8414, and author and background also differ"
+UA741,95745033,n,y,ML741CS,-,agree,881x685,1,"four different chips side by side (74L72, 54L20, ML741CS, ML301AS)"
+UA741,114789897,y,y,βA741,g6,agree,960x847,2,Single βA741 DIP-14 close-up (741 with a maker prefix) on a blurred orange/blue background
+ULN2003,44140189,y,y,ULN2003APG,g1,agree,960x711,1,Close-up of a Toshiba ULN2003APG DIP16 in a socket on a stepper driver board; the chip fills the frame
+ULN2003,44140190,n,y,ULN2003A,-,agree,960x696,1,"TI ULN2003A SOP16 on a populated PCB; one component among many (large caps, optocoupler, connectors, another IC)"
+ULN2003,83553316,n,y,ULN2003APG,-,agree,960x720,2,whole ULN2003 stepper driver module on cutting mat; chip is one component among many on the board
+ULN2003,126915852,y,y,ULN2003A,g2,agree,960x640,2,single ST ULN2003A DIP-16 chip on white background
+Z80,1830432,y,y,Z80 CPU,g1,agree,588x324,1,Ceramic gold-lid Zilog Z80 CPU DIP-40 (Dallas 7623) on white background
+Z80,3494078,n,n,,-,agree,960x720,2,"North Star Z80 processor board; CPU is one of many chips, chip text too faint to read"
+Z80,6975899,y,y,Z0840004PSC Z80 CPU,g2,agree,960x318,2,"single Zilog Z0840004PSC DIP-40, top view on white (ZyMOS IC series)"
+Z80,7437365,y,y,Z8400B PS Z80B CPU,g2,agree,960x325,2,"single Zilog Z8400B DIP-40, same ZyMOS white-background top-view series as 6975899; marking faint but readable"
+Z80,7779411,n,n,,-,agree,960x640,1,"Three Z80 programming reference cards on wood, no chip shown"
+Z80,11901147,n,n,,-,agree,330x219,1,"Scan of 1976 Zilog magazine advertisement, not a chip photo"
+Z80,11953251,n,n,,-,agree,960x1251,2,"scanned 1977 magazine ad, no chip pictured"
+Z80,41018745,n,n,,-,agree,960x528,3,"opened Neo Geo AES console mainboard; Z80 is one of many components, chip markings unreadable at 960x528"
+Z80,41018750,n,n,,-,agree,960x536,1,"Opened Neo Geo AES console, whole mainboard, no readable Z80 marking"
+Z80,41226907,n,n,,-,agree,960x611,1,"Opened Neo Geo CD console, whole mainboard, no readable Z80 marking"
+Z80,41226917,n,n,,-,agree,960x608,2,opened Neo-Geo CD console showing whole motherboard; no Z80 marking readable
+Z80,41226929,n,n,,-,agree,960x611,1,"Opened Neo Geo CD console, whole mainboard, no readable Z80 marking"
+Z80,55550822,y,y,Z80 CPU,g3,agree,440x294,2,grey ceramic Zilog Z80 on orange backdrop; same Bassow session as g2 (identical Lightroom export time); lid text small but readable
+Z80,55550837,y,y,Z80 CPU,g3,agree,626x431,1,Ceramic gold-lid Zilog Z80 CPU DIP-40 (Malaysia 7636) on orange background
+Z80,59595187,y,y,Z84C0008PEC Z80 CPU,g4,agree,960x540,2,close-up of socketed Zilog Z84C0008PEC filling the frame; board visible only at edges
+Z80,124766642,y,y,Z0840004PSC Z80 CPU,g5,agree,960x557,2,"single Zilog Z0840004PSC DIP-40, angled on light blue background"

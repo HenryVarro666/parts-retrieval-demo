@@ -1,0 +1,129 @@
+# parts-retrieval-demo
+
+Identify an electronic part from a photo with OCR plus three retrieval channels, and measure how well each channel does on a small labelled set.
+
+This is a small demo built from public photos and off-the-shelf models. Nothing is trained or fine-tuned. Given a photo of a chip or module, it returns a ranked list of catalog parts.
+
+Claude Code (Anthropic's AI coding agent) wrote the code and this README and ran the evaluations, all in one session on 2026-10-30. The photo labels also come from Claude (see Data).
+
+## Pipeline
+
+```
+photo ──► OCR (EasyOCR | Tesseract) ──► OCR text ──┬──► identifier channel: part-number match against catalog aliases
+                                                   └──► text channel: BGE-small embedding vs. catalog part documents
+photo ──► SigLIP image embedding ──────────────────────► image channel: cosine vs. catalog reference photos
+
+identifier + text + image rankings ──► reciprocal rank fusion (k=60) ──► ranked list of catalog parts
+```
+
+| Piece | Choice | Why |
+|---|---|---|
+| OCR | EasyOCR (CRAFT + CRNN, PyTorch); Tesseract as baseline | Scene-text OCR copes better with laser-etched chip markings than page OCR; the eval shows by how much |
+| Identifier channel | Whole-alias match in the OCR words, the same match after an OCR glyph fold (O and Q to 0, I and L to 1, S to 5, B to 8), and as a fallback trigram similarity computed like PostgreSQL `pg_trgm` `similarity()` (rules below) | Part numbers are the strongest signal when they are readable; the fold and the trigram fallback tolerate OCR errors |
+| Text channel | `BAAI/bge-small-en-v1.5`, CLS pooling, catalog documents = name + part numbers + makers + description; skipped when OCR finds no token of 3 or more letters or digits | Catches partial reads and maker names |
+| Image channel | `google/siglip-base-patch16-224` image tower, best match over a part's reference photos | Works when no text is legible at all |
+| Fusion | Reciprocal rank fusion, k=60, top-10 per channel, equal weights. The identifier channel passes only its exact or glyph-folded hits (score 0.9 or more) when it has any, and its trigram hits otherwise | Standard and parameter-light, not tuned on the eval set; a clean part-number read is not outvoted by its own trigram neighbours |
+| Vector search | numpy brute force | 18 parts; at catalog scale this is `pgvector` (`ORDER BY embedding <=> $1`) |
+
+Identifier rules. The OCR text is split into words, and each pair of adjacent words is also joined into one, because OCR splits markings; in the rules below, a word can also be such a joined pair. An alias found inside a word scores 1.0, and one found after the glyph fold on both sides scores 0.9, except that an alias made only of digits needs a real digit in the matched text (`SSS` is not read as `555`). Aliases shorter than 4 characters (`555`, `741`, `317`, `286`, `Z80`) count only when a word equals them, never inside a longer word. An alias with 6 or more letters and digits, hyphens not counted, may also match exactly or folded across three adjacent words (`ESP-12F` can, `ESP-01` cannot). Otherwise the score is the `pg_trgm` similarity, computed only when the alias and the word both have 4 or more characters, the word contains a digit, and the word either starts with a letter or keeps a letter after look-alike letters are read as digits, which rules out date codes such as `741O`. A part is listed when its best score is 0.35 or more.
+
+## Data
+
+- `data/parts.json`: 18 catalog parts, each with a name, part-number aliases, makers, a one-line description and the Wikimedia Commons categories its photos come from. The set includes confusable groups (Intel 8080 / 8085 / 8086 / 8088 / 80286, ATmega8 / ATmega328P, 7805 / LM317, ESP8266 / ESP32, 555 / 741).
+- Photos (`partsid/fetch_commons.py`): per part, the first 16 JPEG files by Commons page id in the part's own category, plus up to 16 more from part-number subcategories listed by hand in `parts.json` (91 subcategories for 11 of the 18 parts, such as "Intel D8086"; never computers, boards or second sources). Files whose titles contain a keyword such as die or schematic are skipped while listing, before the 16 are taken. The keyword list is short and English. It misses titles in other languages and keywords inside longer words ("ESP32-Dieshot"). It also misses titles that use an English word not on the list: the three scanned ads came through as "Ad" and "Advertisement", and opened packages as, for example, "case opened" or "Disassembled". Titles that do not say what the image shows get through too. About 40 downloads were therefore pictures of a die (23, five of them in an opened package) or drawings and scanned ads; curation dropped all of them. On 2026-10-30 this rule selected 322 files. A first download pass got 170 and a slower second pass 39 more; Commons refused the other 113 both times (HTTP 429), and they were not requested again. So the dataset is the 209 that downloaded, and the losses are uneven: the Intel 8080 to 80286 parts got 51 of their 106 files. Photos are stored upright and at most 960 px wide under `data/images/raw/`, and they are in this repository; each keeps its own Commons license. For each of the 209, `data/manifest.csv` records the Commons page with its license and author (Commons metadata names no author for 5), and the URL the file was fetched from. That URL was not recorded for one file, query NE555 22764784. Its JPEG quantization tables match the ones all 96 Commons thumbnails in the dataset share, not the ones of the 61 files shrunk locally, so it is most likely the 960 px thumbnail. The manifest, not the rule, defines the dataset: `--from-manifest` fetches each file from its recorded URL (for NE555 22764784, today's 960 px thumbnail, or its original shrunk locally if Commons refuses the thumbnail) and accepts only a file of the recorded size.
+- `data/curation.csv`: one row per downloaded photo. The labels come from Claude vision subagents, not from a domain expert. Two labellers judged every photo independently, the second seeing them in reverse order, under fixed written rules:
+  - keep a photo only if it is a photograph whose main subject is this part, sold under this part number (clones and second sources sold under another number are dropped, and so are boards where the part is one chip among many);
+  - say whether the part number is legible in the stored image, and copy what it reads;
+  - group kept photos that show the same physical unit or come from the same photo session.
+
+  Disagreements on keep or legibility went to a third labeller. A group is the union of both labellers' groupings, carried across rounds. A photo was labelled again whenever its stored size changed (23 photos first stored at a smaller size were later downloaded at full size); `judged_size` records the size each label was made on. Two NE555 files were downloaded again at the same size and not labelled again. One of them, query 20729665, is the same picture re-encoded, and its marking `NE555N` reads the same. The two labellers agreed on keep for 121/122, 100/100 and 10/10 photos in the three rounds, and the tie-break was needed twice. 91 of the 209 photos were kept. The full rules and agreement table are in `data/curation_rules.md`.
+- `data/labels.csv` is generated from the curation by a fixed rule (`partsid/make_labels.py`). Per part, the kept photos are sorted by Commons page id. The first is the catalog reference. The queries are the next photos from sessions not yet used (never the reference's session, at most one per session), up to 3 per part. Nobody chose which photo plays which role. A file the manifest lists under two or more catalog parts (a museum case of Intel CPUs, for example) is excluded. Five files are listed that way, so the 209 downloads are 203 distinct files; curation had dropped all five anyway, so the rule changes no label.
+- Result: 18 reference photos, one per part, and 44 query photos covering all 18 parts (43 with a legible part number). Seven parts have one or two queries, because their kept photos come from fewer than four separate sessions. For three of them (I8080, I8085, I8086) Commons refused half or more of the files the rule selected.
+
+## Run it
+
+```bash
+uv sync                                                    # Python 3.12 venv (see .python-version) with torch, transformers, easyocr
+uv run python -I -m partsid.make_labels                    # data/curation.csv -> data/labels.csv
+uv run python -I -m partsid.evaluate --ocr easyocr
+uv run python -I -m partsid.evaluate --ocr easyocr+rot     # EasyOCR also tries 90/180/270 degree rotations
+uv run python -I -m partsid.evaluate --ocr tesseract       # needs the tesseract binary (brew / apt)
+uv run pytest -q
+```
+
+The photos come with the repository, so a clone needs no download from Commons. To rebuild them from Commons instead, delete `data/images/raw/` first, then run `uv run python -I -m partsid.fetch_commons --from-manifest` (needs curl and network; allow 10+ minutes). With the photos in place it only checks them against the manifest and downloads nothing.
+
+`uv run python -I -m partsid.contact_sheet` tiles each part's photos into one image for checking the curation by eye.
+
+The device is picked automatically: `cuda`, then Apple `mps`, then `cpu`; override with `--device`.
+
+Notes for a rerun:
+
+- When rebuilding the photos, `fetch_commons` does not wait out or retry a refused download within a run. A file that Commons refuses (HTTP 429) or that fails to download is reported as not fetched, and the run exits with status 1. Run the same command again; it fetches only what is still missing.
+- `evaluate` reads only the 62 photos in `data/labels.csv` (18 references, 44 queries) and stops if one is missing; the other 147 are used by `contact_sheet` only. Its first run downloads the SigLIP and BGE weights from Hugging Face and EasyOCR's two model files. Each run overwrites `results/<ocr>.md`, `.json` and `_per_query.csv`; add `--run-name NAME` to write `results/NAME.*` instead.
+- A second run on the same Mac with the same files reproduced every row of each `results/<run>_per_query.csv` except the timings. Other machines have not been compared, so no tolerance is claimed; diff the per-query CSVs to see what moved.
+- The photos in the repository are the files that were evaluated. A rebuild from Commons checks each file's pixel size, not its bytes, and the manifest records no checksums, so a rebuilt photo can differ from the one evaluated without any warning. Of the 62 photos `evaluate` reads, 17 were shrunk locally from larger originals, which another Pillow version may resample a little differently, and 25 are Commons thumbnails, which Commons renders on demand and may render again. A newer upload of any file would also be accepted if it comes out at the recorded size, and NE555 22764784 has no recorded URL (see Data).
+- `uv.lock` pins the Python packages, and with them EasyOCR's two model files, which easyocr checks by MD5. `partsid/embed.py` pins the two Hugging Face models to the revisions these results used (SigLIP `7fd15f0`, BGE `5c38ec7`; each report lists them); another `--image-model` or `--text-model` loads that model's current main revision. Nothing pins the tesseract binary: the Tesseract column was measured with tesseract 5.5.4 from Homebrew.
+
+### On an NVIDIA RTX 50-series GPU (e.g. 5080)
+
+Blackwell cards need a PyTorch build for CUDA 12.8 or newer. `pyproject.toml` routes torch and torchvision to the `cu132` PyTorch index on Linux and Windows (macOS keeps the PyPI wheels), so the commands are the same; the NVIDIA driver must be recent enough for CUDA 13.2. This path has not been run on an NVIDIA GPU, and every number below is from the Mac.
+
+```bash
+uv sync
+uv run python -c "import torch; print(torch.cuda.get_device_name(0))"
+uv run python -I -m partsid.evaluate --ocr easyocr --device cuda --run-name easyocr_cuda
+```
+
+`--run-name` writes `results/easyocr_cuda.*` and leaves the Mac results in place.
+
+`--image-model` also accepts a larger image tower such as `google/siglip-so400m-patch14-384`. It has not been tried here; add `--run-name` so the run does not overwrite `results/easyocr.*`.
+
+## Results
+
+Measured on 2026-10-30 on an Apple M4 Pro, over the 44 query photos. The full report of each run is in `results/` (`easyocr.md`, `easyocr+rot.md`, `tesseract.md`, each with a `.json` summary and a `_per_query.csv`): intervals, paired tests, a per-part table, look-alike families and every miss.
+
+Top-1 accuracy, the share of photos whose first answer is the right part:
+
+| Channel | EasyOCR | EasyOCR, rotations tried | Tesseract |
+|---|---|---|---|
+| identifier: part number read by OCR | 18/44 (41%) | 11/44 (25%) | 2/44 (5%) |
+| text: embedding of the OCR text | 13/44 (30%) | 15/44 (34%) | 2/44 (5%) |
+| image: SigLIP, no OCR | 17/44 (39%) | 17/44 (39%) | 17/44 (39%) |
+| fused: the pipeline | 27/44 (61%) | 25/44 (57%) | 19/44 (43%) |
+| fused without the text channel (ablation) | 28/44 (64%) | 22/44 (50%) | 17/44 (39%) |
+
+Picking a part at random gets 1 in 18 (6%). The 95% Wilson interval for 27/44 is 47% to 74%. The EasyOCR pipeline has the right part in its top 3 for 33 of the 44 photos (75%).
+
+What the numbers show:
+
+- The identifier channel is precise but often silent. With EasyOCR it named a part on 18 photos and was right on all 18. 17 of them are exact or glyph-folded reads, the count used for "read the right part number" below; the 18th is a trigram match on the misread `ATMEG4828P`. On the other 26 photos it found nothing: 23 where OCR did not get the part number right, one with no legible marking, and two whose markings the catalog does not cover. Those two, `P80C88A-2` (the CMOS version of the 8088) and `741P`, contain no alias the identifier accepts (`741` never counts inside a longer word): a perfect read of the first would match nothing, and of the second only weakly (trigram score 0.375 against the 741's alias `741CN`). The alias lists were left as they were rather than patched after seeing the misses.
+- The image channel alone has the right part first for 17 photos and in its top 3 for 27. It cannot tell the Intel CPUs apart: of the 11 photos of Intel 8080 to 80286 parts it got 3 right, and all 8 wrong answers named another Intel part. The ULN2003 reference photo is the closest match for 6 photos of other parts. All six are close-ups of parts on circuit boards, and that reference shows its chip in a socket on a driver board, so the channel seems to match the board more than the part; the one ULN2003 query, a loose chip on white, ranks that reference 11th.
+- Fusion is where the channels pay off. The pipeline is right where the image channel is wrong on 15 photos, and the reverse happens on 5 (sign test p = 0.04). Counted per part, so that three photos of one part do not count three times, it is better on 11 parts and worse on 4 (p = 0.12). Photos of different parts share photographers, so even the per-part count is not fully independent (see Limits).
+- The text channel did not earn its place. Without it (last row of the table) the EasyOCR pipeline gets one more photo right, while the rotation and Tesseract pipelines get 3 and 2 fewer; no difference reaches significance (sign test p of 0.5 or more). When OCR returns junk, the text embedding still ranks all 18 parts, and fusion weighs that ranking like the image channel's. It stays in the pipeline because removing it after seeing these numbers would tune the system to the test set. Gating it on OCR quality is the next thing to try, on new photos.
+- Trying rotations hurt. With 90, 180 and 270 degree rotations EasyOCR read the right part number on 10 photos instead of 17: it keeps whichever orientation scores highest, and some upright markings score higher upside down ("8080" came back as "0808"). It is also slower: 185 ms per photo at the median and 605 ms at the 95th percentile, against 128 and 239 ms without rotations.
+- Tesseract read the part number on 2 of the 44 photos, so its pipeline is close to the image channel alone.
+
+Latency per photo with EasyOCR, warm (second pass over the same photos), in milliseconds:
+
+| Stage | p50 | p95 |
+|---|---|---|
+| OCR | 108 | 212 |
+| identifier match | 1 | 3 |
+| text embedding (38 of 44 photos; skipped when OCR finds no token of 3 or more letters or digits) | 5 | 5 |
+| image embedding and search | 16 | 18 |
+| fusion | 0 | 0 |
+| total | 128 | 239 |
+
+OCR takes most of the time. The first pass over the same photos averaged 185 ms per photo, which includes one-time warm-up for each new image size, and loading the three models took 3 s with the weights already on disk. With Tesseract the median total was 124 ms. All of these numbers come from one Apple M4 Pro: the neural networks ran on its GPU through `mps`, and Tesseract and the rest of the pipeline (OCR post-processing, identifier match, numpy search, fusion) on its CPU. The CUDA setup for an RTX 5080 (see above) has not been run.
+
+## Limits
+
+- Small, and the photos are not independent. With 44 query photos one more right answer moves top-1 by 2 points. Photos of one part are related, and 23 of the 44 queries come from six photographers who each have queries of two or more parts: one has 7 queries of 5 parts, another 6 queries of 6 parts from one series of uploads, mostly on the same orange backdrop. Those two account for 8 of the 15 photos where the EasyOCR pipeline beats the image channel. So the intervals above are if anything too narrow, and the p values too small.
+- Mostly easy photos. Most queries are clean shots of a loose part, and 43 of the 44 show a legible part number. Ten are close-ups of a part soldered or socketed on the board of a device or development board, 7 of them by one photographer. On those ten the image channel was right once, against 16 of the other 34 (Fisher exact p = 0.06), while the identifier channel was right on 5, against 13 of the 34. The split was made after seeing the results, and it is sensitive: counting also the ESP-12 modules on breakout adapters (ESP8266 54458803) gives 2 of 11 against 15 of 33 (p = 0.16). Field photos, with dust, glare, odd angles and labels partly hidden, are likely to be harder for both channels.
+- Labels by an LLM. Two independent Claude vision passes and a tie-break, under the rules in `data/curation_rules.md`. The passes agreed closely, but no domain expert has checked the labels.
+- A toy catalog. 18 parts with one reference photo each. A real parts catalog has thousands of entries, many in identical packages, so the image channel would face far more look-alikes than the Intel family here.
+- Two aliases came from the data. `Z08400` (Zilog's ordering code for the NMOS Z80) was added while the photos were being curated, before any evaluation run; `ESP-WROOM-02` (Espressif's module name) was added after a code review spotted it on a dataset photo. Both are real part numbers. Aliases also go into the part documents the text channel embeds, so an alias can move results even where OCR never reads it. Without `Z08400` the rotation run would miss Z80 photo 6975899 in three rows of the table (identifier 10, pipeline 24 and ablation 21 of 44, instead of 11, 25 and 22), and its correct part-number reads would be 9, not 10. Without `ESP-WROOM-02` the EasyOCR pipeline would have the right part in its top 3 for 34 photos instead of 33, and the rotation run's text channel would get 14 instead of 15. The photo marked ESP-WROOM-02 (ESP8266 56733450) would also count as a third legible marking the catalog does not cover, so of the 26 photos where the EasyOCR identifier found nothing, 22 rather than 23 would be OCR misses. No other count in this README changes.
+- Sessions across parts. The split keeps every query out of its own reference photo's session, but sessions are grouped within a part only. Two queries (I8080 6691932 and MC68000 8041354) are by the photographer of the I8086 and I8088 reference photos, which can pull the image channel toward those parts. Without them the EasyOCR pipeline gets 26 of 42 (62%) and the image channel 17 of 42.
+- Smaller renditions. 12 of the 209 files are stored at 330 or 500 px because Commons kept refusing the larger copies (HTTP 429). Two of them are queries (LM7805 177751130 at 330 px, ESP8266 56733450 at 500 px), and their labels were made on these smaller files.
+- Not built. The demo only ranks catalog parts for a photo. There is no service or user interface, and no database: vector search is numpy and the pg_trgm similarity is reimplemented in Python.

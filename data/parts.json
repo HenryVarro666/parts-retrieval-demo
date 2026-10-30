@@ -1,0 +1,466 @@
+[
+  {
+    "id": "NE555",
+    "name": "555 timer IC",
+    "family": "8-pin analog",
+    "aliases": [
+      "NE555",
+      "NE555P",
+      "NE555N",
+      "LM555",
+      "SE555",
+      "NA555",
+      "555"
+    ],
+    "makers": [
+      "Signetics",
+      "Texas Instruments",
+      "STMicroelectronics",
+      "National Semiconductor"
+    ],
+    "description": "Single bipolar timer IC for delays, pulses and oscillators, usually 8-pin DIP.",
+    "commons_category": "555 timer IC",
+    "commons_subcategories": [
+      "LM555 timer"
+    ]
+  },
+  {
+    "id": "UA741",
+    "name": "741 operational amplifier",
+    "family": "8-pin analog",
+    "aliases": [
+      "UA741",
+      "LM741",
+      "MC1741",
+      "741CN",
+      "741"
+    ],
+    "makers": [
+      "Fairchild",
+      "National Semiconductor",
+      "Texas Instruments",
+      "STMicroelectronics"
+    ],
+    "description": "General-purpose single operational amplifier, 8-pin DIP or metal can.",
+    "commons_category": "741 operational amplifier",
+    "commons_subcategories": [
+      "LM741 operational amplifier"
+    ]
+  },
+  {
+    "id": "ATMEGA328P",
+    "name": "ATmega328P microcontroller",
+    "family": "AVR ATmega",
+    "aliases": [
+      "ATMEGA328P",
+      "ATMEGA328P-PU",
+      "ATMEGA328P-AU",
+      "MEGA328P"
+    ],
+    "makers": [
+      "Atmel",
+      "Microchip"
+    ],
+    "description": "8-bit AVR microcontroller with 32 KB flash, used on Arduino Uno and Nano boards.",
+    "commons_category": "ATmega328P",
+    "commons_subcategories": []
+  },
+  {
+    "id": "ATMEGA8",
+    "name": "ATmega8 microcontroller",
+    "family": "AVR ATmega",
+    "aliases": [
+      "ATMEGA8",
+      "ATMEGA8-16PU",
+      "ATMEGA8L",
+      "ATMEGA8A",
+      "MEGA8"
+    ],
+    "makers": [
+      "Atmel",
+      "Microchip"
+    ],
+    "description": "8-bit AVR microcontroller with 8 KB flash, 28-pin DIP or TQFP.",
+    "commons_category": "ATmega8",
+    "commons_subcategories": []
+  },
+  {
+    "id": "LM7805",
+    "name": "7805 positive 5 V voltage regulator",
+    "family": "3-pin regulators",
+    "aliases": [
+      "LM7805",
+      "L7805",
+      "L7805CV",
+      "MC7805",
+      "UA7805",
+      "7805"
+    ],
+    "makers": [
+      "STMicroelectronics",
+      "Fairchild",
+      "ON Semiconductor",
+      "Texas Instruments"
+    ],
+    "description": "Fixed +5 V three-terminal linear voltage regulator, usually TO-220 package.",
+    "commons_category": "LM7805",
+    "commons_subcategories": []
+  },
+  {
+    "id": "LM317",
+    "name": "LM317 adjustable voltage regulator",
+    "family": "3-pin regulators",
+    "aliases": [
+      "LM317",
+      "LM317T",
+      "LM317K",
+      "LM317L",
+      "317"
+    ],
+    "makers": [
+      "Texas Instruments",
+      "STMicroelectronics",
+      "ON Semiconductor",
+      "National Semiconductor"
+    ],
+    "description": "Adjustable positive three-terminal linear voltage regulator, 1.25 V to 37 V, TO-220 or TO-3.",
+    "commons_category": "LM317",
+    "commons_subcategories": []
+  },
+  {
+    "id": "I8080",
+    "name": "Intel 8080 microprocessor",
+    "family": "Intel 8080-80286",
+    "aliases": [
+      "8080",
+      "8080A",
+      "P8080A",
+      "C8080A",
+      "D8080A"
+    ],
+    "makers": [
+      "Intel"
+    ],
+    "description": "8-bit microprocessor from 1974, 40-pin DIP.",
+    "commons_category": "Intel 8080",
+    "commons_subcategories": [
+      "Intel C8080A",
+      "Intel D8080A",
+      "Intel C8080B",
+      "Intel D8080",
+      "Intel 8080A",
+      "Intel C8080",
+      "Intel C8080A-1",
+      "Intel D8080A-2",
+      "Intel MD8080A/B",
+      "Intel C8080-8",
+      "Intel C8080A-2",
+      "Intel P8080A",
+      "Intel P8080A-2",
+      "Intel P8080A/2",
+      "Intel QD8080A"
+    ]
+  },
+  {
+    "id": "I8085",
+    "name": "Intel 8085 microprocessor",
+    "family": "Intel 8080-80286",
+    "aliases": [
+      "8085",
+      "8085A",
+      "P8085AH",
+      "D8085AH",
+      "8085AH"
+    ],
+    "makers": [
+      "Intel"
+    ],
+    "description": "8-bit microprocessor with single +5 V supply, 40-pin DIP, successor to the 8080.",
+    "commons_category": "Intel 8085",
+    "commons_subcategories": [
+      "Intel P8085AH",
+      "Intel P8085AH-2",
+      "Intel C8085",
+      "Intel C8085AH",
+      "Intel D8085A",
+      "Intel C8085A",
+      "Intel C8085A-2",
+      "Intel C8085A-2 H",
+      "Intel C8085AH-2",
+      "Intel D8085AH-2",
+      "Intel ID8085A",
+      "Intel P8085",
+      "Intel P8085A",
+      "Intel QD8085AH-2",
+      "Intel TD8085AH",
+      "Intel TD8085AH-2"
+    ]
+  },
+  {
+    "id": "I8086",
+    "name": "Intel 8086 microprocessor",
+    "family": "Intel 8080-80286",
+    "aliases": [
+      "8086",
+      "D8086",
+      "P8086",
+      "C8086",
+      "8086-2",
+      "8086-1"
+    ],
+    "makers": [
+      "Intel"
+    ],
+    "description": "16-bit x86 microprocessor from 1978, 40-pin DIP.",
+    "commons_category": "Intel 8086",
+    "commons_subcategories": [
+      "Intel D8086",
+      "Intel D8086-2",
+      "Intel C8086",
+      "Intel P8086",
+      "Intel 8086-1",
+      "Intel C8086-4",
+      "Intel D8086-4",
+      "Intel MD80C86-2/B",
+      "Intel QD8086",
+      "Intel QD8086-2",
+      "Intel TD8086"
+    ]
+  },
+  {
+    "id": "I8088",
+    "name": "Intel 8088 microprocessor",
+    "family": "Intel 8080-80286",
+    "aliases": [
+      "8088",
+      "P8088",
+      "D8088",
+      "8088-2"
+    ],
+    "makers": [
+      "Intel"
+    ],
+    "description": "16-bit x86 microprocessor with 8-bit external bus, used in the IBM PC, 40-pin DIP.",
+    "commons_category": "Intel 8088",
+    "commons_subcategories": [
+      "Intel P8088",
+      "Intel D8088",
+      "Intel P8088-6",
+      "Intel D8088-2",
+      "Intel P8088-2",
+      "Intel MD8088-2/B",
+      "Intel N80C88AL",
+      "Intel P80C88A-2",
+      "Intel TD8088"
+    ]
+  },
+  {
+    "id": "I80286",
+    "name": "Intel 80286 microprocessor",
+    "family": "Intel 8080-80286",
+    "aliases": [
+      "80286",
+      "R80286",
+      "N80286",
+      "A80286",
+      "286"
+    ],
+    "makers": [
+      "Intel",
+      "AMD",
+      "Harris",
+      "Siemens"
+    ],
+    "description": "16-bit x86 microprocessor with protected mode, PGA, PLCC or LCC package.",
+    "commons_category": "Intel 80286",
+    "commons_subcategories": [
+      "Intel A80286-10",
+      "Intel N80286-10",
+      "Intel R80286-8",
+      "Intel N80286-12",
+      "Intel R80286-12",
+      "Intel A80286-8",
+      "Intel C80286-6"
+    ]
+  },
+  {
+    "id": "Z80",
+    "name": "Zilog Z80 microprocessor",
+    "family": "Z80",
+    "aliases": [
+      "Z80",
+      "Z80A",
+      "Z80B",
+      "Z8400",
+      "Z8400A",
+      "Z08400",
+      "Z84C00",
+      "Z80CPU"
+    ],
+    "makers": [
+      "Zilog",
+      "Mostek",
+      "SGS",
+      "Sharp",
+      "NEC"
+    ],
+    "description": "8-bit microprocessor compatible with the Intel 8080, 40-pin DIP.",
+    "commons_category": "Zilog Z80",
+    "commons_subcategories": [
+      "ZiLOG Z0840004PSC",
+      "Zilog Z0840008PSC",
+      "Zilog Z80A",
+      "ZiLOG Z84C0004PSC",
+      "Zilog Z80 Z84C0006PEG",
+      "ZiLOG Z8400B PS",
+      "Zilog Z8400PS",
+      "ZiLOG Z84C0008PEC",
+      "ZiLOG Z84C0010FEC"
+    ]
+  },
+  {
+    "id": "MC68000",
+    "name": "Motorola 68000 microprocessor",
+    "family": "MC68000",
+    "aliases": [
+      "MC68000",
+      "MC68000P8",
+      "MC68000L8",
+      "MC68HC000",
+      "68000"
+    ],
+    "makers": [
+      "Motorola",
+      "Hitachi",
+      "Signetics",
+      "Thomson"
+    ],
+    "description": "16/32-bit CISC microprocessor, 64-pin DIP or PLCC, used in Macintosh, Amiga and Atari ST.",
+    "commons_category": "Motorola 68000",
+    "commons_subcategories": [
+      "Motorola MC68000P8",
+      "Motorola MC68000P10",
+      "Motorola MC68HC000FN12",
+      "Motorola MC68HC000FN16",
+      "Motorola MC68000L8",
+      "Motorola MC68HC000FN8",
+      "Motorola MC68000L12",
+      "Motorola MC68000L4",
+      "Motorola MC68000FN8",
+      "Motorola MC68000P12",
+      "Motorola MC68HC000LC8",
+      "Motorola MC68HC000RC12F",
+      "Motorola XC68000L",
+      "Motorola MC68000FN10",
+      "Motorola MC68000L10",
+      "Motorola MC68000L6",
+      "Motorola MC68000R10",
+      "Motorola MC68000ZB10",
+      "Motorola MC68HC000P8",
+      "Motorola MC68HC000RC10"
+    ]
+  },
+  {
+    "id": "2N3055",
+    "name": "2N3055 NPN power transistor",
+    "family": "2N3055",
+    "aliases": [
+      "2N3055",
+      "2N3055H",
+      "MJ3055"
+    ],
+    "makers": [
+      "RCA",
+      "Motorola",
+      "ON Semiconductor",
+      "STMicroelectronics"
+    ],
+    "description": "Silicon NPN power transistor, 15 A, 60 V, TO-3 metal can.",
+    "commons_category": "2N3055",
+    "commons_subcategories": []
+  },
+  {
+    "id": "MAX232",
+    "name": "MAX232 RS-232 transceiver",
+    "family": "MAX232",
+    "aliases": [
+      "MAX232",
+      "MAX232N",
+      "MAX232CPE",
+      "MAX232EPE",
+      "ICL232"
+    ],
+    "makers": [
+      "Maxim",
+      "Texas Instruments",
+      "Intersil"
+    ],
+    "description": "Dual RS-232 driver and receiver with charge-pump, 16-pin DIP or SOIC.",
+    "commons_category": "MAX232",
+    "commons_subcategories": []
+  },
+  {
+    "id": "ULN2003",
+    "name": "ULN2003 Darlington transistor array",
+    "family": "ULN2003",
+    "aliases": [
+      "ULN2003",
+      "ULN2003A",
+      "ULN2003AN",
+      "ULN2003APG"
+    ],
+    "makers": [
+      "Texas Instruments",
+      "STMicroelectronics",
+      "Toshiba",
+      "Allegro"
+    ],
+    "description": "Seven-channel high-voltage high-current Darlington driver array, 16-pin DIP.",
+    "commons_category": "ULN2003",
+    "commons_subcategories": []
+  },
+  {
+    "id": "ESP8266",
+    "name": "ESP8266 Wi-Fi SoC / module",
+    "family": "Espressif Wi-Fi",
+    "aliases": [
+      "ESP8266",
+      "ESP8266EX",
+      "ESP-WROOM-02",
+      "ESP-12F",
+      "ESP-12E",
+      "ESP-12",
+      "ESP-01",
+      "ESP-07"
+    ],
+    "makers": [
+      "Espressif",
+      "Ai-Thinker"
+    ],
+    "description": "Low-cost Wi-Fi microcontroller SoC, often sold as ESP-01 or ESP-12 modules with a metal shield.",
+    "commons_category": "ESP8266",
+    "commons_subcategories": [
+      "ESP8266EX"
+    ]
+  },
+  {
+    "id": "ESP32",
+    "name": "ESP32 Wi-Fi and Bluetooth SoC / module",
+    "family": "Espressif Wi-Fi",
+    "aliases": [
+      "ESP32",
+      "ESP32-WROOM-32",
+      "ESP-WROOM-32",
+      "ESP32-D0WDQ6",
+      "ESP32-WROVER"
+    ],
+    "makers": [
+      "Espressif"
+    ],
+    "description": "Dual-core Wi-Fi and Bluetooth microcontroller SoC, often sold as WROOM or WROVER modules.",
+    "commons_category": "ESP32",
+    "commons_subcategories": [
+      "ESP-WROOM-32"
+    ]
+  }
+]

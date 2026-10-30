@@ -1,0 +1,699 @@
+{
+  "run": "tesseract",
+  "date": "2026-10-30",
+  "device": "mps (Apple GPU)",
+  "models": {
+    "image": "google/siglip-base-patch16-224",
+    "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+    "text": "BAAI/bge-small-en-v1.5",
+    "text_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "ocr": "tesseract"
+  },
+  "model_load_s": 1.067727416055277,
+  "n_parts": 18,
+  "n_parts_with_photo": 18,
+  "parts_without_photo": [],
+  "parts_with_queries": [
+    "2N3055",
+    "ATMEGA328P",
+    "ATMEGA8",
+    "ESP32",
+    "ESP8266",
+    "I80286",
+    "I8080",
+    "I8085",
+    "I8086",
+    "I8088",
+    "LM317",
+    "LM7805",
+    "MAX232",
+    "MC68000",
+    "NE555",
+    "UA741",
+    "ULN2003",
+    "Z80"
+  ],
+  "parts_without_queries": [],
+  "n_catalog_images": 18,
+  "n_queries": 44,
+  "n_legible": 43,
+  "chance": {
+    "all_parts": {
+      "top1": 0.05555555555555555,
+      "top3": 0.16666666666666666,
+      "mrr": 0.16272045855379189
+    },
+    "parts_with_photo": {
+      "top1": 0.05555555555555555,
+      "top3": 0.16666666666666666,
+      "mrr": 0.16272045855379189
+    }
+  },
+  "accuracy": {
+    "identifier": {
+      "n": 44,
+      "top1_k": 2,
+      "top3_k": 2,
+      "top1": 0.045454545454545456,
+      "top3": 0.045454545454545456,
+      "top1_ci95": [
+        0.012554846366981079,
+        0.15135271525303162
+      ],
+      "top3_ci95": [
+        0.012554846366981079,
+        0.15135271525303162
+      ],
+      "mrr": 0.045454545454545456,
+      "coverage": 0.045454545454545456
+    },
+    "text": {
+      "n": 44,
+      "top1_k": 2,
+      "top3_k": 5,
+      "top1": 0.045454545454545456,
+      "top3": 0.11363636363636363,
+      "top1_ci95": [
+        0.012554846366981079,
+        0.15135271525303162
+      ],
+      "top3_ci95": [
+        0.04952707589567494,
+        0.23979435148133582
+      ],
+      "mrr": 0.08358585858585858,
+      "coverage": 0.22727272727272727
+    },
+    "image": {
+      "n": 44,
+      "top1_k": 17,
+      "top3_k": 27,
+      "top1": 0.38636363636363635,
+      "top3": 0.6136363636363636,
+      "top1_ci95": [
+        0.25720998886701985,
+        0.5337669015379832
+      ],
+      "top3_ci95": [
+        0.46623309846201666,
+        0.7427900111329802
+      ],
+      "mrr": 0.5438672438672438,
+      "coverage": 1.0
+    },
+    "fused": {
+      "n": 44,
+      "top1_k": 19,
+      "top3_k": 28,
+      "top1": 0.4318181818181818,
+      "top3": 0.6363636363636364,
+      "top1_ci95": [
+        0.29682504164854573,
+        0.5777610925944561
+      ],
+      "top3_ci95": [
+        0.48866107278891047,
+        0.7621666587250857
+      ],
+      "mrr": 0.5761183261183261,
+      "coverage": 1.0
+    },
+    "fused_no_text": {
+      "n": 44,
+      "top1_k": 17,
+      "top3_k": 29,
+      "top1": 0.38636363636363635,
+      "top3": 0.6590909090909091,
+      "top1_ci95": [
+        0.25720998886701985,
+        0.5337669015379832
+      ],
+      "top3_ci95": [
+        0.5113886797193951,
+        0.7812436737136005
+      ],
+      "mrr": 0.5665945165945167,
+      "coverage": 1.0
+    }
+  },
+  "accuracy_legible": {
+    "identifier": {
+      "n": 43,
+      "top1_k": 2,
+      "top3_k": 2,
+      "top1": 0.046511627906976744,
+      "top3": 0.046511627906976744,
+      "top1_ci95": [
+        0.012848990317319689,
+        0.15455775923863058
+      ],
+      "top3_ci95": [
+        0.012848990317319689,
+        0.15455775923863058
+      ],
+      "mrr": 0.046511627906976744,
+      "coverage": 0.046511627906976744
+    },
+    "text": {
+      "n": 43,
+      "top1_k": 2,
+      "top3_k": 5,
+      "top1": 0.046511627906976744,
+      "top3": 0.11627906976744186,
+      "top1_ci95": [
+        0.012848990317319689,
+        0.15455775923863058
+      ],
+      "top3_ci95": [
+        0.050703529948620846,
+        0.24479448890641395
+      ],
+      "mrr": 0.0855297157622739,
+      "coverage": 0.23255813953488372
+    },
+    "image": {
+      "n": 43,
+      "top1_k": 17,
+      "top3_k": 27,
+      "top1": 0.3953488372093023,
+      "top3": 0.627906976744186,
+      "top1_ci95": [
+        0.263651061984564,
+        0.5442120340668091
+      ],
+      "top3_ci95": [
+        0.47859538265273166,
+        0.7562386110622568
+      ],
+      "mrr": 0.5526393503137689,
+      "coverage": 1.0
+    },
+    "fused": {
+      "n": 43,
+      "top1_k": 19,
+      "top3_k": 28,
+      "top1": 0.4418604651162791,
+      "top3": 0.6511627906976745,
+      "top1_ci95": [
+        0.3043308562392133,
+        0.5889264193448829
+      ],
+      "top3_ci95": [
+        0.501715070970981,
+        0.775816012510369
+      ],
+      "mrr": 0.5856404577334811,
+      "coverage": 1.0
+    },
+    "fused_no_text": {
+      "n": 43,
+      "top1_k": 17,
+      "top3_k": 29,
+      "top1": 0.3953488372093023,
+      "top3": 0.6744186046511628,
+      "top1_ci95": [
+        0.263651061984564,
+        0.5442120340668091
+      ],
+      "top3_ci95": [
+        0.5251593250655096,
+        0.7950688481822019
+      ],
+      "mrr": 0.5758951642672573,
+      "coverage": 1.0
+    }
+  },
+  "paired_top1": {
+    "fused_vs_identifier": {
+      "wins": 17,
+      "losses": 0,
+      "p_sign_test": 1.52587890625e-05,
+      "part_wins": 11,
+      "part_losses": 0,
+      "p_sign_test_parts": 0.0009765625
+    },
+    "fused_vs_text": {
+      "wins": 17,
+      "losses": 0,
+      "p_sign_test": 1.52587890625e-05,
+      "part_wins": 11,
+      "part_losses": 0,
+      "p_sign_test_parts": 0.0009765625
+    },
+    "fused_vs_image": {
+      "wins": 3,
+      "losses": 1,
+      "p_sign_test": 0.625,
+      "part_wins": 3,
+      "part_losses": 1,
+      "p_sign_test_parts": 0.625
+    },
+    "fused_vs_fused_no_text": {
+      "wins": 3,
+      "losses": 1,
+      "p_sign_test": 0.625,
+      "part_wins": 3,
+      "part_losses": 1,
+      "p_sign_test_parts": 0.625
+    }
+  },
+  "per_part": [
+    {
+      "part": "NE555",
+      "family": "8-pin analog",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 2,
+      "fused": 2,
+      "fused_no_text": 2
+    },
+    {
+      "part": "UA741",
+      "family": "8-pin analog",
+      "n": 3,
+      "identifier": 1,
+      "text": 1,
+      "image": 1,
+      "fused": 2,
+      "fused_no_text": 1
+    },
+    {
+      "part": "ATMEGA328P",
+      "family": "AVR ATmega",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 1,
+      "fused": 1,
+      "fused_no_text": 1
+    },
+    {
+      "part": "ATMEGA8",
+      "family": "AVR ATmega",
+      "n": 1,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "LM7805",
+      "family": "3-pin regulators",
+      "n": 2,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "LM317",
+      "family": "3-pin regulators",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "I8080",
+      "family": "Intel 8080-80286",
+      "n": 2,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "I8085",
+      "family": "Intel 8080-80286",
+      "n": 1,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "I8086",
+      "family": "Intel 8080-80286",
+      "n": 2,
+      "identifier": 0,
+      "text": 0,
+      "image": 1,
+      "fused": 1,
+      "fused_no_text": 1
+    },
+    {
+      "part": "I8088",
+      "family": "Intel 8080-80286",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "I80286",
+      "family": "Intel 8080-80286",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 2,
+      "fused": 2,
+      "fused_no_text": 2
+    },
+    {
+      "part": "Z80",
+      "family": "Z80",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 1,
+      "fused_no_text": 0
+    },
+    {
+      "part": "MC68000",
+      "family": "MC68000",
+      "n": 3,
+      "identifier": 1,
+      "text": 1,
+      "image": 1,
+      "fused": 2,
+      "fused_no_text": 1
+    },
+    {
+      "part": "2N3055",
+      "family": "2N3055",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 3,
+      "fused": 3,
+      "fused_no_text": 3
+    },
+    {
+      "part": "MAX232",
+      "family": "MAX232",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 2,
+      "fused": 2,
+      "fused_no_text": 2
+    },
+    {
+      "part": "ULN2003",
+      "family": "ULN2003",
+      "n": 1,
+      "identifier": 0,
+      "text": 0,
+      "image": 0,
+      "fused": 0,
+      "fused_no_text": 0
+    },
+    {
+      "part": "ESP8266",
+      "family": "Espressif Wi-Fi",
+      "n": 3,
+      "identifier": 0,
+      "text": 0,
+      "image": 2,
+      "fused": 2,
+      "fused_no_text": 2
+    },
+    {
+      "part": "ESP32",
+      "family": "Espressif Wi-Fi",
+      "n": 2,
+      "identifier": 0,
+      "text": 0,
+      "image": 2,
+      "fused": 1,
+      "fused_no_text": 2
+    }
+  ],
+  "mean_over_parts_top1": {
+    "identifier": 0.037037037037037035,
+    "text": 0.037037037037037035,
+    "image": 0.34259259259259256,
+    "fused": 0.37037037037037035,
+    "fused_no_text": 0.34259259259259256
+  },
+  "families": [
+    {
+      "family": "8-pin analog",
+      "parts": [
+        "NE555",
+        "UA741"
+      ],
+      "n": 6,
+      "image_top1": 3,
+      "image_wrong_in_family": 1,
+      "fused_top1": 4,
+      "fused_wrong_in_family": 0
+    },
+    {
+      "family": "AVR ATmega",
+      "parts": [
+        "ATMEGA328P",
+        "ATMEGA8"
+      ],
+      "n": 4,
+      "image_top1": 1,
+      "image_wrong_in_family": 0,
+      "fused_top1": 1,
+      "fused_wrong_in_family": 0
+    },
+    {
+      "family": "3-pin regulators",
+      "parts": [
+        "LM7805",
+        "LM317"
+      ],
+      "n": 5,
+      "image_top1": 0,
+      "image_wrong_in_family": 0,
+      "fused_top1": 0,
+      "fused_wrong_in_family": 0
+    },
+    {
+      "family": "Intel 8080-80286",
+      "parts": [
+        "I8080",
+        "I8085",
+        "I8086",
+        "I8088",
+        "I80286"
+      ],
+      "n": 11,
+      "image_top1": 3,
+      "image_wrong_in_family": 8,
+      "fused_top1": 3,
+      "fused_wrong_in_family": 8
+    },
+    {
+      "family": "Espressif Wi-Fi",
+      "parts": [
+        "ESP8266",
+        "ESP32"
+      ],
+      "n": 5,
+      "image_top1": 4,
+      "image_wrong_in_family": 1,
+      "fused_top1": 3,
+      "fused_wrong_in_family": 1
+    }
+  ],
+  "n_same_author": 0,
+  "accuracy_other_author": {
+    "image": {
+      "n": 44,
+      "top1_k": 17,
+      "top3_k": 27,
+      "top1": 0.38636363636363635,
+      "top3": 0.6136363636363636,
+      "top1_ci95": [
+        0.25720998886701985,
+        0.5337669015379832
+      ],
+      "top3_ci95": [
+        0.46623309846201666,
+        0.7427900111329802
+      ],
+      "mrr": 0.5438672438672438,
+      "coverage": 1.0
+    },
+    "fused": {
+      "n": 44,
+      "top1_k": 19,
+      "top3_k": 28,
+      "top1": 0.4318181818181818,
+      "top3": 0.6363636363636364,
+      "top1_ci95": [
+        0.29682504164854573,
+        0.5777610925944561
+      ],
+      "top3_ci95": [
+        0.48866107278891047,
+        0.7621666587250857
+      ],
+      "mrr": 0.5761183261183261,
+      "coverage": 1.0
+    }
+  },
+  "cross_author": [
+    {
+      "file": "images/raw/I8080/6691932.jpg",
+      "part": "I8080",
+      "reference_of": [
+        "I8086",
+        "I8088"
+      ]
+    },
+    {
+      "file": "images/raw/MC68000/8041354.jpg",
+      "part": "MC68000",
+      "reference_of": [
+        "I8086",
+        "I8088"
+      ]
+    }
+  ],
+  "accuracy_without_cross_author": {
+    "image": {
+      "n": 42,
+      "top1_k": 17,
+      "top3_k": 27,
+      "top1": 0.40476190476190477,
+      "top3": 0.6428571428571429,
+      "top1_ci95": [
+        0.27042647671209086,
+        0.5550595447182258
+      ],
+      "top3_ci95": [
+        0.4916608928707938,
+        0.7701100749837315
+      ],
+      "mrr": 0.5671201814058957,
+      "coverage": 1.0
+    },
+    "fused": {
+      "n": 42,
+      "top1_k": 18,
+      "top3_k": 27,
+      "top1": 0.42857142857142855,
+      "top3": 0.6428571428571429,
+      "top1_ci95": [
+        0.2911742951914822,
+        0.5779402208812553
+      ],
+      "top3_ci95": [
+        0.4916608928707938,
+        0.7701100749837315
+      ],
+      "mrr": 0.5770975056689343,
+      "coverage": 1.0
+    }
+  },
+  "ocr_hit_rate": 0.045454545454545456,
+  "ocr_hit_rate_legible": 0.046511627906976744,
+  "markings_not_in_catalog": [
+    {
+      "file": "images/raw/I8088/78876305.jpg",
+      "part": "I8088",
+      "marking": "P80C88A-2"
+    },
+    {
+      "file": "images/raw/UA741/64573796.jpg",
+      "part": "UA741",
+      "marking": "741P"
+    }
+  ],
+  "ocr_hit_rate_catalog_covered": 0.04878048780487805,
+  "n_catalog_covered": 41,
+  "identifier_fired": 2,
+  "identifier_precision_when_fired": 1.0,
+  "latency_ms": {
+    "ocr": {
+      "n": 44,
+      "p50": 93.74970803037286,
+      "p95": 167.91111880447716,
+      "mean": 107.11941105017269
+    },
+    "identifier": {
+      "n": 44,
+      "p50": 0.17279147868975997,
+      "p95": 0.8353090204764158,
+      "mean": 0.2816988774363629
+    },
+    "text": {
+      "n": 10,
+      "p50": 9.378333576023579,
+      "p95": 10.109873191686347,
+      "mean": 9.5192791079171
+    },
+    "image": {
+      "n": 44,
+      "p50": 27.651187498122454,
+      "p95": 31.970556202577427,
+      "mean": 27.68929361693815
+    },
+    "fusion": {
+      "n": 44,
+      "p50": 0.03006297629326582,
+      "p95": 0.0347982335370034,
+      "mean": 0.0297206755600531
+    },
+    "total": {
+      "n": 44,
+      "p50": 123.82127094315365,
+      "p95": 196.84528582147323,
+      "mean": 137.28359674463388
+    }
+  },
+  "latency_ms_first_pass": {
+    "ocr": {
+      "n": 44,
+      "p50": 96.31256194552407,
+      "p95": 169.91652319557033,
+      "mean": 107.90227650431916
+    },
+    "identifier": {
+      "n": 44,
+      "p50": 0.1654375810176134,
+      "p95": 0.8521214709617198,
+      "mean": 0.2792917207857086
+    },
+    "text": {
+      "n": 10,
+      "p50": 9.75647900486365,
+      "p95": 11.248843732755631,
+      "mean": 9.982162504456937
+    },
+    "image": {
+      "n": 44,
+      "p50": 27.870374964550138,
+      "p95": 31.106398155679926,
+      "mean": 27.956281254195016
+    },
+    "fusion": {
+      "n": 44,
+      "p50": 0.030354480259120464,
+      "p95": 0.044032931327819824,
+      "mean": 0.03186647716740316
+    },
+    "total": {
+      "n": 44,
+      "p50": 125.3843120066449,
+      "p95": 198.7389527785126,
+      "mean": 138.43838925293477
+    }
+  }
+}

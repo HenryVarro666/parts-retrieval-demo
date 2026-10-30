@@ -1,0 +1,63 @@
+file,part_id,split,marking_legible,marking,marking_in_catalog,group,pageid,license,artist,page_url
+images/raw/2N3055/15087999.jpg,2N3055,catalog,y,2N3055,y,g1,15087999,CC BY 3.0,Mataresephotos,https://commons.wikimedia.org/wiki/File:Toshiba_2n3055_transistor.jpg
+images/raw/2N3055/50219570.jpg,2N3055,query,y,2N3055,y,g2,50219570,CC BY-SA 4.0,Eule4404,https://commons.wikimedia.org/wiki/File:2N3055_RCA.JPG
+images/raw/2N3055/80876576.jpg,2N3055,query,y,2N3055GR,y,g3,80876576,CC BY-SA 4.0,Mister rf,https://commons.wikimedia.org/wiki/File:2N3055_bipolar_power_transistor.jpg
+images/raw/2N3055/94229451.jpg,2N3055,query,y,2N3055H,y,g4,94229451,CC BY-SA 4.0,Glenn,https://commons.wikimedia.org/wiki/File:2N3055H_NPN_silicon_power_transistor.jpg
+images/raw/ATMEGA328P/23315198.jpg,ATMEGA328P,catalog,y,ATMEGA328P-PU,y,g1,23315198,CC BY-SA 2.0,oomlout,https://commons.wikimedia.org/wiki/File:ATMEGA328P-PU.jpg
+images/raw/ATMEGA328P/75189907.jpg,ATMEGA328P,query,y,ATMEGA328P-PU,y,g2,75189907,CC BY-SA 4.0,CCDBarcodeScanner,https://commons.wikimedia.org/wiki/File:ATMEGA328P.jpg
+images/raw/ATMEGA328P/133222141.jpg,ATMEGA328P,query,n,,n,g3,133222141,CC0,Retired electrician,https://commons.wikimedia.org/wiki/File:Noname_clone_of_Arduino_Uno_-_Mega328P_microcontroller.jpg
+images/raw/ATMEGA328P/149126951.jpg,ATMEGA328P,query,y,ATMEGA328P-PU,y,g4,149126951,CC BY-SA 2.0,"Mitch Altman from Berlin, Germany",https://commons.wikimedia.org/wiki/File:ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_41_(25731304436).jpg
+images/raw/ATMEGA8/3161098.jpg,ATMEGA8,catalog,y,ATMEGA8-16PU,y,g1,3161098,CC BY-SA 3.0,Pengo,https://commons.wikimedia.org/wiki/File:ATmega8_01_Pengo.jpg
+images/raw/ATMEGA8/74561381.jpg,ATMEGA8,query,y,ATMEGA8L 8AU,y,g2,74561381,CC0,Ubahnverleih,https://commons.wikimedia.org/wiki/File:ATMEGA8L-8AU.jpg
+images/raw/ESP32/57745131.jpg,ESP32,catalog,y,ESP32-D0WDQ6,y,g1,57745131,CC BY-SA 4.0,Brian Krent,https://commons.wikimedia.org/wiki/File:Espressif_ESP-WROOM-32_Wi-Fi_%26_Bluetooth_Module.jpg
+images/raw/ESP32/74560838.jpg,ESP32,query,y,ESP32-WROOM-32,y,g2,74560838,CC0,Ubahnverleih,https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Shielded.jpg
+images/raw/ESP32/97701682.jpg,ESP32,query,y,ESP32-D0WDQ6,y,g3,97701682,CC0,Ubahnverleih,https://commons.wikimedia.org/wiki/File:ESP32_on_Lolin32_Lite_clone_board.jpg
+images/raw/ESP8266/50769722.jpg,ESP8266,catalog,n,,n,g1,50769722,CC BY-SA 4.0,Zeptomoon,https://commons.wikimedia.org/wiki/File:ESP8266_E-01_(top).jpg
+images/raw/ESP8266/54458803.jpg,ESP8266,query,y,ESP8266MOD,y,g2,54458803,CC BY-SA 4.0,connorgoodwolf,https://commons.wikimedia.org/wiki/File:ESP8266_mounted_on_adapter.jpg
+images/raw/ESP8266/56733450.jpg,ESP8266,query,y,ESP-WROOM-02,y,g3,56733450,CC BY-SA 4.0,茶家川,https://commons.wikimedia.org/wiki/File:ESP-WROOM-02(ESP8266).jpg
+images/raw/ESP8266/57331438.jpg,ESP8266,query,y,ESP8266EX,y,g4,57331438,CC BY 2.0,Sparkfun Electronics,https://commons.wikimedia.org/wiki/File:ESP-01.jpg
+images/raw/I80286/1849209.jpg,I80286,catalog,y,N80286-10,y,g1,1849209,CC BY-SA 3.0,Henry Mühlpfordt,https://commons.wikimedia.org/wiki/File:Intel_80286_68pin_plastic_10mhz_2007_03_27.jpg
+images/raw/I80286/5174316.jpg,I80286,query,y,N80286-12,y,g2,5174316,CC BY 2.0,The original uploader was Trapanator at Italian Wikipedia.,https://commons.wikimedia.org/wiki/File:Intel_80286.jpg
+images/raw/I80286/6976587.jpg,I80286,query,y,A80286-10,y,g3,6976587,CC BY-SA 4.0,Myself User:ZyMOS,https://commons.wikimedia.org/wiki/File:Ic-photo-Intel--A80286-10--(286-CPU)-.JPG
+images/raw/I80286/46635176.jpg,I80286,query,y,C80286-6,y,g4,46635176,CC BY-SA 4.0,Thomas Nguyen,https://commons.wikimedia.org/wiki/File:Intel_C80286-6.jpg
+images/raw/I8080/91615.jpg,I8080,catalog,y,C8080A,y,g1,91615,CC BY-SA 3.0,,https://commons.wikimedia.org/wiki/File:Intel_C8080A_9064_33001_N8384_top.jpg
+images/raw/I8080/6691932.jpg,I8080,query,y,D8080A,y,g2,6691932,CC BY-SA 3.0,Konstantin Lanzet,https://commons.wikimedia.org/wiki/File:KL_Intel_D8080.jpg
+images/raw/I8080/55534764.jpg,I8080,query,y,8080,y,g3,55534764,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Intel_8080_1.jpg
+images/raw/I8085/453350.jpg,I8085,catalog,y,P8085AH-2,y,g1,453350,CC BY-SA 3.0,Stefan506 (dewiki userpage),https://commons.wikimedia.org/wiki/File:Intel_P8085AH-2.jpg
+images/raw/I8085/55534910.jpg,I8085,query,y,C8085A-2,y,g2,55534910,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Intel_C8085A_1a.jpg
+images/raw/I8086/6589708.jpg,I8086,catalog,y,D8086-2,y,g1,6589708,CC BY-SA 3.0,Konstantin Lanzet,https://commons.wikimedia.org/wiki/File:KL_Intel_D8086.jpg
+images/raw/I8086/15625453.jpg,I8086,query,y,D8086,y,g2,15625453,CC BY-SA 3.0,Original uploader was 在原ヶ谷戸 at ja.wikipedia,https://commons.wikimedia.org/wiki/File:I8086_(1).jpg
+images/raw/I8086/55534917.jpg,I8086,query,y,C8086,y,g3,55534917,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Intel_C8086_1.jpg
+images/raw/I8088/6692144.jpg,I8088,catalog,y,TD8088,y,g1,6692144,CC BY-SA 3.0,Konstantin Lanzet,https://commons.wikimedia.org/wiki/File:KL_Intel_TD8088.jpg
+images/raw/I8088/55534991.jpg,I8088,query,y,D8088,y,g2,55534991,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Intel_D8088_1.jpg
+images/raw/I8088/66104581.jpg,I8088,query,y,P8088-6,y,g3,66104581,CC BY-SA 4.0,Jud McCranie,"https://commons.wikimedia.org/wiki/File:Intel_8088_chip,_top.jpg"
+images/raw/I8088/78876305.jpg,I8088,query,y,P80C88A-2,n,g4,78876305,CC BY-SA 4.0,Kunszabo,https://commons.wikimedia.org/wiki/File:Intel_80c88-2_CMOS_microprocessor_in_plastic_DIP40_package.jpg
+images/raw/LM317/14784539.jpg,LM317,catalog,y,LM317T,y,g1,14784539,CC BY-SA 4.0,Gelpgim22,https://commons.wikimedia.org/wiki/File:Regulador_LM317_en_disipador.JPG
+images/raw/LM317/23636678.jpg,LM317,query,y,LM317HV,y,g2,23636678,CC BY 3.0,Thomas Bresson,https://commons.wikimedia.org/wiki/File:2013-01-05_22-30-58-comp-elec-22f.jpg
+images/raw/LM317/74886172.jpg,LM317,query,y,LM317T,y,g3,74886172,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Emerson_Network_Power_7001232-J200_-_STMicroelectronis_LM317T-92924.jpg
+images/raw/LM317/75704312.jpg,LM317,query,y,LM317T,y,g4,75704312,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Auerswald_COMfortel_DECT_660C_-_base_station_-_ON_Semiconductor_LM_317T-93169.jpg
+images/raw/LM7805/23310382.jpg,LM7805,catalog,y,LM7805C,y,g1,23310382,CC BY-SA 2.0,oomlout,https://commons.wikimedia.org/wiki/File:LM7805C_5_Volt_Regulator.jpg
+images/raw/LM7805/177751130.jpg,LM7805,query,y,L7805CV,y,g2,177751130,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Philips_HD8823_-_board_1_-_STMicroelectronics_L7805CV-4706.jpg
+images/raw/LM7805/194982655.jpg,LM7805,query,y,MC7805CT,y,g3,194982655,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Siedle_SIC_3000-01_-_board_1_-_on_Semiconductor_7805CT-3090.jpg
+images/raw/MAX232/780794.jpg,MAX232,catalog,y,MAX232CPE,y,g1,780794,Copyrighted free use,,https://commons.wikimedia.org/wiki/File:Max232.jpg
+images/raw/MAX232/27538989.jpg,MAX232,query,y,MAX232N,y,g2,27538989,CC0,Epop,https://commons.wikimedia.org/wiki/File:TI_MAX232N.JPG
+images/raw/MAX232/110379628.jpg,MAX232,query,y,MAX232ECPE,y,g3,110379628,CC BY 2.0,Travis Goodspeed,https://commons.wikimedia.org/wiki/File:MAX232_Chip.jpg
+images/raw/MAX232/178879707.jpg,MAX232,query,y,MAX232 ESE,y,g4,178879707,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Wavetec_Radar_Solutions_WTC_LP_-_board_-_Maxim_Integrated_MAX232-5059.jpg
+images/raw/MC68000/1139113.jpg,MC68000,catalog,y,XC68000L,y,g1,1139113,CC BY-SA 3.0,en:User:ArnoldReinhold,https://commons.wikimedia.org/wiki/File:XC68000.agr.jpg
+images/raw/MC68000/6976161.jpg,MC68000,query,y,MC68000R10,y,g2,6976161,CC BY-SA 4.0,Myself User:ZyMOS,https://commons.wikimedia.org/wiki/File:Ic-photo-Motorola--MC68000R10--(68000-CPU).JPG
+images/raw/MC68000/8041354.jpg,MC68000,query,y,MC68000FN10,y,g3,8041354,CC BY 3.0,Konstantin Lanzet,https://commons.wikimedia.org/wiki/File:KL_Motorola_MC68000_PLCC.jpg
+images/raw/MC68000/55535754.jpg,MC68000,query,y,MC68000L12,y,g4,55535754,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Motorola_MC68000L12_1-2.jpg
+images/raw/NE555/351550.jpg,NE555,catalog,y,NE555N,y,g1,351550,CC BY-SA 3.0,de:User:Stefan506,https://commons.wikimedia.org/wiki/File:Signetics_NE555N.JPG
+images/raw/NE555/20729665.jpg,NE555,query,y,NE555N,y,g2,20729665,CC BY 2.0,"Windell Oskay from Sunnyvale, CA, USA",https://commons.wikimedia.org/wiki/File:555Footstool15.jpg
+images/raw/NE555/22764784.jpg,NE555,query,y,NE555P; NE555,y,g3,22764784,CC BY-SA 3.0,Swift.Hg,https://commons.wikimedia.org/wiki/File:NE555_DIP_%26_SOIC.jpg
+images/raw/NE555/38383548.jpg,NE555,query,y,NE555N,y,g4,38383548,CC BY 2.0,"Emilian Robert Vicol from Com. Balanesti, Romania",https://commons.wikimedia.org/wiki/File:LM555-555-Timer_5734-480x452_(4791854328).jpg
+images/raw/UA741/484975.jpg,UA741,catalog,y,SSS 741 CJ,y,g1,484975,Public domain,User Mike1024 on en.wikipedia,https://commons.wikimedia.org/wiki/File:741_op-amp_in_TO-5_metal_can_package_close-up.jpg
+images/raw/UA741/12429535.jpg,UA741,query,y,µA741C,y,g2,12429535,CC BY 3.0,Teravolt (talk),https://commons.wikimedia.org/wiki/File:Ua741_opamp.jpg
+images/raw/UA741/56426698.jpg,UA741,query,y,LM741CN,y,g3,56426698,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:DOV-1X_-_National_Semiconductor_LM741CN_on_printed_circuit_board-9801.jpg
+images/raw/UA741/64573796.jpg,UA741,query,y,741P,n,g4,64573796,CC BY-SA 4.0,Drahtlos,https://commons.wikimedia.org/wiki/File:Botevgrad_1UO741R.jpg
+images/raw/ULN2003/44140189.jpg,ULN2003,catalog,y,ULN2003APG,y,g1,44140189,CC BY-SA 4.0,Porsche613,https://commons.wikimedia.org/wiki/File:ULN2003A_PDIP16.jpg
+images/raw/ULN2003/126915852.jpg,ULN2003,query,y,ULN2003A,y,g2,126915852,CC0,Retired electrician,https://commons.wikimedia.org/wiki/File:ULN2003A_(ST)_darlington_switches.jpg
+images/raw/Z80/1830432.jpg,Z80,catalog,y,Z80 CPU,y,g1,1830432,CC BY 2.5,Gennadiy Shvets,https://commons.wikimedia.org/wiki/File:Zilog_Z80.jpg
+images/raw/Z80/6975899.jpg,Z80,query,y,Z0840004PSC Z80 CPU,y,g2,6975899,CC BY-SA 4.0,Myself User:ZyMOS,https://commons.wikimedia.org/wiki/File:Ic-photo-Zilog--Z0840004PSC--(Z80-CPU).JPG
+images/raw/Z80/55550822.jpg,Z80,query,y,Z80 CPU,y,g3,55550822,CC BY-SA 4.0,Christian Bassow,https://commons.wikimedia.org/wiki/File:Zilog_Z80_1.jpg
+images/raw/Z80/59595187.jpg,Z80,query,y,Z84C0008PEC Z80 CPU,y,g4,59595187,CC BY-SA 4.0,Raimond Spekking,https://commons.wikimedia.org/wiki/File:Basic_Measuring_Instruments_-_Math_Processor_83002190_-_Zilog_Z80-3916.jpg
