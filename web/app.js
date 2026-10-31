@@ -87,8 +87,9 @@
     if (Number(view.rotation)) bits.push(`逆时针 ${Number(view.rotation)}°`);
     return bits.join(" · ");
   };
-  const compositeTiming = (run) => Boolean(run && (/cached baseline|not end.to.end|model load excluded/i.test(run.config?.timing || "") || run.channel === "reranked"));
+  const compositeTiming = (run) => Boolean(run && (/cached baseline|not end.to.end|model load excluded/i.test(run.config?.timing || "") || ["reranked", "ensemble"].includes(run.channel)));
   const compositeTimingNote = "原管线耗时 + 视觉核验耗时；分别计时，未含模型加载。";
+  const timingNote = (run) => run?.channel === "ensemble" ? "冻结输出离线重放；各完整分支耗时串行合计估算，未实测端到端，未含模型加载。" : compositeTimingNote;
   const viewKey = (view) => JSON.stringify([view.id, view.crop, view.rotation, view.width, view.height]);
   function prepareLiveView(view) {
     const key = viewKey(view);
@@ -202,7 +203,7 @@
     text("scope-count", `${state.data?.samples?.length || 0} 张照片 / ${classes} 类`);
     const composite = state.mode === "preset" && compositeTiming(state.run);
     show("latency-scope-note", composite);
-    text("latency-scope-note", composite ? compositeTimingNote : "");
+    text("latency-scope-note", composite ? timingNote(state.run) : "");
     if (state.mode === "live") {
       text("selected-metric-label", "当前输入");
       text("selected-score", state.live.record ? "单张识别" : "待识别");
@@ -215,7 +216,7 @@
       text("selected-metric-label", "当前实验 Top-1");
       text("selected-score", complete(state.run) ? percent(rate(summary, "top1")) : "未完成");
       text("selected-detail", summary ? `${count(summary, "top1")} 正确 · ${runLabel(state.run)}` : "暂无实验记录");
-      text("latency-metric-label", composite ? "分阶段合计 · p50" : "当前实验延迟 · p50");
+      text("latency-metric-label", state.run?.channel === "ensemble" ? "串行估算 · p50" : composite ? "分阶段合计 · p50" : "当前实验延迟 · p50");
       text("latency-score", complete(state.run) ? duration(summary?.latency_ms?.p50) : "—");
       text("latency-detail", complete(state.run) ? `p95 ${duration(summary?.latency_ms?.p95)}${composite ? "" : " · 预热后单图测量"}` : "运行未完成，不参与性能对照");
     }
@@ -319,7 +320,7 @@
     text("ocr-text", observed || (record ? "未检测到可读文字" : live ? state.live.loading ? "正在读取图片中的文字…" : "上传图片并开始识别" : "当前实验没有该样本的记录"));
     $("ocr-text").classList.toggle("is-empty", !observed);
     text("ocr-view-detail", view ? `所选视图：${viewDescription(view)}` : record ? "此记录只有文字输出，没有视图几何记录。" : "");
-    text("run-status", state.run ? complete(state.run) ? `完整运行 · ${state.run.summary?.n || 0} 张 · 实验回放` : `未完成 · 已覆盖 ${state.run.summary?.n || 0} / ${state.data?.samples?.length || 0} 张，不参与性能对照` : "暂无实验记录");
+    text("run-status", state.run ? complete(state.run) ? `${state.run.channel === "ensemble" ? "固定输出组合重放" : "完整运行"} · ${state.run.summary?.n || 0} 张 · 实验回放` : `未完成 · 已覆盖 ${state.run.summary?.n || 0} / ${state.data?.samples?.length || 0} 张，不参与性能对照` : "暂无实验记录");
     $("run-status").classList.toggle("is-partial", Boolean(state.run && !complete(state.run)));
     const hits = $("identifier-hits"); hits.replaceChildren();
     const idHits = Array.isArray(record?.id_hits) ? record.id_hits : [];
@@ -334,11 +335,24 @@
     const hasConflicts = Array.isArray(conflicts) ? conflicts.length > 0 : Boolean(conflicts && conflictText && conflictText !== "false");
     show("evidence-conflicts", hasConflicts);
     text("evidence-conflicts", hasConflicts ? `视图线索存在冲突：${conflictText}` : "");
+    const combined = !live && record?.ensemble;
+    show("ensemble-section", Boolean(combined));
+    if (combined) {
+      text("ensemble-status", combined.vlm_called ? "规则调用 VLM" : "OCR 直接接受");
+      text("ensemble-reason", combined.reason || "");
+      const votes = $("ensemble-votes"); votes.replaceChildren();
+      for (const vote of combined.votes || []) {
+        const expert = state.data.runs.find((run) => run.name === vote.expert);
+        const row = node("div", "identifier-hit");
+        row.append(node("span", "", runLabel(expert || {name: vote.expert})), node("code", "", vote.candidate || "弃权"));
+        votes.append(row);
+      }
+    }
     const vlm = !live && record?.vlm;
     show("vlm-section", Boolean(vlm));
     if (vlm) {
       const abstained = Boolean(vlm.abstained);
-      text("vlm-status", abstained ? "保留原序" : vlm.selected_id || "已判断");
+      text("vlm-status", abstained ? combined ? "弃权 · 未投票" : "保留原序" : vlm.selected_id || "已判断");
       $("vlm-status").className = `tag ${abstained ? "tag-warning" : "tag-teal"}`;
       text("vlm-reason", vlm.reason || (abstained ? "模型未给出可采纳的选择，保留原始候选顺序。" : "未保存判断说明。"));
       text("vlm-observed", vlm.observed_text ? `可见文字：${valueText(vlm.observed_text)}` : "");
@@ -390,7 +404,7 @@
     const composite = state.mode === "preset" && compositeTiming(state.run);
     for (const [key, value] of times) content.append(node("dt", "", key === "total" && composite ? "阶段合计" : labels[key] || key), node("dd", "", duration(value)));
     show("timing-scope-note", composite);
-    text("timing-scope-note", composite ? compositeTimingNote : "");
+    text("timing-scope-note", composite ? timingNote(state.run) : "");
   }
 
   function setMatchStatus(id, candidate, gt) {
@@ -408,7 +422,7 @@
     const current = rankings(record)[0];
     text("comparison-baseline-name", base ? partName(base, state.data?.catalog) : "—");
     text("comparison-current-name", current ? partName(current, state.data?.catalog) : "—");
-    text("comparison-current-label", state.run?.channel === "reranked" ? "视觉重排 Top-1" : "当前实验 Top-1");
+    text("comparison-current-label", state.run?.channel === "ensemble" ? "组合 Top-1" : state.run?.channel === "reranked" ? "视觉重排 Top-1" : "当前实验 Top-1");
     setMatchStatus("comparison-baseline-status", base, item?.gt);
     setMatchStatus("comparison-current-status", current, item?.gt);
     let label = "等待记录"; let className = "tag tag-neutral";
@@ -444,6 +458,7 @@
       button.addEventListener("click", () => selectRun(run.name));
       nameWrap.append(button);
       if (run.name === state.baseline?.name) nameWrap.append(node("span", "tag tag-neutral", "基线"));
+      if (run.channel === "ensemble") nameWrap.append(node("span", "tag tag-neutral", `组合重放 · VLM ${run.summary?.vlm_calls ?? "—"}/${run.summary?.n || 0}`));
       if (!complete(run)) nameWrap.append(node("span", "tag tag-warning", "未完成"));
       nameCell.append(nameWrap); row.append(nameCell, node("td", "table-count", `${run.summary?.n || 0} / ${state.data?.samples?.length || 0}`));
       if (!complete(run)) {
@@ -453,7 +468,7 @@
           const cell = node("td", "", percent(rate(run.summary, metric))); const values = count(run.summary, metric); if (values) cell.title = values; row.append(cell);
         }
         const latency = node("td", "", `${duration(run.summary?.latency_ms?.p50)} / ${duration(run.summary?.latency_ms?.p95)}`);
-        if (compositeTiming(run)) latency.append(node("span", "table-time-scope", "分阶段合计"));
+        if (compositeTiming(run)) latency.append(node("span", "table-time-scope", run.channel === "ensemble" ? "串行估算" : "分阶段合计"));
         row.append(latency);
         const changes = node("td");
         const wins = run.summary?.wins; const regressions = run.summary?.regressions;
@@ -468,7 +483,8 @@
     const hasComposite = state.data?.runs.some(compositeTiming);
     const warmup = state.data?.runs.some((run) => /warmup/i.test(run.config?.timing || ""));
     show("table-timing-note", hasComposite || warmup);
-    text("table-timing-note", `${warmup ? "OCR 为预热后的单图测量，与原始整批二次运行的计时方法不同。" : ""}${hasComposite ? `视觉重排：${compositeTimingNote}` : ""}`);
+    const hasEnsemble = state.data?.runs.some((run) => run.channel === "ensemble");
+    text("table-timing-note", `${warmup ? "OCR 为预热后的单图测量，与原始整批二次运行的计时方法不同。" : ""}${hasComposite ? `视觉重排：${compositeTimingNote}` : ""}${hasEnsemble ? "组合策略为固定输出离线重放；时间为所需完整分支串行合计估算，未实测端到端。" : ""}`);
   }
 
   function renderAll() {

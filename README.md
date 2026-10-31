@@ -17,7 +17,42 @@ uv run --extra experiments python -I -m partsid.web --port 8765
 
 Open <http://127.0.0.1:8765>. Preset photos replay measured experiment records; image upload runs real local OCR and retrieval. The page shows the selected OCR view, text boxes and raw scores, top candidates with reference images, per-stage timings, model-review notes and before/after metrics. The VLM experiment is available as recorded playback, not as live upload inference. Model scores are not calibrated probabilities. Uploads are processed locally in temporary files and are not saved to the dataset.
 
-The [paired comparison](results/experiments/comparison.md) reports all 44 queries, gains and regressions. New JSON records retain OCR geometry, competing views, model hashes and raw VLM decisions. The original EasyOCR whole-image result reproduced 27/44. RapidOCR whole-image obtained 35/44; its eight-view variant obtained 38/44. Frozen-baseline Top-10 Qwen-VL reranking obtained 39/44 with 3 abstentions (13 gains, 1 regression); its median generation-plus-cached-baseline stage sum was about 5.8 s, versus 0.75 s for RapidOCR views. These are results on the same development set, not an independent blind test or production accuracy claim. A selective OCR/VLM router has not been evaluated.
+The [paired model comparison](results/experiments/comparison.md) reports all 44 queries, gains and regressions. New JSON records retain OCR geometry, competing views, model hashes and raw VLM decisions. The original EasyOCR whole-image result reproduced 27/44. RapidOCR whole-image obtained 35/44; its eight-view variant obtained 38/44. Frozen-baseline Top-10 Qwen-VL reranking obtained 39/44 with 3 abstentions (13 gains, 1 regression); its median generation-plus-cached-baseline stage sum was about 5.8 s, versus 0.75 s for RapidOCR views. These are results on the same development set, not an independent blind test or production accuracy claim.
+
+## Voting and selective OCR/VLM combinations
+
+Five fixed rules were replayed against the saved outputs of all 44 queries, without rerunning models or tuning weights. [Full combination comparison](results/ensembles/comparison.md):
+
+| Combination | Top-1 | Wins / regressions versus RapidOCR views | VLM calls required by rule |
+|---|---|---|---|
+| Five equal votes (correlated OCR variants included) | 37/44 | 2 / 3 | 44/44 |
+| One representative per model family | 39/44 | 1 / 0 | 44/44 |
+| OCR rankings + VLM singleton, RRF | 38/44 | 2 / 2 | 44/44 |
+| Strong, unconflicted OCR first; otherwise VLM | **40/44** | **2 / 0** | **8/44** |
+| Two OCR pipelines agree; otherwise VLM | 39/44 | 3 / 2 | 17/44 |
+
+The strongest development result accepts the new OCR only when one exact/glyph-folded catalog identifier agrees with its fused Top-1 and no cross-view strong-ID conflict exists. Otherwise it consults the VLM's existing frozen-baseline Top-10 decision, falling back to the new OCR on abstention. The >=0.9 gate is an alias-match score, not a calibrated OCR probability. Simple voting can amplify correlated errors; the results do not establish that adding voters always helps.
+
+Reproduce the combination comparison with **standard Python only**, no GPU, model downloads or optional dependencies:
+
+```bash
+python3 -m partsid.ensemble
+```
+
+This is offline policy replay from actual saved outputs, not a deployed selective service. Stage-sum costs are estimates from the required complete OCR branches and any VLM generation, exclude model loading, and are not new end-to-end measurements. The web page labels these runs as combination replay, shows branch votes/call decisions, and keeps live uploads OCR-only. The fixed policies and input SHA256 values are saved with the new results.
+
+For another machine, clone the private repository's default `main` branch, then launch the same page:
+
+```bash
+git clone https://github.com/HenryVarro666/parts-retrieval-demo.git
+cd parts-retrieval-demo
+uv sync --frozen --extra experiments
+uv run --extra experiments python -I -m partsid.web --port 8765
+```
+
+Repository access requires your GitHub credentials. The dataset, code, measured results and page are tracked; environments and model caches are excluded. Saved-result replay works without downloading models. Real OCR inference downloads the pinned OCR/encoder artifacts as needed. The local VLM re-inference path below is specific to Apple Silicon; other machines can still replay all recorded VLM and combination results. NVIDIA OCR/encoder setup is described later and remains unverified on an NVIDIA machine.
+
+## Model reproduction details
 
 - [Review of the 17 original errors](docs/research/2026-10-30-error-review.md): 16 readable primary markings and one uncertain small image, from a non-blind model visual review, not expert gold. Old labels and aliases were not patched.
 - [GitHub OCR survey](docs/research/2026-10-30-github-ocr-survey.md): repository stars, architecture, official sources and license scope, captured on 2026-10-30.

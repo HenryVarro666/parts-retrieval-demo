@@ -69,7 +69,7 @@ def web_payload(root=ROOT):
     before = {r["file"]: r["rankings"]["fused"][0] == r["gt"] for r in baseline["records"]} if baseline else {}
     for doc in docs:
         info = {k: doc.get(k) for k in ("name", "status", "config", "summary", "channel")}
-        info["label"] = {"easyocr_whole": "EasyOCR · 原始基线", "easyocr_views": "EasyOCR · 多视图", "rapidocr_whole": "PP-OCRv6 · 整图", "rapidocr_views": "PP-OCRv6 · 多视图", "qwen_vlm_top10": "Qwen-VL · Top-10 核验"}.get(doc["name"], doc["name"])
+        info["label"] = {"easyocr_whole": "EasyOCR · 原始基线", "easyocr_views": "EasyOCR · 多视图", "rapidocr_whole": "PP-OCRv6 · 整图", "rapidocr_views": "PP-OCRv6 · 多视图", "qwen_vlm_top10": "Qwen-VL · Top-10 核验"}.get(doc["name"], doc.get("label", doc["name"]))
         if before and info.get("summary"):
             pairs = [(before[r["file"]], r["rankings"][doc["channel"]][0] == r["gt"])
                      for r in doc["records"] if r["file"] in before and r["rankings"][doc["channel"]]]

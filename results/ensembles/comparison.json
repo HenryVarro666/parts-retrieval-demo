@@ -1,0 +1,202 @@
+{
+  "date": "2026-10-30",
+  "input_sha256": {
+    "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+    "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+    "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+    "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+    "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+  },
+  "runs": [
+    {
+      "name": "ensemble_vote5",
+      "label": "五路等票",
+      "config": {
+        "scope": "all_queries_offline_combination_replay",
+        "policy": "ensemble_vote5",
+        "sources_sha256": {
+          "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+          "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+          "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+          "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+          "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "timing": "estimated serial stage sum from saved complete OCR branches plus called VLM generation; no model load, not end-to-end",
+        "inference_rerun": false,
+        "tie_rule": "RapidOCR views order then ID",
+        "weights_fitted": false
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 37,
+        "top3_k": 43,
+        "recall10_k": 43,
+        "top1": 0.8409090909090909,
+        "top3": 0.9772727272727273,
+        "recall10": 0.9772727272727273,
+        "latency_ms": {
+          "p50": 7912.232583998048,
+          "p95": 10089.063090047694
+        },
+        "wins": 11,
+        "regressions": 1,
+        "wins_vs_rapid": 2,
+        "regressions_vs_rapid": 3,
+        "vlm_calls": 44
+      }
+    },
+    {
+      "name": "ensemble_family_vote",
+      "label": "模型家族各一票",
+      "config": {
+        "scope": "all_queries_offline_combination_replay",
+        "policy": "ensemble_family_vote",
+        "sources_sha256": {
+          "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+          "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+          "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+          "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+          "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "timing": "estimated serial stage sum from saved complete OCR branches plus called VLM generation; no model load, not end-to-end",
+        "inference_rerun": false,
+        "tie_rule": "RapidOCR views order then ID",
+        "weights_fitted": false
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 39,
+        "top3_k": 43,
+        "recall10_k": 43,
+        "top1": 0.8863636363636364,
+        "top3": 0.9772727272727273,
+        "recall10": 0.9772727272727273,
+        "latency_ms": {
+          "p50": 6779.169228999308,
+          "p95": 8389.136444598898
+        },
+        "wins": 13,
+        "regressions": 1,
+        "wins_vs_rapid": 1,
+        "regressions_vs_rapid": 0,
+        "vlm_calls": 44
+      }
+    },
+    {
+      "name": "ensemble_rrf",
+      "label": "OCR / VLM 排名融合",
+      "config": {
+        "scope": "all_queries_offline_combination_replay",
+        "policy": "ensemble_rrf",
+        "sources_sha256": {
+          "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+          "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+          "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+          "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+          "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "timing": "estimated serial stage sum from saved complete OCR branches plus called VLM generation; no model load, not end-to-end",
+        "inference_rerun": false,
+        "tie_rule": "best single-channel rank then ID",
+        "weights_fitted": false
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 38,
+        "top3_k": 40,
+        "recall10_k": 43,
+        "top1": 0.8636363636363636,
+        "top3": 0.9090909090909091,
+        "recall10": 0.9772727272727273,
+        "latency_ms": {
+          "p50": 6779.169228999308,
+          "p95": 8389.136444598898
+        },
+        "wins": 12,
+        "regressions": 1,
+        "wins_vs_rapid": 2,
+        "regressions_vs_rapid": 2,
+        "vlm_calls": 44
+      }
+    },
+    {
+      "name": "ensemble_strong_gate",
+      "label": "明确型号优先 · 按需核验",
+      "config": {
+        "scope": "all_queries_offline_combination_replay",
+        "policy": "ensemble_strong_gate",
+        "sources_sha256": {
+          "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+          "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+          "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+          "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+          "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "timing": "estimated serial stage sum from saved complete OCR branches plus called VLM generation; no model load, not end-to-end",
+        "inference_rerun": false,
+        "tie_rule": "RapidOCR views order then ID",
+        "weights_fitted": false
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 40,
+        "top3_k": 42,
+        "recall10_k": 43,
+        "top1": 0.9090909090909091,
+        "top3": 0.9545454545454546,
+        "recall10": 0.9772727272727273,
+        "latency_ms": {
+          "p50": 799.3016459995488,
+          "p95": 7057.119741949192
+        },
+        "wins": 15,
+        "regressions": 2,
+        "wins_vs_rapid": 2,
+        "regressions_vs_rapid": 0,
+        "vlm_calls": 8
+      }
+    },
+    {
+      "name": "ensemble_disagreement_gate",
+      "label": "双 OCR 分歧时核验",
+      "config": {
+        "scope": "all_queries_offline_combination_replay",
+        "policy": "ensemble_disagreement_gate",
+        "sources_sha256": {
+          "easyocr_whole": "7beab29e5a635d2257aa765ecad0736be90c7e8034554ae6cea9d2a5610e8e4f",
+          "easyocr_views": "726a24db8a5e7b8361986d50b012028a67003e38a3280595fdfef3979960a991",
+          "rapidocr_whole": "2e98fc3b822770f3d066b8304f15d494abdcc58ba7ea5df6d721dc5512b7a3cf",
+          "rapidocr_views": "af00e09637ad7eeb254be63f29ec027fbf9463dd94d2b5fe56fa8d7dc9421742",
+          "qwen_vlm_top10": "bc2da80300330bbd0b7b093f848b670bd3621de0aa72e863f73fc068bced56ec"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "timing": "estimated serial stage sum from saved complete OCR branches plus called VLM generation; no model load, not end-to-end",
+        "inference_rerun": false,
+        "tie_rule": "RapidOCR views order then ID",
+        "weights_fitted": false
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 39,
+        "top3_k": 42,
+        "recall10_k": 43,
+        "top1": 0.8863636363636364,
+        "top3": 0.9545454545454546,
+        "recall10": 0.9772727272727273,
+        "latency_ms": {
+          "p50": 1354.3726660000175,
+          "p95": 7627.212850000251
+        },
+        "wins": 13,
+        "regressions": 1,
+        "wins_vs_rapid": 3,
+        "regressions_vs_rapid": 2,
+        "vlm_calls": 17
+      }
+    }
+  ]
+}

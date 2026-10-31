@@ -173,6 +173,8 @@ def compare():
         lat = summary["latency_ms"]
         lines.append(f"| {doc['name']} | {summary['top1_k']}/{summary['n']} | {summary['top3_k']}/{summary['n']} | {summary['recall10_k']}/{summary['n']} | {wins} / {losses} | {lat['p50']:.0f} / {lat['p95']:.0f} |")
     lines += ["", "OCR runs use one untimed query warmup and one measured pass. VLM timing sums cached baseline stage time and separately measured generation; it excludes model load and is not measured end-to-end. CPU ONNX OCR and MPS PyTorch OCR are different runtime paths.", "", "Whole versus views compares eight predefined views and catalog-guided view selection together. It does not isolate cropping from rotation or hypothesis selection. Neither labels nor catalog aliases were patched after inspecting errors. VLM sees only query pixels, shuffled candidate metadata and reference photos, never ground truth or review notes."]
+    if any(doc.get("channel") == "ensemble" for doc in docs):
+        lines += ["", "Ensemble rows are fixed-output offline policy replay, not new inference runs. Their times estimate a serial sum of the required saved complete OCR branches plus any called VLM generation, excluding model load; they are not measured end-to-end. See results/ensembles/comparison.md for policy definitions, calls and paired changes versus the new OCR."]
     (OUT / "comparison.md").write_text("\n".join(lines) + "\n")
     save(OUT / "comparison.json", {"date": "2026-10-30", "runs": [{k: d[k] for k in ("name", "status", "channel", "config", "summary")} for d in docs]})
     print("\n".join(lines))
