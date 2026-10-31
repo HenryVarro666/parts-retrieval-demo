@@ -36,4 +36,16 @@ These are local M4 Pro checks. The dataset is small and has model-generated labe
 
 ## Private GitHub continuation
 
-The existing repository was verified private before sync: `HenryVarro666/parts-retrieval-demo`, default branch `main`. Only code, catalog/database, licensed dataset, experiment records, docs and the page are included. Virtual environments, model weights and local caches remain ignored. Fresh remote-clone verification is recorded below after the implementation push.
+The existing repository was verified private before sync: `HenryVarro666/parts-retrieval-demo`, default branch `main`. Only code, catalog/database, licensed dataset, experiment records, docs and the page are included. Virtual environments, model weights and local caches remain ignored.
+
+Implementation commit **`b0f2d7055ff7eba45baeccd68a70b92903081377`** was atomically pushed by normal fast-forward to both `main` and `experiment/sqlite-candidates`. A new clone of remote `main` at `/tmp/partsid-sqlite-verify-b0f2d70` verified:
+
+- `uv sync --frozen --extra experiments`: succeeded, creating a new Python 3.12.13 environment from the lockfile. Available package/model download caches on this Mac were reused; this was not an uncached network-install or another operating-system test.
+- `uv run --frozen --extra experiments pytest -q`: **133 passed in 17.31 s**.
+- Tracked SQLite integrity, multiple strong keywords, noise-only no-candidate behavior, and a rebuild into a separate temporary DB: passed. Actual search results matched across SQLite 3.53.1 (tracked DB metadata) and 3.53.4 (system Python rebuilding); version metadata was correctly allowed to differ.
+- Current-source hashes and exact 44-query alignment for all five result files, and the 11 original baseline checksums: passed.
+- JavaScript syntax and fresh server on port 8766: passed. HTML/JS/CSS and `/api/data` returned successfully with 44 samples, 18 parts and all five new stages.
+- Actual fresh-clone upload through `/api/predict` ran RapidOCR, SQLite and shape, selected NE555, and skipped VLM with both `used_vlm=false` and `actual_vlm_executed=false`. Service time was 4.845 s including initial model/pipeline loading. The response carried neither a query ground truth nor a dataset filename. The clone has no copied `.venv-vlm`; this smoke validates the no-VLM gate path. The weak-evidence actual VLM path was separately verified in the original working directory as described above.
+- The temporary port-8766 server was terminated. The user's local workbench remains available on port 8765. No full 44-query model run was repeated in the clone; the real clone inference smoke and all saved-result/source checks are distinguished above.
+
+The final follow-up commit only records this verification and completes the plan checklist; it does not change executable code or measured outputs.

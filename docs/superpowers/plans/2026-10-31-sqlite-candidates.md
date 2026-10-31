@@ -62,4 +62,4 @@
 - [x] Explain Top-1 baseline and Top-3; show keywords/database/shape/new candidate source and timing scope.
 - [x] Expose SQLite+shape live mode and optional live VLM; validate actual upload end-to-end.
 - [x] Independent source review, all tests, browser checks and preserved-input hashes.
-- [ ] Commit/push main and experiment branch; fresh remote clone DB/query/tests/web checks and final evidence.
+- [x] Commit/push main and experiment branch; fresh remote clone DB/query/tests/web checks and final evidence.
