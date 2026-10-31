@@ -164,9 +164,9 @@ class Handler(BaseHTTPRequestHandler):
                     output = io.BytesIO()
                     image.save(output, format="JPEG", quality=92)
                 return self.respond(200, output.getvalue(), "image/jpeg")
-            if parsed.path in ("/", "/index.html", "/app.js", "/style.css"):
+            if parsed.path in ("/", "/index.html", "/app.js", "/i18n.js", "/style.css"):
                 name = "index.html" if parsed.path == "/" else parsed.path[1:]
-                mime = {"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}[name]
+                mime = {"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "i18n.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}[name]
                 return self.respond(200, (ROOT / "web" / name).read_bytes(), mime)
             self.respond(404, {"error": "Not found"})
         except (ValueError, FileNotFoundError):

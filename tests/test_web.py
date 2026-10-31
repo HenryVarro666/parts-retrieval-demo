@@ -60,3 +60,22 @@ def test_empty_sql_result_counts_as_a_regression_against_correct_baseline(tmp_pa
     result = web_payload(tmp_path)
     sql = next(r for r in result["runs"] if r["name"] == "sqlite_keywords")
     assert sql["summary"]["regressions"] == 1
+
+
+def test_language_module_is_served_as_javascript():
+    import threading
+    import urllib.request
+    from http.server import ThreadingHTTPServer
+    from partsid.web import Handler
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{server.server_port}/i18n.js") as response:
+            assert response.headers.get_content_type() == "text/javascript"
+            assert len(response.read()) > 0
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
