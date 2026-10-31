@@ -15,6 +15,12 @@ dependencies = [
     "numpy>=1.26",
 ]
 
+[project.optional-dependencies]
+experiments = [
+    "onnxruntime==1.31.1",
+    "rapidocr==3.10.0",
+]
+
 [dependency-groups]
 dev = ["pytest>=8"]
 

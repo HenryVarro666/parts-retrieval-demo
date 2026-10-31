@@ -4,7 +4,45 @@ Identify an electronic part from a photo with OCR plus three retrieval channels,
 
 This is a small demo built from public photos and off-the-shelf models. Nothing is trained or fine-tuned. Given a photo of a chip or module, it returns a ranked list of catalog parts.
 
-Claude Code (Anthropic's AI coding agent) wrote the code and this README and ran the evaluations, all in one session on 2026-10-30. The photo labels also come from Claude (see Data).
+Claude Code (Anthropic's AI coding agent) produced the original baseline and photo labels on 2026-10-30 (see Data). The subsequent OCR/VLM experiments and local evidence workbench are documented separately below; the original catalog, labels and result files are preserved.
+
+## Evidence workbench and follow-up experiments
+
+Launch the local page (Apple Silicon and CPU OCR path tested):
+
+```bash
+uv sync --extra experiments
+uv run --extra experiments python -I -m partsid.web --port 8765
+```
+
+Open <http://127.0.0.1:8765>. Preset photos replay measured experiment records; image upload runs real local OCR and retrieval. The page shows the selected OCR view, text boxes and raw scores, top candidates with reference images, per-stage timings, model-review notes and before/after metrics. The VLM experiment is available as recorded playback, not as live upload inference. Model scores are not calibrated probabilities. Uploads are processed locally in temporary files and are not saved to the dataset.
+
+The [paired comparison](results/experiments/comparison.md) reports all 44 queries, gains and regressions. New JSON records retain OCR geometry, competing views, model hashes and raw VLM decisions. The original EasyOCR whole-image result reproduced 27/44. RapidOCR whole-image obtained 35/44; its eight-view variant obtained 38/44. Frozen-baseline Top-10 Qwen-VL reranking obtained 39/44 with 3 abstentions (13 gains, 1 regression); its median generation-plus-cached-baseline stage sum was about 5.8 s, versus 0.75 s for RapidOCR views. These are results on the same development set, not an independent blind test or production accuracy claim. A selective OCR/VLM router has not been evaluated.
+
+- [Review of the 17 original errors](docs/research/2026-10-30-error-review.md): 16 readable primary markings and one uncertain small image, from a non-blind model visual review, not expert gold. Old labels and aliases were not patched.
+- [GitHub OCR survey](docs/research/2026-10-30-github-ocr-survey.md): repository stars, architecture, official sources and license scope, captured on 2026-10-30.
+- [Integration notes](docs/research/2026-10-30-integration-notes.md): actual model routes and image input conventions.
+
+Reproduce the four OCR conditions (new files under `results/experiments/`):
+
+```bash
+uv run --extra experiments python -I -m partsid.experiments ocr --engine all
+uv run --extra experiments python -I -m partsid.experiments compare
+uv run --extra experiments pytest -q
+```
+
+The views condition evaluates whole image and a fixed central crop, each at four right-angle rotations, and chooses a hypothesis using only public catalog aliases and OCR scores. This groups view generation and catalog-guided selection into one ablation; it does not isolate each operation. Complete OCR runs are reused by name; remove only the specific new experiment JSON if you intend to rerun it. `--limit N` produces separately named smoke results, never a complete benchmark.
+
+The local visual reranker uses a separate **macOS Apple Silicon** environment to preserve the baseline environment:
+
+```bash
+uv venv .venv-vlm --python 3.12
+uv pip install --python .venv-vlm/bin/python -r experiments/vlm-lock.txt
+uv run --extra experiments python -I -m partsid.experiments vlm
+uv run --extra experiments python -I -m partsid.experiments compare
+```
+
+It downloads the pinned `mlx-community/Qwen3-VL-4B-Instruct-4bit` snapshot (about 3.1 GB). Each query is compared against its frozen baseline Top-10 using query pixels, shuffled public candidate fields and a reference contact sheet. Query ground truth, file names and review transcriptions are excluded from the prompt. Invalid, out-of-set or uncertain decisions retain the baseline order. VLM raw outputs are checkpointed under ignored `data/cache/vlm/`; cache keys include both image inputs, the prompt, model revision and generation settings. VLM timings sum cached baseline stage time and separately measured generation, exclude model load, and are not one measured end-to-end request. CUDA VLM execution has not been implemented or tested.
 
 ## Pipeline
 
@@ -126,4 +164,4 @@ OCR takes most of the time. The first pass over the same photos averaged 185 ms 
 - Two aliases came from the data. `Z08400` (Zilog's ordering code for the NMOS Z80) was added while the photos were being curated, before any evaluation run; `ESP-WROOM-02` (Espressif's module name) was added after a code review spotted it on a dataset photo. Both are real part numbers. Aliases also go into the part documents the text channel embeds, so an alias can move results even where OCR never reads it. Without `Z08400` the rotation run would miss Z80 photo 6975899 in three rows of the table (identifier 10, pipeline 24 and ablation 21 of 44, instead of 11, 25 and 22), and its correct part-number reads would be 9, not 10. Without `ESP-WROOM-02` the EasyOCR pipeline would have the right part in its top 3 for 34 photos instead of 33, and the rotation run's text channel would get 14 instead of 15. The photo marked ESP-WROOM-02 (ESP8266 56733450) would also count as a third legible marking the catalog does not cover, so of the 26 photos where the EasyOCR identifier found nothing, 22 rather than 23 would be OCR misses. No other count in this README changes.
 - Sessions across parts. The split keeps every query out of its own reference photo's session, but sessions are grouped within a part only. Two queries (I8080 6691932 and MC68000 8041354) are by the photographer of the I8086 and I8088 reference photos, which can pull the image channel toward those parts. Without them the EasyOCR pipeline gets 26 of 42 (62%) and the image channel 17 of 42.
 - Smaller renditions. 12 of the 209 files are stored at 330 or 500 px because Commons kept refusing the larger copies (HTTP 429). Two of them are queries (LM7805 177751130 at 330 px, ESP8266 56733450 at 500 px), and their labels were made on these smaller files.
-- Not built. The demo only ranks catalog parts for a photo. There is no service or user interface, and no database: vector search is numpy and the pg_trgm similarity is reimplemented in Python.
+- Local demo scope. The workbench adds local inference and measured playback. There is no production database or job service: vector search remains numpy and the pg_trgm similarity is reimplemented in Python.

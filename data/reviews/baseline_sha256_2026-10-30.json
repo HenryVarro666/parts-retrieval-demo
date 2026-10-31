@@ -1,0 +1,13 @@
+{
+  "results/easyocr+rot_per_query.csv": "6b933cfc6be3726a8fa38b282fbb26ce371510b91dac9cb2348eb6f32488cca4",
+  "results/easyocr_per_query.csv": "033177addc748416a961e74a1eb6a478d556ff93945899ebd16ce9e180054249",
+  "results/easyocr+rot.md": "51049a9e5f65400df01b6ff9270aa7a4b7ed430d00ceb7ca75f32394085c7251",
+  "results/easyocr+rot.json": "4beacec20ea497f5362c1de2c06a64c0605229d94207228a5e1736ba97e7fadc",
+  "results/easyocr.json": "bb9c962dfad3c9087f3d0d93dd655307990fb30eb61071edd2de9938cb78d288",
+  "results/easyocr.md": "d9735c4f354a828dcdde3e418f2e234afb3a5a805bf9acadf2b95d3109833563",
+  "results/tesseract.json": "902da160dfb8cb5f79938ecc8836dc24dabe32e787f9443d241ab7a04d3bd162",
+  "results/tesseract.md": "6f6903e0b9504a473926ffec88cdc8e23a4d576827759624a0b24290ebb81929",
+  "results/tesseract_per_query.csv": "2fd4ad1ab308d97212da36a9162167cd6689878e72b487f4f661528cbeb5cd13",
+  "data/labels.csv": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+  "data/parts.json": "14b83f2d5beba0b70f7667b6c87e9cfeb2f5674ce2e1c7da9c7b69a4ff048adc"
+}

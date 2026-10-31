@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="本地电子元件识别研究工作台：查看照片、OCR 证据、候选元件与实测实验结果。">
+  <title>PARTS / LAB · 元件识别工作台</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workbench">跳转到识别工作台</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="PARTS LAB 首页">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>PARTS <b>/</b> LAB</span>
+      </a>
+      <span class="topbar-description">电子元件检索实验</span>
+      <div class="topbar-meta"><span class="local-tag"><span></span> 本地研究演示</span><span class="keyboard-hint"><kbd>←</kbd><kbd>→</kbd> 切换样本</span></div>
+    </header>
+
+    <main id="main">
+      <section class="page-heading" aria-labelledby="page-title">
+        <div><p class="eyebrow">EVIDENCE WORKBENCH <span>01</span></p><h1 id="page-title">元件识别工作台</h1><p class="page-description">从照片到候选，逐步检查每一条识别依据。</p></div>
+        <p class="evaluation-scope"><span id="scope-count">开发评估</span><small>实验回放与实时 OCR</small></p>
+      </section>
+
+      <section class="metrics" aria-label="实测指标">
+        <article class="metric"><div class="metric-label"><span class="metric-number">01</span> 基线 Top-1</div><div id="baseline-score" class="metric-value">—</div><p id="baseline-detail">正在读取实测记录</p></article>
+        <article class="metric metric-current"><div class="metric-label"><span class="metric-number">02</span> <span id="selected-metric-label">当前实验 Top-1</span></div><div id="selected-score" class="metric-value">—</div><p id="selected-detail">完整开发集对照</p></article>
+        <article class="metric"><div class="metric-label"><span class="metric-number">03</span> <span id="latency-metric-label">当前实验延迟 · p50</span></div><div id="latency-score" class="metric-value">—</div><p id="latency-detail">单图推理时间</p><p id="latency-scope-note" class="metric-scope-note" hidden></p></article>
+      </section>
+
+      <div id="app-error" class="app-error" role="alert" hidden><div><strong>实验记录暂时无法读取</strong><p id="app-error-text"></p></div><button id="retry-data" type="button" class="button button-small">重新读取</button></div>
+
+      <section id="workbench" class="workbench" aria-label="识别工作台" aria-busy="true">
+        <aside class="input-column">
+          <section class="panel input-panel" aria-labelledby="input-heading">
+            <div class="panel-title"><h2 id="input-heading"><span>01</span> 选择输入</h2></div>
+            <div class="segmented mode-switch" role="group" aria-label="输入方式"><button id="mode-preset" type="button" aria-pressed="true">实验样本</button><button id="mode-live" type="button" aria-pressed="false">上传图片</button></div>
+            <div id="preset-controls">
+              <div class="field-label filter-label">样本范围</div>
+              <div class="segmented filter-switch" role="group" aria-label="样本筛选"><button id="filter-all" type="button" aria-pressed="true">全部</button><button id="filter-errors" type="button" aria-pressed="false">基线错误 <span id="error-count"></span></button></div>
+              <label class="field-label" for="sample-select">选择样本</label>
+              <select id="sample-select" disabled><option>正在读取样本…</option></select>
+              <div class="sample-navigation"><button id="previous-sample" type="button" class="icon-button" aria-label="上一个样本" title="上一个样本（←）" disabled>←</button><span id="sample-position">— / —</span><button id="next-sample" type="button" class="icon-button" aria-label="下一个样本" title="下一个样本（→）" disabled>→</button></div>
+              <div class="evaluation-label"><span class="field-label">评估标签</span><strong id="ground-truth-name">—</strong><code id="ground-truth-id"></code><p>用于对照模型输出</p></div>
+              <div class="playback-note"><span class="status-dot"></span><div><strong>实验回放</strong><p>查看已保存的真实推理记录；切换样本不会重新运行模型。</p></div></div>
+            </div>
+            <div id="live-controls" hidden>
+              <label class="upload-zone" id="upload-zone" for="upload-input"><input id="upload-input" type="file" accept="image/*"><span class="upload-icon" aria-hidden="true">↑</span><strong>选择或拖入图片</strong><span>JPG、PNG 等图片 · 最大 10 MB</span></label>
+              <p id="upload-file-name" class="upload-file-name">图片仅发送到本地服务</p>
+              <label class="field-label" for="engine-select">OCR 引擎</label><select id="engine-select"><option value="rapidocr">RapidOCR</option><option value="easyocr">EasyOCR</option></select>
+              <label class="checkbox-label"><input id="multiview-input" type="checkbox" checked><span>多视图 OCR<small>检查中心裁切与直角旋转</small></span></label>
+              <button id="predict-button" type="button" class="button button-primary" disabled><span id="predict-label">开始识别</span><span aria-hidden="true">↗</span></button>
+              <p class="live-note">实时执行 OCR 与检索。首次加载模型可能较慢。</p>
+              <p id="upload-error" class="inline-error" role="alert" hidden></p>
+            </div>
+          </section>
+          <section class="input-guide" aria-label="阅读提示"><span class="guide-index">阅读这张工作台</span><p><b>看照片</b>，定位可见字符。<br><b>看依据</b>，检查文字与型号。<br><b>看候选</b>，比较参考图像。</p><span class="guide-rule"></span><p class="guide-small">候选名次是检索结果，<br>不是置信度百分比。</p></section>
+        </aside>
+
+        <div class="image-column">
+          <section class="panel image-panel" aria-labelledby="image-heading">
+            <div class="panel-title image-panel-heading"><h2 id="image-heading"><span>02</span> 图像与文字框</h2><span id="input-mode-tag" class="tag">实验回放</span></div>
+            <div class="image-toolbar"><div class="segmented image-switch" role="group" aria-label="图像视图"><button id="view-original" type="button" aria-pressed="false">原图</button><button id="view-evidence" type="button" aria-pressed="true">OCR 视图</button></div><span id="box-count" class="toolbar-note">等待记录</span></div>
+            <div id="image-stage" class="image-stage"><div id="image-placeholder" class="image-placeholder"><span class="placeholder-reticle" aria-hidden="true"></span><strong id="image-placeholder-title">正在读取实验样本</strong><p id="image-placeholder-description">图像与识别证据将在这里显示</p></div><img id="query-image" alt="待识别的电子元件照片" hidden><svg id="ocr-overlay" xmlns="http://www.w3.org/2000/svg" aria-label="OCR 文字检测框" role="img" hidden></svg><span id="image-view-label" class="image-view-label" hidden></span><div id="inference-overlay" class="inference-overlay" hidden><span class="spinner" aria-hidden="true"></span><strong>正在本地识别</strong><p>首次加载模型需要一些时间</p></div></div>
+            <div class="image-caption"><div><span id="image-filename" class="image-filename">—</span><span id="image-dimensions" class="image-dimensions"></span></div><a id="source-link" href="#" target="_blank" rel="noopener noreferrer" hidden>查看照片来源 ↗</a></div>
+            <p id="image-attribution" class="image-attribution" hidden></p>
+          </section>
+
+          <section id="sample-comparison" class="sample-comparison" aria-labelledby="comparison-heading"><div class="small-section-heading"><h3 id="comparison-heading">当前样本 · 前后对照</h3><span id="comparison-change" class="tag tag-neutral">等待记录</span></div><div class="comparison-pair"><div><span class="field-label">基线 Top-1</span><strong id="comparison-baseline-name">—</strong><span id="comparison-baseline-status" class="result-status"></span></div><span class="comparison-arrow" aria-hidden="true">→</span><div><span id="comparison-current-label" class="field-label">当前实验 Top-1</span><strong id="comparison-current-name">—</strong><span id="comparison-current-status" class="result-status"></span></div></div></section>
+
+          <details id="review-details" class="review-details" hidden><summary><span>样本复核笔记</span><span class="review-summary-meta">模型辅助 · 非专家复核 <b aria-hidden="true">＋</b></span></summary><div id="review-content" class="review-content"></div></details>
+        </div>
+
+        <aside class="panel evidence-panel" aria-labelledby="evidence-heading">
+          <div class="panel-title"><h2 id="evidence-heading"><span>03</span> 识别证据</h2><span id="evidence-mode-tag" class="tag tag-teal">已保存</span></div>
+          <div id="run-picker" class="run-picker"><label class="field-label" for="run-select">查看实验</label><select id="run-select" disabled><option>正在读取实验…</option></select><p id="run-status" class="run-status">所有指标来自实际测量</p></div>
+          <div id="live-evidence-heading" class="live-evidence-heading" hidden><strong id="live-engine-name">实时 OCR</strong><p>当前上传图片 · OCR + 多路检索</p></div>
+          <section class="evidence-section" aria-labelledby="ocr-heading"><div class="evidence-section-title"><h3 id="ocr-heading">观察到的文字</h3><span class="text-micro">OCR OUTPUT</span></div><pre id="ocr-text" class="ocr-text">等待读取记录…</pre><p id="ocr-view-detail" class="evidence-note"></p></section>
+          <section class="evidence-section identifier-section" aria-labelledby="identifier-heading"><h3 id="identifier-heading">标识符依据</h3><div id="identifier-hits" class="identifier-hits"><p class="empty-note">等待检索记录</p></div><div id="evidence-conflicts" class="conflict-note" hidden></div></section>
+          <section id="vlm-section" class="evidence-section vlm-section" aria-labelledby="vlm-heading" hidden><div class="evidence-section-title"><h3 id="vlm-heading">视觉重排判断</h3><span id="vlm-status" class="tag tag-neutral"></span></div><p id="vlm-observed" class="vlm-observed" hidden></p><p id="vlm-reason" class="vlm-reason"></p><p class="evidence-note">已保存实验 · 在冻结的 Top-10 候选中判断</p></section>
+          <section class="candidates-section" aria-labelledby="candidates-heading"><div class="evidence-section-title"><h3 id="candidates-heading">候选元件</h3><span class="text-micro">TOP 3</span></div><div id="candidate-list" class="candidate-list"><p class="empty-note">读取记录后显示候选参考图</p></div></section>
+          <details id="timing-details" class="timing-details" hidden><summary>阶段耗时<span id="timing-total"></span></summary><dl id="timing-content"></dl><p id="timing-scope-note" class="timing-scope-note" hidden></p></details>
+        </aside>
+      </section>
+
+      <section class="experiments-section" aria-labelledby="experiments-heading"><div class="experiments-heading"><div><p class="eyebrow">MEASURED EXPERIMENTS</p><h2 id="experiments-heading">实验对照</h2></div><p>查看完整开发集的改善与退化</p></div><div class="table-wrap"><table><caption class="sr-only">所有实测实验。未完成的运行仅显示覆盖数，不参与性能对照。</caption><thead><tr><th scope="col">实验配置</th><th scope="col">样本数</th><th scope="col">Top-1</th><th scope="col">Top-3</th><th scope="col">Recall@10</th><th scope="col">p50 / p95</th><th scope="col">改善 / 退化</th></tr></thead><tbody id="experiments-body"><tr><td colspan="7" class="table-empty">正在读取实测实验记录…</td></tr></tbody></table></div><p id="table-timing-note" class="timing-scope-note" hidden></p><p class="evaluation-note"><span class="note-marker">i</span><span id="evaluation-note-text">开发集上的结果用于分析模型行为。评估标签由模型生成，复核意见未经元件专家确认。</span></p></section>
+    </main>
+    <footer class="footer"><span>PARTS / LAB <b>·</b> 本地元件识别研究</span><span>图像 → OCR / 型号 → 多路检索 → 候选</span></footer>
+  </div>
+  <div id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

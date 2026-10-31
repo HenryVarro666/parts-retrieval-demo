@@ -1,0 +1,1180 @@
+{
+  "schema_version": "1.0",
+  "review_date": "2026-10-30",
+  "language": "zh-CN",
+  "review_method": "independent_model_visual_review_not_expert_gold",
+  "provenance": {
+    "selection_rule": "All rows of results/easyocr_per_query.csv whose rank_fused != '1' (including missing rank)",
+    "reviewer": "Codex assistant visual review, separate pass from original Claude labels",
+    "blind_review": false,
+    "prior_knowledge": "Reviewer previously analyzed these failures and knew catalog categories/selected prior labels; this is not a blinded independent benchmark.",
+    "procedure": "All 17 original stored images were opened with view_image. Visible target-component inscriptions were noted first in this pass, then compared with labels and aliases. No cropping, enhancement, generative restoration or remote model API was used.",
+    "unknown_character_policy": "? denotes an unreadable character or span; it does not imply a known span length. Candidate readings are explicitly separated from observed text.",
+    "normalization_policy": "Observed lines retain visible line breaks/spaces; part-number field may join adjacent model lines for comparison (MC / 7805CT). No maker prefix or alias is inserted without a visible basis.",
+    "source_sha256": {
+      "results/easyocr_per_query.csv": "033177addc748416a961e74a1eb6a478d556ff93945899ebd16ce9e180054249",
+      "data/labels.csv": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+      "data/parts.json": "14b83f2d5beba0b70f7667b6c87e9cfeb2f5674ce2e1c7da9c7b69a4ff048adc"
+    },
+    "evaluation_use": "Development diagnostic / candidate annotations only; do not replace frozen labels or count these as independent expert gold.",
+    "baseline_unchanged": true
+  },
+  "summary": {
+    "n_images": 17,
+    "all_original_images_viewed": true,
+    "legibility": {
+      "readable": 16,
+      "partially_readable": 1
+    },
+    "label_comparison": {
+      "agrees": 16,
+      "uncertain": 1
+    },
+    "explicit_label_conflicts": 0,
+    "catalog_alias_assessment": {
+      "visible_strong_alias": 14,
+      "strong_alias_if_uncertain_character_is_confirmed": 1,
+      "visible_but_current_alias_missing": 1,
+      "visible_but_current_alias_only_weak": 1
+    },
+    "baseline_15_strong_oracle_cases": {
+      "visually_supported_readable": 14,
+      "partially_readable_requires_confirmation": 1
+    },
+    "readability_is_model_judgment_not_expert_validation": true
+  },
+  "reviews": [
+    {
+      "image_id": "80876576",
+      "file": "images/raw/2N3055/80876576.jpg",
+      "image_path": "data/images/raw/2N3055/80876576.jpg",
+      "original_gt": "2N3055",
+      "original_label": {
+        "marking": "2N3055GR",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        1050
+      ],
+      "image_sha256": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "2N3055GR",
+        "RCA",
+        "71?",
+        "R"
+      ],
+      "observed_text": "2N3055GR\nRCA\n71?\nR",
+      "observed_part_number": "2N3055GR",
+      "uncertain_characters": [
+        {
+          "line_index": 2,
+          "span": "71?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "metal_can_two_mounting_holes",
+      "quality_issues": [
+        "curved_text_baseline",
+        "worn_low_contrast_print",
+        "metal_reflection",
+        "rotated_text"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号2N3055GR可读；GR为可见后缀，不是根据目录补写。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "裁剪金属盖面并保留弧形文字；不要把日期/批次当型号。",
+      "baseline": {
+        "ocr_text": "76055,p",
+        "rank_fused": 5,
+        "rank_image": 1,
+        "fused_top3": [
+          "I8080",
+          "I80286",
+          "I8088"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/2N3055/80876576.jpg"
+      ]
+    },
+    {
+      "image_id": "75189907",
+      "file": "images/raw/ATMEGA328P/75189907.jpg",
+      "image_path": "data/images/raw/ATMEGA328P/75189907.jpg",
+      "original_gt": "ATMEGA328P",
+      "original_label": {
+        "marking": "ATMEGA328P-PU",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        717
+      ],
+      "image_sha256": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "ATMEL",
+        "1133",
+        "ATMEGA328P-PU"
+      ],
+      "observed_text": "ATMEL\n1133\nATMEGA328P-PU",
+      "observed_part_number": "ATMEGA328P-PU",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "dual_inline_through_hole",
+      "quality_issues": [
+        "low_contrast_laser_marking",
+        "oblique_angle",
+        "patterned_background",
+        "small_text_relative_to_frame"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号可辨；旁边金属晶振与花纹背景应排除出目标文字ROI。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "先定位芯片黑色本体，裁剪与方向校正后读型号行。",
+      "baseline": {
+        "ocr_text": "",
+        "rank_fused": 8,
+        "rank_image": 8,
+        "fused_top3": [
+          "LM317",
+          "ULN2003",
+          "ATMEGA8"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/ATMEGA328P/75189907.jpg"
+      ]
+    },
+    {
+      "image_id": "97701682",
+      "file": "images/raw/ESP32/97701682.jpg",
+      "image_path": "data/images/raw/ESP32/97701682.jpg",
+      "original_gt": "ESP32",
+      "original_label": {
+        "marking": "ESP32-D0WDQ6",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        1252
+      ],
+      "image_sha256": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "ESP32-D0WDQ6",
+        "262020",
+        "UB??PS?M?1"
+      ],
+      "observed_text": "ESP32-D0WDQ6\n262020\nUB??PS?M?1",
+      "observed_part_number": "ESP32-D0WDQ6",
+      "uncertain_characters": [
+        {
+          "line_index": 2,
+          "span": "UB??PS?M?1",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "square_surface_mount_four_edge_contacts",
+      "quality_issues": [
+        "multiple_components",
+        "mixed_text_orientations",
+        "PCB_silkscreen_distractors",
+        "low_contrast_package_text"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "ESP32-D0WDQ6可读；批次行不完整不影响本条型号判读。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "锁定中央方形芯片铭文，排除晶振40.000M和引脚编号，避免整图按最高OCR置信度选方向。",
+      "baseline": {
+        "ocr_text": "4 0 0 8 9 3 4ad 262020 Uboops7w8i 8",
+        "rank_fused": 3,
+        "rank_image": 1,
+        "fused_top3": [
+          "ESP8266",
+          "I80286",
+          "ESP32"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/ESP32/97701682.jpg"
+      ]
+    },
+    {
+      "image_id": "54458803",
+      "file": "images/raw/ESP8266/54458803.jpg",
+      "image_path": "data/images/raw/ESP8266/54458803.jpg",
+      "original_gt": "ESP8266",
+      "original_label": {
+        "marking": "ESP8266MOD",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        1280
+      ],
+      "image_sha256": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "ESP8266MOD",
+        "ISM 2.4GHz",
+        "802.11 b/g/n"
+      ],
+      "observed_text": "ESP8266MOD\nISM 2.4GHz\n802.11 b/g/n",
+      "observed_part_number": "ESP8266MOD",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "shielded_radio_module_on_breakout",
+      "quality_issues": [
+        "multiple_similar_units",
+        "mixed_depth_of_field",
+        "rotated_text",
+        "regulatory_and_pin_text_distractors"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "仅记录前景清晰模块的型号行与明确无线制式文字，不从其它模糊模块推断。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "选择前景最清楚模块的金属屏蔽罩，校正方向后读型号；保留多目标位置。",
+      "baseline": {
+        "ocr_text": "0 2 4 '0 77 TCC \"CPO 341015- 14p1012, 3 RXD '6P10S , 6P104 '6102 '6P1015]",
+        "rank_fused": 6,
+        "rank_image": 1,
+        "fused_top3": [
+          "MAX232",
+          "I80286",
+          "ULN2003"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/ESP8266/54458803.jpg"
+      ]
+    },
+    {
+      "image_id": "56733450",
+      "file": "images/raw/ESP8266/56733450.jpg",
+      "image_path": "data/images/raw/ESP8266/56733450.jpg",
+      "original_gt": "ESP8266",
+      "original_label": {
+        "marking": "ESP-WROOM-02",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        500,
+        483
+      ],
+      "image_sha256": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "ESP-WROOM-02",
+        "CE1177",
+        "206-000519",
+        "FCC ID: 2AC?Z-ESPWROOM02"
+      ],
+      "observed_text": "ESP-WROOM-02\nCE1177\n206-000519\nFCC ID: 2AC?Z-ESPWROOM02",
+      "observed_part_number": "ESP-WROOM-02",
+      "uncertain_characters": [
+        {
+          "line_index": 3,
+          "span": "2AC?Z",
+          "candidate_readings": [
+            "2AC7Z"
+          ],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "shielded_radio_module_with_PCB_antenna",
+      "quality_issues": [
+        "limited_resolution",
+        "ruler_text_distractors",
+        "small_regulatory_print"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "ESP-WROOM-02整行可见；FCC字段中不确定字符不用于确定主型号。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "裁剪模块区域并抑制尺子刻度；若需严格FCC字段应取更高分辨率。",
+      "baseline": {
+        "ocr_text": "1 8 (e1177 10 20 30 No0 /A 7B",
+        "rank_fused": 8,
+        "rank_image": 2,
+        "fused_top3": [
+          "I80286",
+          "I8080",
+          "ATMEGA328P"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/ESP8266/56733450.jpg"
+      ]
+    },
+    {
+      "image_id": "5174316",
+      "file": "images/raw/I80286/5174316.jpg",
+      "image_path": "data/images/raw/I80286/5174316.jpg",
+      "original_gt": "I80286",
+      "original_label": {
+        "marking": "N80286-12",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        225,
+        230
+      ],
+      "image_sha256": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "N8028?-12",
+        "L0?58592",
+        "© '82 '85"
+      ],
+      "observed_text": "N8028?-12\nL0?58592\n© '82 '85",
+      "observed_part_number": "N8028?-12",
+      "uncertain_characters": [
+        {
+          "line_index": 0,
+          "span": "N8028?-12",
+          "candidate_readings": [
+            "N80286-12"
+          ],
+          "affects_part_number": true
+        },
+        {
+          "line_index": 1,
+          "span": "L0?58592",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "partially_readable",
+      "package_observation": "square_leaded_chip_package",
+      "quality_issues": [
+        "very_small_stored_image_225x230",
+        "compression_or_quantization_artifacts",
+        "low_contrast_print"
+      ],
+      "label_comparison": "uncertain",
+      "comparison_note": "旧标签N80286-12与画面相容，但在225×230存图上保守保留一位?，不因已知类别补全6。",
+      "catalog_alias_assessment": "strong_alias_if_uncertain_character_is_confirmed",
+      "suggested_action": "获取更高分辨率原图或补拍，确认N8028?中的末位；本条暂不作为严格读号金标。",
+      "baseline": {
+        "ocr_text": "N88286542 50258592 lee '82 485",
+        "rank_fused": 2,
+        "rank_image": 1,
+        "fused_top3": [
+          "I8085",
+          "I80286",
+          "Z80"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/I80286/5174316.jpg"
+      ]
+    },
+    {
+      "image_id": "6976587",
+      "file": "images/raw/I80286/6976587.jpg",
+      "image_path": "data/images/raw/I80286/6976587.jpg",
+      "original_gt": "I80286",
+      "original_label": {
+        "marking": "A80286-10",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        978
+      ],
+      "image_sha256": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "A80286-10",
+        "S54086",
+        "L7250170",
+        "© i '82 '85"
+      ],
+      "observed_text": "A80286-10\nS54086\nL7250170\n© i '82 '85",
+      "observed_part_number": "A80286-10",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "square_chip_top_view",
+      "quality_issues": [
+        "very_low_contrast_print",
+        "flat_lighting"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号A80286-10与批次行可读，封装引脚不在正面视野内，不能仅凭此图确认精确封装代号。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "对中央铭文ROI测试新的检测/识别器；保留原始像素，不能用生成式复原当文字证据。",
+      "baseline": {
+        "ocr_text": "1s5288670 @(i '8 2 8 5",
+        "rank_fused": 3,
+        "rank_image": 1,
+        "fused_top3": [
+          "I8085",
+          "I8080",
+          "I80286"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/I80286/6976587.jpg"
+      ]
+    },
+    {
+      "image_id": "6691932",
+      "file": "images/raw/I8080/6691932.jpg",
+      "image_path": "data/images/raw/I8080/6691932.jpg",
+      "original_gt": "I8080",
+      "original_label": {
+        "marking": "D8080A",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        541
+      ],
+      "image_sha256": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "D8080A",
+        "L7330657",
+        "© i '74 '79"
+      ],
+      "observed_text": "D8080A\nL7330657\n© i '74 '79",
+      "observed_part_number": "D8080A",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "dual_inline_through_hole",
+      "quality_issues": [
+        "oblique_view",
+        "small_model_text_relative_to_package",
+        "low_to_moderate_contrast"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "D8080A字样可直接辨认；无需根据外形猜8080。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "定位芯片中央文字并校正倾斜；按型号行而非年份匹配。",
+      "baseline": {
+        "ocr_text": "\"74 79 28888657",
+        "rank_fused": 7,
+        "rank_image": 9,
+        "fused_top3": [
+          "I8088",
+          "I80286",
+          "ATMEGA328P"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/I8080/6691932.jpg"
+      ]
+    },
+    {
+      "image_id": "55534910",
+      "file": "images/raw/I8085/55534910.jpg",
+      "image_path": "data/images/raw/I8085/55534910.jpg",
+      "original_gt": "I8085",
+      "original_label": {
+        "marking": "C8085A-2",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        655,
+        446
+      ],
+      "image_sha256": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "C8085A-2",
+        "4437?",
+        "© INTEL '76 ?"
+      ],
+      "observed_text": "C8085A-2\n4437?\n© INTEL '76 ?",
+      "observed_part_number": "C8085A-2",
+      "uncertain_characters": [
+        {
+          "line_index": 1,
+          "span": "4437?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        },
+        {
+          "line_index": 2,
+          "span": "'76 ?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "dual_inline_through_hole",
+      "quality_issues": [
+        "strong_oblique_angle",
+        "small_marking_region",
+        "textured_bright_background",
+        "low_contrast_print"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "C8085A-2主型号清楚到足以判读；尾部批次/年份未强行补全。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "对中央铭文做透视/方向处理；对批次年份保留不确定，优先型号行。",
+      "baseline": {
+        "ocr_text": "c2oe5a 45778' INtel 76'",
+        "rank_fused": 4,
+        "rank_image": 7,
+        "fused_top3": [
+          "I80286",
+          "I8086",
+          "I8088"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/I8085/55534910.jpg"
+      ]
+    },
+    {
+      "image_id": "78876305",
+      "file": "images/raw/I8088/78876305.jpg",
+      "image_path": "data/images/raw/I8088/78876305.jpg",
+      "original_gt": "I8088",
+      "original_label": {
+        "marking": "P80C88A-2",
+        "marking_legible": "y",
+        "marking_in_catalog": "n"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        409
+      ],
+      "image_sha256": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "P80C88A-2",
+        "© INTEL '78",
+        "027030J2 JAPAN"
+      ],
+      "observed_text": "P80C88A-2\n© INTEL '78\n027030J2 JAPAN",
+      "observed_part_number": "P80C88A-2",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "dual_inline_through_hole",
+      "quality_issues": [
+        "fine_texture_on_package",
+        "slight_oblique_angle"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "P80C88A-2可以直接读到，确认旧报告指出的目录别名覆盖问题；本次不新增别名。",
+      "catalog_alias_assessment": "visible_but_current_alias_missing",
+      "suggested_action": "保留原始转录P80C88A-2；另用官方型号资料核验80C88与8088的目录映射，不能在OCR阶段改写成8088。",
+      "baseline": {
+        "ocr_text": "PBOC88A 2 0 INTEL78 027030J2 JAPAN",
+        "rank_fused": 2,
+        "rank_image": 6,
+        "fused_top3": [
+          "I8085",
+          "I8088",
+          "I80286"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/I8088/78876305.jpg"
+      ]
+    },
+    {
+      "image_id": "23636678",
+      "file": "images/raw/LM317/23636678.jpg",
+      "image_path": "data/images/raw/LM317/23636678.jpg",
+      "original_gt": "LM317",
+      "original_label": {
+        "marking": "LM317HV",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        720
+      ],
+      "image_sha256": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "LM317HV"
+      ],
+      "observed_text": "LM317HV",
+      "observed_part_number": "LM317HV",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "cylindrical_metal_can_three_visible_leads",
+      "quality_issues": [
+        "curved_surface_text",
+        "specular_reflection",
+        "adjacent_components",
+        "partial_left_edge_wrap"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "LM317HV为侧壁铭文；可见三个引脚，精确JEDEC封装代号未独立确认。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "使用圆柱侧壁的完整文字ROI，处理弯曲/反光；不要只在罐顶寻找平面印字。",
+      "baseline": {
+        "ocr_text": "3 8",
+        "rank_fused": 2,
+        "rank_image": 2,
+        "fused_top3": [
+          "ULN2003",
+          "LM317",
+          "I80286"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/LM317/23636678.jpg"
+      ]
+    },
+    {
+      "image_id": "74886172",
+      "file": "images/raw/LM317/74886172.jpg",
+      "image_path": "data/images/raw/LM317/74886172.jpg",
+      "original_gt": "LM317",
+      "original_label": {
+        "marking": "LM317T",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        1280
+      ],
+      "image_sha256": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "LM317T",
+        "G40D? V?",
+        "CHN 040"
+      ],
+      "observed_text": "LM317T\nG40D? V?\nCHN 040",
+      "observed_part_number": "LM317T",
+      "uncertain_characters": [
+        {
+          "line_index": 1,
+          "span": "G40D? V?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "three_lead_tabbed_TO220_style",
+      "quality_issues": [
+        "stencil_like_font",
+        "paint_wear",
+        "minor_specular_reflection",
+        "PCB_background"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号LM317T可辨；下面批次行字形较粘连，留?。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "裁剪本体上半部型号行并保留字形候选，避免把317中的1误成大写I。",
+      "baseline": {
+        "ocr_text": "La3}7T GHODU WJ 040 M U",
+        "rank_fused": 2,
+        "rank_image": 2,
+        "fused_top3": [
+          "ULN2003",
+          "LM317",
+          "LM7805"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/LM317/74886172.jpg"
+      ]
+    },
+    {
+      "image_id": "194982655",
+      "file": "images/raw/LM7805/194982655.jpg",
+      "image_path": "data/images/raw/LM7805/194982655.jpg",
+      "original_gt": "LM7805",
+      "original_label": {
+        "marking": "MC7805CT",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        960
+      ],
+      "image_sha256": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "MC",
+        "7805CT",
+        "NLBB30?"
+      ],
+      "observed_text": "MC\n7805CT\nNLBB30?",
+      "observed_part_number": "MC 7805CT",
+      "uncertain_characters": [
+        {
+          "line_index": 2,
+          "span": "NLBB30?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "three_lead_tabbed_TO220_style",
+      "quality_issues": [
+        "split_model_across_lines",
+        "faded_dotted_print",
+        "PCB_text_distractors"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "MC在第一行右侧、7805CT在下一行；与旧标签MC7805CT在排版归一化后相符。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "把相邻行MC和7805CT按空间关系拼接；原转录应保留换行，同时单独输出候选型号。",
+      "baseline": {
+        "ocr_text": "0 4 mc 4g",
+        "rank_fused": 5,
+        "rank_image": 5,
+        "fused_top3": [
+          "ULN2003",
+          "LM317",
+          "I80286"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/LM7805/194982655.jpg"
+      ]
+    },
+    {
+      "image_id": "20729665",
+      "file": "images/raw/NE555/20729665.jpg",
+      "image_path": "data/images/raw/NE555/20729665.jpg",
+      "original_gt": "NE555",
+      "original_label": {
+        "marking": "NE555N",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        720
+      ],
+      "image_sha256": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "NE555N",
+        "FEF2209",
+        "8809VL"
+      ],
+      "observed_text": "NE555N\nFEF2209\n8809VL",
+      "observed_part_number": "NE555N",
+      "uncertain_characters": [],
+      "legibility": "readable",
+      "package_observation": "eight_pin_dual_inline",
+      "quality_issues": [
+        "rotated_text",
+        "perspective_angle",
+        "several_numeric_marking_lines"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "型号行NE555N清楚；旧OCR只读到第三行8809VL，不能把此样本归因于型号不可见。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "裁剪顶面并校正方向；同时读取三行，按型号语法将NE555N与批次8809VL区分。",
+      "baseline": {
+        "ocr_text": "8809VL",
+        "rank_fused": 9,
+        "rank_image": 2,
+        "fused_top3": [
+          "LM7805",
+          "ATMEGA328P",
+          "MAX232"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/NE555/20729665.jpg"
+      ]
+    },
+    {
+      "image_id": "64573796",
+      "file": "images/raw/UA741/64573796.jpg",
+      "image_path": "data/images/raw/UA741/64573796.jpg",
+      "original_gt": "UA741",
+      "original_label": {
+        "marking": "741P",
+        "marking_legible": "y",
+        "marking_in_catalog": "n"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        720
+      ],
+      "image_sha256": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "741P",
+        "8414?"
+      ],
+      "observed_text": "741P\n8414?",
+      "observed_part_number": "741P",
+      "uncertain_characters": [
+        {
+          "line_index": 1,
+          "span": "8414?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "eight_pin_dual_inline_two_units",
+      "quality_issues": [
+        "multiple_units",
+        "shallow_depth_of_field",
+        "blurred_background_unit",
+        "logo_adjacent_to_part_number"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "近处芯片主型号741P可见，logo不应读成前缀2；严格短别名规则导致现有identifier仅弱匹配。",
+      "catalog_alias_assessment": "visible_but_current_alias_only_weak",
+      "suggested_action": "以近处清晰芯片为目标，分离左侧图形logo与741P；用独立资料核验后缀映射，不在读字时补UA前缀。",
+      "baseline": {
+        "ocr_text": "2741P 84145",
+        "rank_fused": 10,
+        "rank_image": 17,
+        "fused_top3": [
+          "MAX232",
+          "ATMEGA328P",
+          "ULN2003"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/UA741/64573796.jpg"
+      ]
+    },
+    {
+      "image_id": "126915852",
+      "file": "images/raw/ULN2003/126915852.jpg",
+      "image_path": "data/images/raw/ULN2003/126915852.jpg",
+      "original_gt": "ULN2003",
+      "original_label": {
+        "marking": "ULN2003A",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        960,
+        640
+      ],
+      "image_sha256": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "ULN2003A",
+        "?",
+        "?"
+      ],
+      "observed_text": "ULN2003A\n?\n?",
+      "observed_part_number": "ULN2003A",
+      "uncertain_characters": [
+        {
+          "line_index": 1,
+          "span": "?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        },
+        {
+          "line_index": 2,
+          "span": "?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "dual_inline_through_hole",
+      "quality_issues": [
+        "low_contrast_etched_print",
+        "rough_package_surface",
+        "oblique_angle"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号ULN2003A可见；其余两行不够可靠，未凭旧标注或目录补全。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "定位顶面第一行铭文；保留疑难批次行为空/不确定，避免借目录伪造其余文字。",
+      "baseline": {
+        "ocr_text": "",
+        "rank_fused": null,
+        "rank_image": 11,
+        "fused_top3": [
+          "MAX232",
+          "ATMEGA328P",
+          "LM7805"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/ULN2003/126915852.jpg"
+      ]
+    },
+    {
+      "image_id": "55550822",
+      "file": "images/raw/Z80/55550822.jpg",
+      "image_path": "data/images/raw/Z80/55550822.jpg",
+      "original_gt": "Z80",
+      "original_label": {
+        "marking": "Z80 CPU",
+        "marking_legible": "y",
+        "marking_in_catalog": "y"
+      },
+      "review_method": "independent_model_visual_review_not_expert_gold",
+      "image_viewed": true,
+      "view_method": "view_image_original_file",
+      "image_dimensions": [
+        440,
+        294
+      ],
+      "image_sha256": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+      "review_scope": "target_component_body_markings; surrounding PCB and ruler text excluded",
+      "observed_lines": [
+        "?",
+        "Z80 CPU",
+        "?",
+        "?"
+      ],
+      "observed_text": "?\nZ80 CPU\n?\n?",
+      "observed_part_number": "Z80 CPU",
+      "uncertain_characters": [
+        {
+          "line_index": 0,
+          "span": "?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        },
+        {
+          "line_index": 2,
+          "span": "?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        },
+        {
+          "line_index": 3,
+          "span": "?",
+          "candidate_readings": [],
+          "affects_part_number": false
+        }
+      ],
+      "legibility": "readable",
+      "package_observation": "dual_inline_with_gold_center_lid",
+      "quality_issues": [
+        "small_stored_image_440x294",
+        "small_marking_region",
+        "oblique_angle",
+        "glare_on_gold_center"
+      ],
+      "label_comparison": "agrees",
+      "comparison_note": "主型号Z80 CPU可辨；其它微小序列/批次文字保留未知，未从目录反填。",
+      "catalog_alias_assessment": "visible_strong_alias",
+      "suggested_action": "优先中央金色铭牌ROI；严格字符/批次评测需更高分辨率，并保留Z80 CPU中的空格。",
+      "baseline": {
+        "ocr_text": "l",
+        "rank_fused": 5,
+        "rank_image": 5,
+        "fused_top3": [
+          "I8086",
+          "ATMEGA328P",
+          "ATMEGA8"
+        ]
+      },
+      "annotation_status": "candidate_review_not_gold",
+      "expert_verified": false,
+      "blind_review": false,
+      "crop_used": false,
+      "crop_coordinates": null,
+      "sources": [
+        "results/easyocr_per_query.csv",
+        "data/labels.csv",
+        "data/parts.json",
+        "data/images/raw/Z80/55550822.jpg"
+      ]
+    }
+  ]
+}
