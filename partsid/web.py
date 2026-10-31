@@ -7,6 +7,7 @@ import io
 import json
 import tempfile
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 MAX_UPLOAD = 10 * 1024 * 1024
 _lock = threading.Lock()
 _pipes = {}
+_candidate_pipes = {}
 
 
 def dataset_path(rel, data, allowed):
@@ -71,8 +73,8 @@ def web_payload(root=ROOT):
         info = {k: doc.get(k) for k in ("name", "status", "config", "summary", "channel")}
         info["label"] = {"easyocr_whole": "EasyOCR · 原始基线", "easyocr_views": "EasyOCR · 多视图", "rapidocr_whole": "PP-OCRv6 · 整图", "rapidocr_views": "PP-OCRv6 · 多视图", "qwen_vlm_top10": "Qwen-VL · Top-10 核验"}.get(doc["name"], doc.get("label", doc["name"]))
         if before and info.get("summary"):
-            pairs = [(before[r["file"]], r["rankings"][doc["channel"]][0] == r["gt"])
-                     for r in doc["records"] if r["file"] in before and r["rankings"][doc["channel"]]]
+            pairs = [(before[r["file"]], bool(r["rankings"][doc["channel"]]) and r["rankings"][doc["channel"]][0] == r["gt"])
+                     for r in doc["records"] if r["file"] in before]
             info["summary"].update(wins=sum(not a and b for a, b in pairs), regressions=sum(a and not b for a, b in pairs))
         runs.append(info)
         records[doc["name"]] = {r["file"]: r for r in doc["records"]}
@@ -84,7 +86,28 @@ def predict(payload):
     engine, multiview = payload.get("engine", "rapidocr"), payload.get("multiview", False)
     if engine not in ("easyocr", "rapidocr") or not isinstance(multiview, bool):
         raise ValueError("Unknown OCR configuration")
+    pipeline_name = payload.get("pipeline", "sqlite")
+    verify_visual = payload.get("verify_visual", False)
+    if pipeline_name not in ("sqlite", "legacy") or not isinstance(verify_visual, bool) or (pipeline_name == "legacy" and verify_visual):
+        raise ValueError("Unknown retrieval or visual-verification configuration")
+    started = time.perf_counter()
     with _lock:
+        if pipeline_name == "sqlite":
+            from .candidate_pipeline import make_candidate_pipeline, verify_live
+            key = (engine, multiview)
+            if key not in _candidate_pipes:
+                _candidate_pipes[key] = make_candidate_pipeline(ROOT, engine, multiview)
+            pipe = _candidate_pipes[key]
+            with tempfile.TemporaryDirectory(prefix="partsid-sqlite-upload-") as directory:
+                path = Path(directory) / "query.png"
+                image.save(path)
+                result = pipe.run(path)
+                if verify_visual:
+                    result = verify_live(pipe, result, path)
+            result["ms"]["total"] = (time.perf_counter()-started)*1000
+            return {"record": result, "catalog": web_payload()["catalog"], "live": True,
+                    "channel": "gated" if verify_visual else "shape",
+                    "timing": "measured live end-to-end including requested VLM process/model loading"}
         from .experiments import make_pipeline
         key = (engine, multiview)
         if key not in _pipes:
@@ -102,7 +125,7 @@ def predict(payload):
             image.save(path)
             result = pipe.run(path)
             result["evidence"] = pipe.ocr.last_result
-        return {"record": result, "catalog": web_payload()["catalog"], "live": True}
+        return {"record": result, "catalog": web_payload()["catalog"], "live": True, "channel": "fused"}
 
 
 class Handler(BaseHTTPRequestHandler):

@@ -1,6 +1,6 @@
 # parts-retrieval-demo
 
-Identify an electronic part from a photo with OCR plus three retrieval channels, and measure how well each channel does on a small labelled set.
+Identify an electronic part from a photo using OCR keywords, SQLite catalog search, image and shape evidence, and optional visual-model verification. Compare each stage with the original three-channel baseline on a small labelled set.
 
 This is a small demo built from public photos and off-the-shelf models. Nothing is trained or fine-tuned. Given a photo of a chip or module, it returns a ranked list of catalog parts.
 
@@ -15,7 +15,47 @@ uv sync --extra experiments
 uv run --extra experiments python -I -m partsid.web --port 8765
 ```
 
-Open <http://127.0.0.1:8765>. Preset photos replay measured experiment records; image upload runs real local OCR and retrieval. The page shows the selected OCR view, text boxes and raw scores, top candidates with reference images, per-stage timings, model-review notes and before/after metrics. The VLM experiment is available as recorded playback, not as live upload inference. Model scores are not calibrated probabilities. Uploads are processed locally in temporary files and are not saved to the dataset.
+Open <http://127.0.0.1:8765>. Preset photos replay saved experiment records; image upload runs real local inference. The default upload path uses SQLite keyword retrieval, image supplements and shape reranking. Enable the optional visual verification checkbox to run the local VLM only when the fixed strong-identifier gate does not accept the OCR result. This requires the separate Apple Silicon VLM environment described below. The original retrieval path remains selectable.
+
+The page shows the selected OCR view, text boxes, keyword matches and database fields, candidate origins, shape availability, reference images, model decisions, timings and before/after metrics. **Baseline Top-1** means the original method's first-ranked part is correct: **27/44 = 61.4%**. Top-3 means the correct part occurs among its first three candidates. These are dataset metrics; individual model scores are not calibrated probabilities. Uploads are processed locally in temporary files and are not saved to the dataset.
+
+## SQLite keyword retrieval and candidate verification (2026-10-31)
+
+The new flow is `photo → multiview RapidOCR → SQLite keywords → image supplements → shape reranking → optional VLM`. The [complete stage comparison](results/candidates/comparison.md) and per-query `results/experiments/sqlite_*.json` distinguish database recall from downstream reranking:
+
+| Method | Top-1 | Top-3 | Recall@10 |
+|---|---|---|---|
+| Original EasyOCR baseline | 27/44 (61.4%) | 33/44 | 43/44 |
+| Existing RapidOCR multiview | 38/44 (86.4%) | 40/44 | 42/44 |
+| SQLite keywords alone | 36/44 (81.8%) | 36/44 | 36/44 |
+| SQLite + image supplements | 38/44 (86.4%) | 39/44 | 42/44 |
+| Above + shape reranking | 38/44 (86.4%) | 40/44 | 42/44 |
+| New candidate pool + VLM on every query | **42/44 (95.5%)** | 42/44 | 42/44 |
+| Strong SQL identifier first, otherwise VLM | 41/44 (93.2%) | 42/44 | 42/44 |
+
+`data/catalog.sqlite` is a real, tracked SQLite/FTS5 database containing the 18 public catalog parts, aliases, makers, descriptions and reference-image paths. Exact and glyph-folded aliases take priority; indexed trigrams tolerate partial OCR errors, and FTS5 supports descriptive keywords. SQL is parameterized, repeated terms are deduplicated, and same-view adjacent words can form a split identifier. Empty/noise OCR produces no SQL candidates. Every match records its term, catalog field and match rule. No query-derived aliases were added.
+
+The candidate pool protects strong SQL identifiers, combines the SQL top five with the SigLIP appearance top five, deduplicates and fills to at most ten. Image additions retain their own origin. Shape uses a conservative foreground mask and three pixel descriptors: elongation, solidity and circularity. Unreliable masks return unknown. Shape was available for only **10/44 query photos** and **10/18 references**; it improved Top-3 by one without improving Top-1. It does not estimate physical dimensions, package names or pin count, and it cannot exclude the same part in another package.
+
+The pinned Qwen3-VL model receives the query, a shuffled reference contact sheet, public candidate fields and explicitly heuristic shape evidence. It can select only an existing candidate or abstain. This new-pool evaluation reached 42/44; both remaining failures lack the correct part in the ten-candidate pool: UA741 `64573796.jpg` reads `741P 8414` without a supported strong alias, and ULN2003 `126915852.jpg` has empty OCR. The gate projects only **8/44** VLM calls and reaches 41/44. Its extra error is an OCR misread that happens to be another valid catalog alias, so accepting a strong match early has an accuracy cost. No exception was fitted to that query.
+
+All 44 OCR/SQLite/image/shape records were freshly measured. The first new-pool VLM pass generated 44 responses. After provenance checks were strengthened and OCR rerun, the final result rebuild reused those 44 responses only after validating each prompt, both VLM input images, model revision and settings. Its metadata therefore records **0 new / 44 validated cached generations** for the final rebuild. The new namespace never reuses old EasyOCR candidate-pool judgments. VLM latency is a sum of separately measured stages, excluding model loading; the gate row is a policy projection from that complete batch. Live uploads implement actual conditional calls, but the batch gate latency is not a measured service throughput result.
+
+Rebuild and evaluate the new stages:
+
+```bash
+# Database construction/comparison use standard Python; inference needs the extras.
+python3 -m partsid.candidate_experiments build
+uv run --extra experiments python -I -m partsid.candidate_experiments run
+# Requires .venv-vlm below; uses new-pool cache fingerprints.
+uv run --extra experiments python -I -m partsid.candidate_experiments vlm
+python3 -m partsid.candidate_experiments compare
+uv run --extra experiments pytest -q
+```
+
+`run` replaces only the new SQLite-stage files. Complete runs require all 44 unique queries with matching labels; partial checkpoints cannot enter the comparison. Source hashes cover the catalog, database, labels, query pixels, reference manifest and reference pixels. If those change, rebuild and rerun before visual verification or comparison. Saved playback needs no model downloads; the VLM environment and model caches remain excluded from Git. This is still the same small development set with model-generated labels, not an independent blind test.
+
+## Previous OCR and frozen-pool experiments
 
 The [paired model comparison](results/experiments/comparison.md) reports all 44 queries, gains and regressions. New JSON records retain OCR geometry, competing views, model hashes and raw VLM decisions. The original EasyOCR whole-image result reproduced 27/44. RapidOCR whole-image obtained 35/44; its eight-view variant obtained 38/44. Frozen-baseline Top-10 Qwen-VL reranking obtained 39/44 with 3 abstentions (13 gains, 1 regression); its median generation-plus-cached-baseline stage sum was about 5.8 s, versus 0.75 s for RapidOCR views. These are results on the same development set, not an independent blind test or production accuracy claim.
 
@@ -39,7 +79,7 @@ Reproduce the combination comparison with **standard Python only**, no GPU, mode
 python3 -m partsid.ensemble
 ```
 
-This is offline policy replay from actual saved outputs, not a deployed selective service. Stage-sum costs are estimates from the required complete OCR branches and any VLM generation, exclude model loading, and are not new end-to-end measurements. The web page labels these runs as combination replay, shows branch votes/call decisions, and keeps live uploads OCR-only. The fixed policies and input SHA256 values are saved with the new results.
+These earlier combinations are offline policy replay from actual saved outputs. Stage-sum costs are estimates from the required complete OCR branches and any VLM generation, exclude model loading, and are not new end-to-end measurements. The web page labels these runs as combination replay and shows branch votes/call decisions. The fixed policies and input SHA256 values are saved with the results. The newer SQLite live path separately supports conditional VLM verification.
 
 For another machine, clone the private repository's default `main` branch, then launch the same page:
 
@@ -79,7 +119,7 @@ uv run --extra experiments python -I -m partsid.experiments compare
 
 It downloads the pinned `mlx-community/Qwen3-VL-4B-Instruct-4bit` snapshot (about 3.1 GB). Each query is compared against its frozen baseline Top-10 using query pixels, shuffled public candidate fields and a reference contact sheet. Query ground truth, file names and review transcriptions are excluded from the prompt. Invalid, out-of-set or uncertain decisions retain the baseline order. VLM raw outputs are checkpointed under ignored `data/cache/vlm/`; cache keys include both image inputs, the prompt, model revision and generation settings. VLM timings sum cached baseline stage time and separately measured generation, exclude model load, and are not one measured end-to-end request. CUDA VLM execution has not been implemented or tested.
 
-## Pipeline
+## Original baseline pipeline
 
 ```
 photo ──► OCR (EasyOCR | Tesseract) ──► OCR text ──┬──► identifier channel: part-number match against catalog aliases
@@ -199,4 +239,4 @@ OCR takes most of the time. The first pass over the same photos averaged 185 ms 
 - Two aliases came from the data. `Z08400` (Zilog's ordering code for the NMOS Z80) was added while the photos were being curated, before any evaluation run; `ESP-WROOM-02` (Espressif's module name) was added after a code review spotted it on a dataset photo. Both are real part numbers. Aliases also go into the part documents the text channel embeds, so an alias can move results even where OCR never reads it. Without `Z08400` the rotation run would miss Z80 photo 6975899 in three rows of the table (identifier 10, pipeline 24 and ablation 21 of 44, instead of 11, 25 and 22), and its correct part-number reads would be 9, not 10. Without `ESP-WROOM-02` the EasyOCR pipeline would have the right part in its top 3 for 34 photos instead of 33, and the rotation run's text channel would get 14 instead of 15. The photo marked ESP-WROOM-02 (ESP8266 56733450) would also count as a third legible marking the catalog does not cover, so of the 26 photos where the EasyOCR identifier found nothing, 22 rather than 23 would be OCR misses. No other count in this README changes.
 - Sessions across parts. The split keeps every query out of its own reference photo's session, but sessions are grouped within a part only. Two queries (I8080 6691932 and MC68000 8041354) are by the photographer of the I8086 and I8088 reference photos, which can pull the image channel toward those parts. Without them the EasyOCR pipeline gets 26 of 42 (62%) and the image channel 17 of 42.
 - Smaller renditions. 12 of the 209 files are stored at 330 or 500 px because Commons kept refusing the larger copies (HTTP 429). Two of them are queries (LM7805 177751130 at 330 px, ESP8266 56733450 at 500 px), and their labels were made on these smaller files.
-- Local demo scope. The workbench adds local inference and measured playback. There is no production database or job service: vector search remains numpy and the pg_trgm similarity is reimplemented in Python.
+- Local demo scope. The workbench adds local SQLite/FTS5 inference, optional VLM verification and measured playback. It has no production job service; image-vector search remains numpy. The original baseline's pg_trgm-like similarity remains implemented in Python.

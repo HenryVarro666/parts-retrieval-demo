@@ -1,0 +1,23 @@
+# SQLite keyword candidates, shape evidence and visual verification
+
+The user approved implementing OCR multi-keyword SQLite search, shape and visual-model candidate reranking, full-flow comparison, web updates and push to the existing private GitHub. They also asked what baseline Top-1 means: original pipeline first-choice correctness, 27/44 =61.4%; the page must explain it in plain Chinese.
+
+## Fixed approach before evaluation
+
+- Preserve the 18-class catalog, all query labels, existing measured runs and combination replays. Do not patch aliases after seeing errors or use review transcriptions as inference input.
+- Build a real SQLite file from the public catalog's names, aliases, manufacturers and descriptions, with indexed normalized/folded aliases and FTS5. Keep unavailable package/pin metadata unknown. Extract multiple OCR keywords, distinguish alias evidence from maker/description evidence and likely batch/noise tokens. Query parameters and FTS syntax are escaped. Noise must not turn every term into an obligatory AND condition.
+- The query result retains per-keyword and per-candidate match explanations. Exact/folded model aliases outrank weak fuzzy/description matches; deduplicate multiple occurrences and never concatenate words across OCR views. Fuzzy and FTS are fallbacks, not unbounded short-number matches.
+- Use the current RapidOCR multi-view backend, rerun it on every one of the 44 query photos. This is fresh OCR inference, not simply voting on previous outputs. SQL-only Recall@K is reported separately.
+- Candidate pool: SQL top5 plus SigLIP appearance top5, deduplicated, filled from the remaining SQL then appearance ranks up to10. This explicit visual supplement protects recall when OCR is empty/wrong; never attribute fallback hits to SQL. Strong SQL aliases stay first in the candidate order. Store origins and pre-/post-shape order.
+- Measure simple foreground shape from query and catalog reference pixels (rotation-invariant elongation, solidity/circularity or similarly explicit contour features). Use a fixed segmentation/quality rule, no fitting on these queries. Bad/unknown masks provide no shape score. These are heuristic foreground descriptors, not verified package type, physical dimensions or pin counts. No hard shape exclusion of variants.
+- Shape reranking preserves strong exact/folded alias candidates first. Weak candidates use existing k=60 RRF over candidate order and available shape rank. Unknown-shape candidates retain retrieval evidence; shape scores are not probabilities.
+- Run a fresh pinned local Qwen3-VL verification against the new candidate pools, with query pixels, shuffled public candidate metadata and reference photos. Add only measured shape attributes as explicitly heuristic evidence. Never pass query labels, filenames, old model-review notes or desired IDs into the prompt. Out-of-pool, malformed and uncertain selections abstain. VLM may promote a valid candidate within the pool; the separate gated version keeps a unique strong SQL alias when there is no OCR-view strong-ID conflict and otherwise uses the new VLM decision. Gates are not selected using gt.
+- Evaluate stages: SQL-only; hybrid candidates before shape; after shape; new-pool VLM; new-pool strong-SQL gate. Report Recall@5/10, Top-1/3, paired changes versus original and RapidOCR, abstention and call counts. Full44 denominators remain fixed. A missed candidate cannot be rescued by the VLM.
+
+## Runtime and presentation
+
+The local app must offer the new SQLite+shape live path; optional local VLM verification must use the new pool rather than the old EasyOCR pool. An isolated MLX worker can be invoked for live VLM (cold loads allowed and labelled), with serialized GPU use. Run a real image through the full path. Benchmark batch stages and VLM stages are reported separately unless directly measured end-to-end; any gated projection is explicitly labelled.
+
+Show OCR keywords and their types, database matches and candidate origins, shape estimates/availability, selected candidate evidence and improvements/regressions. Explain baseline Top-1 and Top-3 near the metrics. Keep live results separate from measured playback. Preserve the existing responsive style and all existing modes.
+
+SQLite and all model/cache fingerprints, commands and reports are included in private sync. Environments/weights remain excluded. The DB can be rebuilt from the unchanged JSON and reference manifest; stale catalog fingerprints fail or require explicit rebuild. Verify a fresh remote clone, tests, DB rebuild/query and web assets. Model-generated labels and only18 classes limit conclusions; no production accuracy claim or calibrated probability.

@@ -166,7 +166,7 @@ def compare():
             old = {r["file"]: r for r in baseline["records"]}
             for r in doc["records"]:
                 before = old[r["file"]]["rankings"]["fused"][0] == r["gt"]
-                after = r["rankings"][doc["channel"]][0] == r["gt"]
+                after = bool(r["rankings"][doc["channel"]]) and r["rankings"][doc["channel"]][0] == r["gt"]
                 wins += after and not before
                 losses += before and not after
         summary.update(wins=wins, regressions=losses)

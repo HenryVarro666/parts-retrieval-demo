@@ -1,0 +1,840 @@
+{
+  "date": "2026-10-31",
+  "runs": [
+    {
+      "name": "sqlite_keywords",
+      "label": "SQLite · 多关键词",
+      "config": {
+        "scope": "all_queries_fresh_staged_inference",
+        "metadata": {
+          "ocr": {
+            "engine": "rapidocr",
+            "packages": {
+              "rapidocr": "3.10.0",
+              "onnxruntime": "1.31.1"
+            },
+            "requested_device": "mps",
+            "runtime": "onnxruntime CPU",
+            "multiview": true,
+            "catalog_guided_view_selection": true,
+            "selection_policy": "unique strong identifier, best identifier score, mean retained-box confidence, original order",
+            "confidence_calibrated": false,
+            "crop_policy": "whole plus center with floor(8% of each original dimension) removed per edge",
+            "rotation_direction": "counterclockwise",
+            "text_min_confidence": 0.5,
+            "input_policy": "EasyOCR original view uses native file path; all other views and RapidOCR use BGR arrays",
+            "requires_upright_input": true,
+            "model_files": [
+              {
+                "role": "detector",
+                "name": "PP-OCRv6_det_small.onnx",
+                "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f"
+              },
+              {
+                "role": "classifier",
+                "name": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+              },
+              {
+                "role": "recognizer",
+                "name": "PP-OCRv6_rec_small.onnx",
+                "sha256": "6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884"
+              }
+            ],
+            "providers": [
+              "CPUExecutionProvider"
+            ],
+            "external_reader": false,
+            "model_config": {
+              "detector": "PP-OCRv6 small multilingual",
+              "classifier": "PP-OCRv4 mobile 0/180",
+              "recognizer": "PP-OCRv6 small multilingual"
+            }
+          },
+          "sqlite": {
+            "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+            "confidence_calibrated": false,
+            "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+            "owner": "partsid.sqlite_catalog",
+            "part_count": 18,
+            "reference_count": 18,
+            "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+            "schema_version": 1,
+            "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support",
+            "sqlite_version": "3.53.1"
+          },
+          "image_model": "google/siglip-base-patch16-224",
+          "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+          "reference_image_sha256": {
+            "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+            "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+            "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+            "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+            "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+            "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+            "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+            "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+            "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+            "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+            "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+            "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+            "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+            "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+            "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+            "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+            "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+            "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+          },
+          "pool_policy": "strong SQL first; SQL top5 + appearance top5; fill SQL then appearance to10",
+          "shape_policy": "preserve exact/folded aliases; otherwise k60 RRF of retrieval and known shape rank"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8",
+        "query_image_sha256": {
+          "images/raw/2N3055/50219570.jpg": "0ef3512bb6d070f20af0db1b8e630c21ac09c8cd63d73c6c4b904f0419fcd379",
+          "images/raw/2N3055/80876576.jpg": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+          "images/raw/2N3055/94229451.jpg": "d8ee6d42d05f566b5f66187e2b23486da50a0676e6bed4ac105f5767eb89e8f0",
+          "images/raw/ATMEGA328P/75189907.jpg": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+          "images/raw/ATMEGA328P/133222141.jpg": "90b0286a1333500a94038e214330d487d0043a8d38c19be200913f793df34712",
+          "images/raw/ATMEGA328P/149126951.jpg": "28c51f3138922695e5653b26f34b8bfad3d56f9998d590b662efa9d07cea400b",
+          "images/raw/ATMEGA8/74561381.jpg": "e7b19bd203db6264e9216c41eb647cd076fa887d314eeb7122d38456d377edad",
+          "images/raw/ESP32/74560838.jpg": "c1acb5c205400b798d7f70d66d49a3ac1c85cb72317fe8e89aec489846f99ed0",
+          "images/raw/ESP32/97701682.jpg": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+          "images/raw/ESP8266/54458803.jpg": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+          "images/raw/ESP8266/56733450.jpg": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+          "images/raw/ESP8266/57331438.jpg": "a38410cdd480dab78fe7744a168051fe08a20761d438f89b4c207e90a744ce1e",
+          "images/raw/I80286/5174316.jpg": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+          "images/raw/I80286/6976587.jpg": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+          "images/raw/I80286/46635176.jpg": "1eb6ec5ba8f9e1a1ced293fb8860a5c2236434bacbabd88122525a7a856f677d",
+          "images/raw/I8080/6691932.jpg": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+          "images/raw/I8080/55534764.jpg": "719b954f441d20db02914cbea0996d5ebc91f02d96181e06150890ee06c88666",
+          "images/raw/I8085/55534910.jpg": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+          "images/raw/I8086/15625453.jpg": "7f7c9b20f57262fbff2a2fe02c0ea991662f6e4789b3e699d218e38e9127e575",
+          "images/raw/I8086/55534917.jpg": "f7d2690d9107401ed978f3332b191532a2b4ff2b29ba7c7d81c207e99da1a52d",
+          "images/raw/I8088/55534991.jpg": "a0dbc653fdc1cab591d643f9434f0cc925fef21a1b977c0a465bc0715e7fc012",
+          "images/raw/I8088/66104581.jpg": "6a0d0f65a69139cd47c93df44b6404a383639501fd1a4dd9668e6623eece2b23",
+          "images/raw/I8088/78876305.jpg": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+          "images/raw/LM317/23636678.jpg": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+          "images/raw/LM317/74886172.jpg": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+          "images/raw/LM317/75704312.jpg": "ed5753558c46b3802349219d2bd2dfa5aab6f15b2af0a5e5013fe796f71a5dff",
+          "images/raw/LM7805/177751130.jpg": "39b7e68dd822dfebc13c18b70081900a2f93c31144ec2506d639fa3dc2fc1244",
+          "images/raw/LM7805/194982655.jpg": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+          "images/raw/MAX232/27538989.jpg": "851512bcdb15c6c1f5d51c7881901ba816839fc933086a24c979aafa1aafccb6",
+          "images/raw/MAX232/110379628.jpg": "4312f8f6cd8c29dfe8cc2bda03af7cde6283bd8ef74732a7978a9c113c049a20",
+          "images/raw/MAX232/178879707.jpg": "eb2b72e2aba86e9eea48f6a3cca82123f52eeb57006b9f4479e3cfe71407dd4b",
+          "images/raw/MC68000/6976161.jpg": "c9033cfa92b5ff7077d15dd871a43555a5f2921bb285ba28e1f227692f534f58",
+          "images/raw/MC68000/8041354.jpg": "fe10333d419a6bbb296939937696e63af2aa591abe41687753a0b9e78608087c",
+          "images/raw/MC68000/55535754.jpg": "50fd593f28a11eb21533eb5f16d985731ed680d76b782d8130738b2cf19df827",
+          "images/raw/NE555/20729665.jpg": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+          "images/raw/NE555/22764784.jpg": "eafe0648810d4b2bb3c29e9ff28e0dedde1368ca0355eceb5aedf033175408ca",
+          "images/raw/NE555/38383548.jpg": "ad3c9842db277d0f32af33005fb24d5c022908ffc3a87ca8ebf40118748792b0",
+          "images/raw/UA741/12429535.jpg": "9f0e29db6eade1f7f6d5da0432146fd4ddf19f508cb98313f7d8ddced9f0a727",
+          "images/raw/UA741/56426698.jpg": "55c79a42aed84832c53e6e8d3f52a0cef72da48655fa3985b4ad53672e8998d2",
+          "images/raw/UA741/64573796.jpg": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+          "images/raw/ULN2003/126915852.jpg": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+          "images/raw/Z80/6975899.jpg": "b702ca0d2398351b03217da3ecd459bd01c6c261068536e5c7acbd27d238d952",
+          "images/raw/Z80/55550822.jpg": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+          "images/raw/Z80/59595187.jpg": "6f1c7d52beaf849a33b90153eefdd43ee02480588ec4293c633c6ae459576701"
+        },
+        "timing": "measured fresh cumulative OCR/SQLite/appearance/shape stages; one untimed query warmup; model loading excluded"
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 36,
+        "top3_k": 36,
+        "recall10_k": 36,
+        "top1": 0.8181818181818182,
+        "top3": 0.8181818181818182,
+        "recall10": 0.8181818181818182,
+        "latency_ms": {
+          "p50": 701.5268959985406,
+          "p95": 1191.5523418521843
+        },
+        "recall5_k": 36,
+        "recall5": 0.8181818181818182,
+        "coverage": 0.8409090909090909,
+        "shape_available": 10,
+        "wins_vs_baseline": 12,
+        "regressions_vs_baseline": 3,
+        "wins_vs_rapid": 0,
+        "regressions_vs_rapid": 2
+      }
+    },
+    {
+      "name": "sqlite_hybrid",
+      "label": "SQLite · 视觉补召回",
+      "config": {
+        "scope": "all_queries_fresh_staged_inference",
+        "metadata": {
+          "ocr": {
+            "engine": "rapidocr",
+            "packages": {
+              "rapidocr": "3.10.0",
+              "onnxruntime": "1.31.1"
+            },
+            "requested_device": "mps",
+            "runtime": "onnxruntime CPU",
+            "multiview": true,
+            "catalog_guided_view_selection": true,
+            "selection_policy": "unique strong identifier, best identifier score, mean retained-box confidence, original order",
+            "confidence_calibrated": false,
+            "crop_policy": "whole plus center with floor(8% of each original dimension) removed per edge",
+            "rotation_direction": "counterclockwise",
+            "text_min_confidence": 0.5,
+            "input_policy": "EasyOCR original view uses native file path; all other views and RapidOCR use BGR arrays",
+            "requires_upright_input": true,
+            "model_files": [
+              {
+                "role": "detector",
+                "name": "PP-OCRv6_det_small.onnx",
+                "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f"
+              },
+              {
+                "role": "classifier",
+                "name": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+              },
+              {
+                "role": "recognizer",
+                "name": "PP-OCRv6_rec_small.onnx",
+                "sha256": "6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884"
+              }
+            ],
+            "providers": [
+              "CPUExecutionProvider"
+            ],
+            "external_reader": false,
+            "model_config": {
+              "detector": "PP-OCRv6 small multilingual",
+              "classifier": "PP-OCRv4 mobile 0/180",
+              "recognizer": "PP-OCRv6 small multilingual"
+            }
+          },
+          "sqlite": {
+            "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+            "confidence_calibrated": false,
+            "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+            "owner": "partsid.sqlite_catalog",
+            "part_count": 18,
+            "reference_count": 18,
+            "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+            "schema_version": 1,
+            "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support",
+            "sqlite_version": "3.53.1"
+          },
+          "image_model": "google/siglip-base-patch16-224",
+          "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+          "reference_image_sha256": {
+            "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+            "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+            "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+            "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+            "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+            "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+            "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+            "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+            "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+            "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+            "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+            "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+            "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+            "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+            "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+            "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+            "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+            "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+          },
+          "pool_policy": "strong SQL first; SQL top5 + appearance top5; fill SQL then appearance to10",
+          "shape_policy": "preserve exact/folded aliases; otherwise k60 RRF of retrieval and known shape rank"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8",
+        "query_image_sha256": {
+          "images/raw/2N3055/50219570.jpg": "0ef3512bb6d070f20af0db1b8e630c21ac09c8cd63d73c6c4b904f0419fcd379",
+          "images/raw/2N3055/80876576.jpg": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+          "images/raw/2N3055/94229451.jpg": "d8ee6d42d05f566b5f66187e2b23486da50a0676e6bed4ac105f5767eb89e8f0",
+          "images/raw/ATMEGA328P/75189907.jpg": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+          "images/raw/ATMEGA328P/133222141.jpg": "90b0286a1333500a94038e214330d487d0043a8d38c19be200913f793df34712",
+          "images/raw/ATMEGA328P/149126951.jpg": "28c51f3138922695e5653b26f34b8bfad3d56f9998d590b662efa9d07cea400b",
+          "images/raw/ATMEGA8/74561381.jpg": "e7b19bd203db6264e9216c41eb647cd076fa887d314eeb7122d38456d377edad",
+          "images/raw/ESP32/74560838.jpg": "c1acb5c205400b798d7f70d66d49a3ac1c85cb72317fe8e89aec489846f99ed0",
+          "images/raw/ESP32/97701682.jpg": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+          "images/raw/ESP8266/54458803.jpg": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+          "images/raw/ESP8266/56733450.jpg": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+          "images/raw/ESP8266/57331438.jpg": "a38410cdd480dab78fe7744a168051fe08a20761d438f89b4c207e90a744ce1e",
+          "images/raw/I80286/5174316.jpg": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+          "images/raw/I80286/6976587.jpg": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+          "images/raw/I80286/46635176.jpg": "1eb6ec5ba8f9e1a1ced293fb8860a5c2236434bacbabd88122525a7a856f677d",
+          "images/raw/I8080/6691932.jpg": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+          "images/raw/I8080/55534764.jpg": "719b954f441d20db02914cbea0996d5ebc91f02d96181e06150890ee06c88666",
+          "images/raw/I8085/55534910.jpg": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+          "images/raw/I8086/15625453.jpg": "7f7c9b20f57262fbff2a2fe02c0ea991662f6e4789b3e699d218e38e9127e575",
+          "images/raw/I8086/55534917.jpg": "f7d2690d9107401ed978f3332b191532a2b4ff2b29ba7c7d81c207e99da1a52d",
+          "images/raw/I8088/55534991.jpg": "a0dbc653fdc1cab591d643f9434f0cc925fef21a1b977c0a465bc0715e7fc012",
+          "images/raw/I8088/66104581.jpg": "6a0d0f65a69139cd47c93df44b6404a383639501fd1a4dd9668e6623eece2b23",
+          "images/raw/I8088/78876305.jpg": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+          "images/raw/LM317/23636678.jpg": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+          "images/raw/LM317/74886172.jpg": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+          "images/raw/LM317/75704312.jpg": "ed5753558c46b3802349219d2bd2dfa5aab6f15b2af0a5e5013fe796f71a5dff",
+          "images/raw/LM7805/177751130.jpg": "39b7e68dd822dfebc13c18b70081900a2f93c31144ec2506d639fa3dc2fc1244",
+          "images/raw/LM7805/194982655.jpg": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+          "images/raw/MAX232/27538989.jpg": "851512bcdb15c6c1f5d51c7881901ba816839fc933086a24c979aafa1aafccb6",
+          "images/raw/MAX232/110379628.jpg": "4312f8f6cd8c29dfe8cc2bda03af7cde6283bd8ef74732a7978a9c113c049a20",
+          "images/raw/MAX232/178879707.jpg": "eb2b72e2aba86e9eea48f6a3cca82123f52eeb57006b9f4479e3cfe71407dd4b",
+          "images/raw/MC68000/6976161.jpg": "c9033cfa92b5ff7077d15dd871a43555a5f2921bb285ba28e1f227692f534f58",
+          "images/raw/MC68000/8041354.jpg": "fe10333d419a6bbb296939937696e63af2aa591abe41687753a0b9e78608087c",
+          "images/raw/MC68000/55535754.jpg": "50fd593f28a11eb21533eb5f16d985731ed680d76b782d8130738b2cf19df827",
+          "images/raw/NE555/20729665.jpg": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+          "images/raw/NE555/22764784.jpg": "eafe0648810d4b2bb3c29e9ff28e0dedde1368ca0355eceb5aedf033175408ca",
+          "images/raw/NE555/38383548.jpg": "ad3c9842db277d0f32af33005fb24d5c022908ffc3a87ca8ebf40118748792b0",
+          "images/raw/UA741/12429535.jpg": "9f0e29db6eade1f7f6d5da0432146fd4ddf19f508cb98313f7d8ddced9f0a727",
+          "images/raw/UA741/56426698.jpg": "55c79a42aed84832c53e6e8d3f52a0cef72da48655fa3985b4ad53672e8998d2",
+          "images/raw/UA741/64573796.jpg": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+          "images/raw/ULN2003/126915852.jpg": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+          "images/raw/Z80/6975899.jpg": "b702ca0d2398351b03217da3ecd459bd01c6c261068536e5c7acbd27d238d952",
+          "images/raw/Z80/55550822.jpg": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+          "images/raw/Z80/59595187.jpg": "6f1c7d52beaf849a33b90153eefdd43ee02480588ec4293c633c6ae459576701"
+        },
+        "timing": "measured fresh cumulative OCR/SQLite/appearance/shape stages; one untimed query warmup; model loading excluded"
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 38,
+        "top3_k": 39,
+        "recall10_k": 42,
+        "top1": 0.8636363636363636,
+        "top3": 0.8863636363636364,
+        "recall10": 0.9545454545454546,
+        "latency_ms": {
+          "p50": 726.2725000000501,
+          "p95": 1239.1049313015174
+        },
+        "recall5_k": 39,
+        "recall5": 0.8863636363636364,
+        "coverage": 1.0,
+        "shape_available": 10,
+        "wins_vs_baseline": 13,
+        "regressions_vs_baseline": 2,
+        "wins_vs_rapid": 1,
+        "regressions_vs_rapid": 1
+      }
+    },
+    {
+      "name": "sqlite_shape",
+      "label": "SQLite · 形状重排",
+      "config": {
+        "scope": "all_queries_fresh_staged_inference",
+        "metadata": {
+          "ocr": {
+            "engine": "rapidocr",
+            "packages": {
+              "rapidocr": "3.10.0",
+              "onnxruntime": "1.31.1"
+            },
+            "requested_device": "mps",
+            "runtime": "onnxruntime CPU",
+            "multiview": true,
+            "catalog_guided_view_selection": true,
+            "selection_policy": "unique strong identifier, best identifier score, mean retained-box confidence, original order",
+            "confidence_calibrated": false,
+            "crop_policy": "whole plus center with floor(8% of each original dimension) removed per edge",
+            "rotation_direction": "counterclockwise",
+            "text_min_confidence": 0.5,
+            "input_policy": "EasyOCR original view uses native file path; all other views and RapidOCR use BGR arrays",
+            "requires_upright_input": true,
+            "model_files": [
+              {
+                "role": "detector",
+                "name": "PP-OCRv6_det_small.onnx",
+                "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f"
+              },
+              {
+                "role": "classifier",
+                "name": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+              },
+              {
+                "role": "recognizer",
+                "name": "PP-OCRv6_rec_small.onnx",
+                "sha256": "6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884"
+              }
+            ],
+            "providers": [
+              "CPUExecutionProvider"
+            ],
+            "external_reader": false,
+            "model_config": {
+              "detector": "PP-OCRv6 small multilingual",
+              "classifier": "PP-OCRv4 mobile 0/180",
+              "recognizer": "PP-OCRv6 small multilingual"
+            }
+          },
+          "sqlite": {
+            "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+            "confidence_calibrated": false,
+            "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+            "owner": "partsid.sqlite_catalog",
+            "part_count": 18,
+            "reference_count": 18,
+            "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+            "schema_version": 1,
+            "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support",
+            "sqlite_version": "3.53.1"
+          },
+          "image_model": "google/siglip-base-patch16-224",
+          "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+          "reference_image_sha256": {
+            "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+            "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+            "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+            "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+            "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+            "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+            "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+            "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+            "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+            "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+            "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+            "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+            "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+            "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+            "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+            "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+            "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+            "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+          },
+          "pool_policy": "strong SQL first; SQL top5 + appearance top5; fill SQL then appearance to10",
+          "shape_policy": "preserve exact/folded aliases; otherwise k60 RRF of retrieval and known shape rank"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8",
+        "query_image_sha256": {
+          "images/raw/2N3055/50219570.jpg": "0ef3512bb6d070f20af0db1b8e630c21ac09c8cd63d73c6c4b904f0419fcd379",
+          "images/raw/2N3055/80876576.jpg": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+          "images/raw/2N3055/94229451.jpg": "d8ee6d42d05f566b5f66187e2b23486da50a0676e6bed4ac105f5767eb89e8f0",
+          "images/raw/ATMEGA328P/75189907.jpg": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+          "images/raw/ATMEGA328P/133222141.jpg": "90b0286a1333500a94038e214330d487d0043a8d38c19be200913f793df34712",
+          "images/raw/ATMEGA328P/149126951.jpg": "28c51f3138922695e5653b26f34b8bfad3d56f9998d590b662efa9d07cea400b",
+          "images/raw/ATMEGA8/74561381.jpg": "e7b19bd203db6264e9216c41eb647cd076fa887d314eeb7122d38456d377edad",
+          "images/raw/ESP32/74560838.jpg": "c1acb5c205400b798d7f70d66d49a3ac1c85cb72317fe8e89aec489846f99ed0",
+          "images/raw/ESP32/97701682.jpg": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+          "images/raw/ESP8266/54458803.jpg": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+          "images/raw/ESP8266/56733450.jpg": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+          "images/raw/ESP8266/57331438.jpg": "a38410cdd480dab78fe7744a168051fe08a20761d438f89b4c207e90a744ce1e",
+          "images/raw/I80286/5174316.jpg": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+          "images/raw/I80286/6976587.jpg": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+          "images/raw/I80286/46635176.jpg": "1eb6ec5ba8f9e1a1ced293fb8860a5c2236434bacbabd88122525a7a856f677d",
+          "images/raw/I8080/6691932.jpg": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+          "images/raw/I8080/55534764.jpg": "719b954f441d20db02914cbea0996d5ebc91f02d96181e06150890ee06c88666",
+          "images/raw/I8085/55534910.jpg": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+          "images/raw/I8086/15625453.jpg": "7f7c9b20f57262fbff2a2fe02c0ea991662f6e4789b3e699d218e38e9127e575",
+          "images/raw/I8086/55534917.jpg": "f7d2690d9107401ed978f3332b191532a2b4ff2b29ba7c7d81c207e99da1a52d",
+          "images/raw/I8088/55534991.jpg": "a0dbc653fdc1cab591d643f9434f0cc925fef21a1b977c0a465bc0715e7fc012",
+          "images/raw/I8088/66104581.jpg": "6a0d0f65a69139cd47c93df44b6404a383639501fd1a4dd9668e6623eece2b23",
+          "images/raw/I8088/78876305.jpg": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+          "images/raw/LM317/23636678.jpg": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+          "images/raw/LM317/74886172.jpg": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+          "images/raw/LM317/75704312.jpg": "ed5753558c46b3802349219d2bd2dfa5aab6f15b2af0a5e5013fe796f71a5dff",
+          "images/raw/LM7805/177751130.jpg": "39b7e68dd822dfebc13c18b70081900a2f93c31144ec2506d639fa3dc2fc1244",
+          "images/raw/LM7805/194982655.jpg": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+          "images/raw/MAX232/27538989.jpg": "851512bcdb15c6c1f5d51c7881901ba816839fc933086a24c979aafa1aafccb6",
+          "images/raw/MAX232/110379628.jpg": "4312f8f6cd8c29dfe8cc2bda03af7cde6283bd8ef74732a7978a9c113c049a20",
+          "images/raw/MAX232/178879707.jpg": "eb2b72e2aba86e9eea48f6a3cca82123f52eeb57006b9f4479e3cfe71407dd4b",
+          "images/raw/MC68000/6976161.jpg": "c9033cfa92b5ff7077d15dd871a43555a5f2921bb285ba28e1f227692f534f58",
+          "images/raw/MC68000/8041354.jpg": "fe10333d419a6bbb296939937696e63af2aa591abe41687753a0b9e78608087c",
+          "images/raw/MC68000/55535754.jpg": "50fd593f28a11eb21533eb5f16d985731ed680d76b782d8130738b2cf19df827",
+          "images/raw/NE555/20729665.jpg": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+          "images/raw/NE555/22764784.jpg": "eafe0648810d4b2bb3c29e9ff28e0dedde1368ca0355eceb5aedf033175408ca",
+          "images/raw/NE555/38383548.jpg": "ad3c9842db277d0f32af33005fb24d5c022908ffc3a87ca8ebf40118748792b0",
+          "images/raw/UA741/12429535.jpg": "9f0e29db6eade1f7f6d5da0432146fd4ddf19f508cb98313f7d8ddced9f0a727",
+          "images/raw/UA741/56426698.jpg": "55c79a42aed84832c53e6e8d3f52a0cef72da48655fa3985b4ad53672e8998d2",
+          "images/raw/UA741/64573796.jpg": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+          "images/raw/ULN2003/126915852.jpg": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+          "images/raw/Z80/6975899.jpg": "b702ca0d2398351b03217da3ecd459bd01c6c261068536e5c7acbd27d238d952",
+          "images/raw/Z80/55550822.jpg": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+          "images/raw/Z80/59595187.jpg": "6f1c7d52beaf849a33b90153eefdd43ee02480588ec4293c633c6ae459576701"
+        },
+        "timing": "measured fresh cumulative OCR/SQLite/appearance/shape stages; one untimed query warmup; model loading excluded"
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 38,
+        "top3_k": 40,
+        "recall10_k": 42,
+        "top1": 0.8636363636363636,
+        "top3": 0.9090909090909091,
+        "recall10": 0.9545454545454546,
+        "latency_ms": {
+          "p50": 731.6133749991423,
+          "p95": 1243.9442438007973
+        },
+        "recall5_k": 40,
+        "recall5": 0.9090909090909091,
+        "coverage": 1.0,
+        "shape_available": 10,
+        "wins_vs_baseline": 13,
+        "regressions_vs_baseline": 2,
+        "wins_vs_rapid": 1,
+        "regressions_vs_rapid": 1
+      }
+    },
+    {
+      "name": "sqlite_vlm",
+      "label": "SQLite · 新候选视觉核验",
+      "config": {
+        "scope": "all_queries_fresh_staged_inference",
+        "metadata": {
+          "ocr": {
+            "engine": "rapidocr",
+            "packages": {
+              "rapidocr": "3.10.0",
+              "onnxruntime": "1.31.1"
+            },
+            "requested_device": "mps",
+            "runtime": "onnxruntime CPU",
+            "multiview": true,
+            "catalog_guided_view_selection": true,
+            "selection_policy": "unique strong identifier, best identifier score, mean retained-box confidence, original order",
+            "confidence_calibrated": false,
+            "crop_policy": "whole plus center with floor(8% of each original dimension) removed per edge",
+            "rotation_direction": "counterclockwise",
+            "text_min_confidence": 0.5,
+            "input_policy": "EasyOCR original view uses native file path; all other views and RapidOCR use BGR arrays",
+            "requires_upright_input": true,
+            "model_files": [
+              {
+                "role": "detector",
+                "name": "PP-OCRv6_det_small.onnx",
+                "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f"
+              },
+              {
+                "role": "classifier",
+                "name": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+              },
+              {
+                "role": "recognizer",
+                "name": "PP-OCRv6_rec_small.onnx",
+                "sha256": "6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884"
+              }
+            ],
+            "providers": [
+              "CPUExecutionProvider"
+            ],
+            "external_reader": false,
+            "model_config": {
+              "detector": "PP-OCRv6 small multilingual",
+              "classifier": "PP-OCRv4 mobile 0/180",
+              "recognizer": "PP-OCRv6 small multilingual"
+            }
+          },
+          "sqlite": {
+            "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+            "confidence_calibrated": false,
+            "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+            "owner": "partsid.sqlite_catalog",
+            "part_count": 18,
+            "reference_count": 18,
+            "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+            "schema_version": 1,
+            "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support",
+            "sqlite_version": "3.53.1"
+          },
+          "image_model": "google/siglip-base-patch16-224",
+          "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+          "reference_image_sha256": {
+            "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+            "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+            "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+            "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+            "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+            "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+            "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+            "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+            "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+            "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+            "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+            "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+            "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+            "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+            "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+            "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+            "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+            "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+          },
+          "pool_policy": "strong SQL first; SQL top5 + appearance top5; fill SQL then appearance to10",
+          "shape_policy": "preserve exact/folded aliases; otherwise k60 RRF of retrieval and known shape rank"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8",
+        "query_image_sha256": {
+          "images/raw/2N3055/50219570.jpg": "0ef3512bb6d070f20af0db1b8e630c21ac09c8cd63d73c6c4b904f0419fcd379",
+          "images/raw/2N3055/80876576.jpg": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+          "images/raw/2N3055/94229451.jpg": "d8ee6d42d05f566b5f66187e2b23486da50a0676e6bed4ac105f5767eb89e8f0",
+          "images/raw/ATMEGA328P/75189907.jpg": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+          "images/raw/ATMEGA328P/133222141.jpg": "90b0286a1333500a94038e214330d487d0043a8d38c19be200913f793df34712",
+          "images/raw/ATMEGA328P/149126951.jpg": "28c51f3138922695e5653b26f34b8bfad3d56f9998d590b662efa9d07cea400b",
+          "images/raw/ATMEGA8/74561381.jpg": "e7b19bd203db6264e9216c41eb647cd076fa887d314eeb7122d38456d377edad",
+          "images/raw/ESP32/74560838.jpg": "c1acb5c205400b798d7f70d66d49a3ac1c85cb72317fe8e89aec489846f99ed0",
+          "images/raw/ESP32/97701682.jpg": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+          "images/raw/ESP8266/54458803.jpg": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+          "images/raw/ESP8266/56733450.jpg": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+          "images/raw/ESP8266/57331438.jpg": "a38410cdd480dab78fe7744a168051fe08a20761d438f89b4c207e90a744ce1e",
+          "images/raw/I80286/5174316.jpg": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+          "images/raw/I80286/6976587.jpg": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+          "images/raw/I80286/46635176.jpg": "1eb6ec5ba8f9e1a1ced293fb8860a5c2236434bacbabd88122525a7a856f677d",
+          "images/raw/I8080/6691932.jpg": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+          "images/raw/I8080/55534764.jpg": "719b954f441d20db02914cbea0996d5ebc91f02d96181e06150890ee06c88666",
+          "images/raw/I8085/55534910.jpg": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+          "images/raw/I8086/15625453.jpg": "7f7c9b20f57262fbff2a2fe02c0ea991662f6e4789b3e699d218e38e9127e575",
+          "images/raw/I8086/55534917.jpg": "f7d2690d9107401ed978f3332b191532a2b4ff2b29ba7c7d81c207e99da1a52d",
+          "images/raw/I8088/55534991.jpg": "a0dbc653fdc1cab591d643f9434f0cc925fef21a1b977c0a465bc0715e7fc012",
+          "images/raw/I8088/66104581.jpg": "6a0d0f65a69139cd47c93df44b6404a383639501fd1a4dd9668e6623eece2b23",
+          "images/raw/I8088/78876305.jpg": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+          "images/raw/LM317/23636678.jpg": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+          "images/raw/LM317/74886172.jpg": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+          "images/raw/LM317/75704312.jpg": "ed5753558c46b3802349219d2bd2dfa5aab6f15b2af0a5e5013fe796f71a5dff",
+          "images/raw/LM7805/177751130.jpg": "39b7e68dd822dfebc13c18b70081900a2f93c31144ec2506d639fa3dc2fc1244",
+          "images/raw/LM7805/194982655.jpg": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+          "images/raw/MAX232/27538989.jpg": "851512bcdb15c6c1f5d51c7881901ba816839fc933086a24c979aafa1aafccb6",
+          "images/raw/MAX232/110379628.jpg": "4312f8f6cd8c29dfe8cc2bda03af7cde6283bd8ef74732a7978a9c113c049a20",
+          "images/raw/MAX232/178879707.jpg": "eb2b72e2aba86e9eea48f6a3cca82123f52eeb57006b9f4479e3cfe71407dd4b",
+          "images/raw/MC68000/6976161.jpg": "c9033cfa92b5ff7077d15dd871a43555a5f2921bb285ba28e1f227692f534f58",
+          "images/raw/MC68000/8041354.jpg": "fe10333d419a6bbb296939937696e63af2aa591abe41687753a0b9e78608087c",
+          "images/raw/MC68000/55535754.jpg": "50fd593f28a11eb21533eb5f16d985731ed680d76b782d8130738b2cf19df827",
+          "images/raw/NE555/20729665.jpg": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+          "images/raw/NE555/22764784.jpg": "eafe0648810d4b2bb3c29e9ff28e0dedde1368ca0355eceb5aedf033175408ca",
+          "images/raw/NE555/38383548.jpg": "ad3c9842db277d0f32af33005fb24d5c022908ffc3a87ca8ebf40118748792b0",
+          "images/raw/UA741/12429535.jpg": "9f0e29db6eade1f7f6d5da0432146fd4ddf19f508cb98313f7d8ddced9f0a727",
+          "images/raw/UA741/56426698.jpg": "55c79a42aed84832c53e6e8d3f52a0cef72da48655fa3985b4ad53672e8998d2",
+          "images/raw/UA741/64573796.jpg": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+          "images/raw/ULN2003/126915852.jpg": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+          "images/raw/Z80/6975899.jpg": "b702ca0d2398351b03217da3ecd459bd01c6c261068536e5c7acbd27d238d952",
+          "images/raw/Z80/55550822.jpg": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+          "images/raw/Z80/59595187.jpg": "6f1c7d52beaf849a33b90153eefdd43ee02480588ec4293c633c6ae459576701"
+        },
+        "timing": "fresh OCR/database/shape stage time + separately measured new-pool VLM generation and preparation; model load excluded; not end-to-end",
+        "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+        "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+        "visual_runtime": {
+          "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+          "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+          "runtime": {
+            "mlx": "0.32.4",
+            "mlx-vlm": "0.7.11",
+            "transformers": "5.22.1"
+          },
+          "model_load_s": 1.7458881249986007,
+          "actual_new_generations": 0,
+          "validated_cached_generations": 44
+        },
+        "candidate_source_sha256": "cb70dd92f279d875fb1ca7732ea72f06f0af9c038e0254d864f632f0207110dd"
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 42,
+        "top3_k": 42,
+        "recall10_k": 42,
+        "top1": 0.9545454545454546,
+        "top3": 0.9545454545454546,
+        "recall10": 0.9545454545454546,
+        "latency_ms": {
+          "p50": 6431.681957497858,
+          "p95": 8845.07812604843
+        },
+        "recall5_k": 42,
+        "recall5": 0.9545454545454546,
+        "coverage": 1.0,
+        "shape_available": 10,
+        "abstained": 6,
+        "vlm_calls": 44,
+        "batch_verified_queries": 44,
+        "actual_batch_vlm_calls": 0,
+        "validated_cached_generations": 44,
+        "wins_vs_baseline": 15,
+        "regressions_vs_baseline": 0,
+        "wins_vs_rapid": 5,
+        "regressions_vs_rapid": 1
+      }
+    },
+    {
+      "name": "sqlite_gated",
+      "label": "SQLite · 明确型号优先核验",
+      "config": {
+        "scope": "all_queries_fresh_staged_inference",
+        "metadata": {
+          "ocr": {
+            "engine": "rapidocr",
+            "packages": {
+              "rapidocr": "3.10.0",
+              "onnxruntime": "1.31.1"
+            },
+            "requested_device": "mps",
+            "runtime": "onnxruntime CPU",
+            "multiview": true,
+            "catalog_guided_view_selection": true,
+            "selection_policy": "unique strong identifier, best identifier score, mean retained-box confidence, original order",
+            "confidence_calibrated": false,
+            "crop_policy": "whole plus center with floor(8% of each original dimension) removed per edge",
+            "rotation_direction": "counterclockwise",
+            "text_min_confidence": 0.5,
+            "input_policy": "EasyOCR original view uses native file path; all other views and RapidOCR use BGR arrays",
+            "requires_upright_input": true,
+            "model_files": [
+              {
+                "role": "detector",
+                "name": "PP-OCRv6_det_small.onnx",
+                "sha256": "090f04abcd9d9a7498bc4ebf677e4cb9bdce1fe4197ddb7e529f1ef44e1ff94f"
+              },
+              {
+                "role": "classifier",
+                "name": "ch_ppocr_mobile_v2.0_cls_mobile.onnx",
+                "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+              },
+              {
+                "role": "recognizer",
+                "name": "PP-OCRv6_rec_small.onnx",
+                "sha256": "6f327246b50388f3c176ae304bd95767ea6dc0c9ae92153ef8cbe210b3c14884"
+              }
+            ],
+            "providers": [
+              "CPUExecutionProvider"
+            ],
+            "external_reader": false,
+            "model_config": {
+              "detector": "PP-OCRv6 small multilingual",
+              "classifier": "PP-OCRv4 mobile 0/180",
+              "recognizer": "PP-OCRv6 small multilingual"
+            }
+          },
+          "sqlite": {
+            "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+            "confidence_calibrated": false,
+            "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+            "owner": "partsid.sqlite_catalog",
+            "part_count": 18,
+            "reference_count": 18,
+            "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+            "schema_version": 1,
+            "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support",
+            "sqlite_version": "3.53.1"
+          },
+          "image_model": "google/siglip-base-patch16-224",
+          "image_revision": "7fd15f0689c79d79e38b1c2e2e2370a7bf2761ed",
+          "reference_image_sha256": {
+            "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+            "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+            "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+            "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+            "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+            "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+            "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+            "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+            "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+            "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+            "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+            "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+            "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+            "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+            "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+            "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+            "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+            "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+          },
+          "pool_policy": "strong SQL first; SQL top5 + appearance top5; fill SQL then appearance to10",
+          "shape_policy": "preserve exact/folded aliases; otherwise k60 RRF of retrieval and known shape rank"
+        },
+        "labels_sha256": "32bb1aadf2a8a43c60d6094b3f24df263ecc21234aa383faa67208386de00a97",
+        "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8",
+        "query_image_sha256": {
+          "images/raw/2N3055/50219570.jpg": "0ef3512bb6d070f20af0db1b8e630c21ac09c8cd63d73c6c4b904f0419fcd379",
+          "images/raw/2N3055/80876576.jpg": "65cde294d84cdf3791a34c95b0eab501846d9f37b9afd6f929f2a5080876de3c",
+          "images/raw/2N3055/94229451.jpg": "d8ee6d42d05f566b5f66187e2b23486da50a0676e6bed4ac105f5767eb89e8f0",
+          "images/raw/ATMEGA328P/75189907.jpg": "1165935e8bc2698e82ecbbb263615aea48f97ddbee6c0fb028be19a064d29577",
+          "images/raw/ATMEGA328P/133222141.jpg": "90b0286a1333500a94038e214330d487d0043a8d38c19be200913f793df34712",
+          "images/raw/ATMEGA328P/149126951.jpg": "28c51f3138922695e5653b26f34b8bfad3d56f9998d590b662efa9d07cea400b",
+          "images/raw/ATMEGA8/74561381.jpg": "e7b19bd203db6264e9216c41eb647cd076fa887d314eeb7122d38456d377edad",
+          "images/raw/ESP32/74560838.jpg": "c1acb5c205400b798d7f70d66d49a3ac1c85cb72317fe8e89aec489846f99ed0",
+          "images/raw/ESP32/97701682.jpg": "24ec74b347a82ec898f6b9fd187bd6b6e16551b160d7fd324b5749969dca54c2",
+          "images/raw/ESP8266/54458803.jpg": "7d20c73575c390e30166918bb2c64aa68ec81426c1778668211e7a74fc159c89",
+          "images/raw/ESP8266/56733450.jpg": "fda6beea29879d28ed3986485816c7f368ebe00e33de7f9a88f592caf7798b0d",
+          "images/raw/ESP8266/57331438.jpg": "a38410cdd480dab78fe7744a168051fe08a20761d438f89b4c207e90a744ce1e",
+          "images/raw/I80286/5174316.jpg": "dc87f18910fd7f3a3ffe7cb2ba9d20e80044f37784a61ed3e815e3722dd1057c",
+          "images/raw/I80286/6976587.jpg": "a80af1f64b8f387fecaabaa37e5821b7247043c0864fecc2adb4a8123eb9d597",
+          "images/raw/I80286/46635176.jpg": "1eb6ec5ba8f9e1a1ced293fb8860a5c2236434bacbabd88122525a7a856f677d",
+          "images/raw/I8080/6691932.jpg": "ea96be5af56c97eba44948ca5c0bdf5b8436e2e6d87dd86d4e49e38db0d7bd0b",
+          "images/raw/I8080/55534764.jpg": "719b954f441d20db02914cbea0996d5ebc91f02d96181e06150890ee06c88666",
+          "images/raw/I8085/55534910.jpg": "41c2776dc7509c302590154011102bd447bf1abd2cdd076aa81bb0f26db79572",
+          "images/raw/I8086/15625453.jpg": "7f7c9b20f57262fbff2a2fe02c0ea991662f6e4789b3e699d218e38e9127e575",
+          "images/raw/I8086/55534917.jpg": "f7d2690d9107401ed978f3332b191532a2b4ff2b29ba7c7d81c207e99da1a52d",
+          "images/raw/I8088/55534991.jpg": "a0dbc653fdc1cab591d643f9434f0cc925fef21a1b977c0a465bc0715e7fc012",
+          "images/raw/I8088/66104581.jpg": "6a0d0f65a69139cd47c93df44b6404a383639501fd1a4dd9668e6623eece2b23",
+          "images/raw/I8088/78876305.jpg": "47c5fbf5b78b674e6bd1ab73a54ed1ecc6457bb62a455c4692c66ab82617e96c",
+          "images/raw/LM317/23636678.jpg": "e2ca17798c8d027f7fc551037f3d82e3bf67072cd21d59209a1e290178dd2e1c",
+          "images/raw/LM317/74886172.jpg": "826fe5a5e7544764b648772906d9d641eb5b754d522e6839e566c0f0f806548b",
+          "images/raw/LM317/75704312.jpg": "ed5753558c46b3802349219d2bd2dfa5aab6f15b2af0a5e5013fe796f71a5dff",
+          "images/raw/LM7805/177751130.jpg": "39b7e68dd822dfebc13c18b70081900a2f93c31144ec2506d639fa3dc2fc1244",
+          "images/raw/LM7805/194982655.jpg": "d5b3998f60b22a2314619d33181c2022093fbd2fe91be22b022c48072d1f1554",
+          "images/raw/MAX232/27538989.jpg": "851512bcdb15c6c1f5d51c7881901ba816839fc933086a24c979aafa1aafccb6",
+          "images/raw/MAX232/110379628.jpg": "4312f8f6cd8c29dfe8cc2bda03af7cde6283bd8ef74732a7978a9c113c049a20",
+          "images/raw/MAX232/178879707.jpg": "eb2b72e2aba86e9eea48f6a3cca82123f52eeb57006b9f4479e3cfe71407dd4b",
+          "images/raw/MC68000/6976161.jpg": "c9033cfa92b5ff7077d15dd871a43555a5f2921bb285ba28e1f227692f534f58",
+          "images/raw/MC68000/8041354.jpg": "fe10333d419a6bbb296939937696e63af2aa591abe41687753a0b9e78608087c",
+          "images/raw/MC68000/55535754.jpg": "50fd593f28a11eb21533eb5f16d985731ed680d76b782d8130738b2cf19df827",
+          "images/raw/NE555/20729665.jpg": "71310928b426a0d6b09d5aa9d7ec8981b6bff69929a13c575ddaf7c8a41ce73a",
+          "images/raw/NE555/22764784.jpg": "eafe0648810d4b2bb3c29e9ff28e0dedde1368ca0355eceb5aedf033175408ca",
+          "images/raw/NE555/38383548.jpg": "ad3c9842db277d0f32af33005fb24d5c022908ffc3a87ca8ebf40118748792b0",
+          "images/raw/UA741/12429535.jpg": "9f0e29db6eade1f7f6d5da0432146fd4ddf19f508cb98313f7d8ddced9f0a727",
+          "images/raw/UA741/56426698.jpg": "55c79a42aed84832c53e6e8d3f52a0cef72da48655fa3985b4ad53672e8998d2",
+          "images/raw/UA741/64573796.jpg": "73370bc5ba8c1d23577f9e4977181bff667cdd3324eb4ad5933c66541bb80db2",
+          "images/raw/ULN2003/126915852.jpg": "32ade6969af81477d601db728f6c86a4972a1e5edb68e3291ad35c3588f1fc6c",
+          "images/raw/Z80/6975899.jpg": "b702ca0d2398351b03217da3ecd459bd01c6c261068536e5c7acbd27d238d952",
+          "images/raw/Z80/55550822.jpg": "da65622b3f176612ab5184f6327220dc761e97e39033b500d153746030cd5b80",
+          "images/raw/Z80/59595187.jpg": "6f1c7d52beaf849a33b90153eefdd43ee02480588ec4293c633c6ae459576701"
+        },
+        "timing": "gate projection from fresh staged measurements; VLM invoked in full batch; estimated stage sum, not end-to-end",
+        "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+        "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+        "visual_runtime": {
+          "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+          "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+          "runtime": {
+            "mlx": "0.32.4",
+            "mlx-vlm": "0.7.11",
+            "transformers": "5.22.1"
+          },
+          "model_load_s": 1.7458881249986007,
+          "actual_new_generations": 0,
+          "validated_cached_generations": 44
+        },
+        "candidate_source_sha256": "cb70dd92f279d875fb1ca7732ea72f06f0af9c038e0254d864f632f0207110dd"
+      },
+      "summary": {
+        "n": 44,
+        "top1_k": 41,
+        "top3_k": 42,
+        "recall10_k": 42,
+        "top1": 0.9318181818181818,
+        "top3": 0.9545454545454546,
+        "recall10": 0.9545454545454546,
+        "latency_ms": {
+          "p50": 770.4864170009387,
+          "p95": 5914.86652945041
+        },
+        "recall5_k": 42,
+        "recall5": 0.9545454545454546,
+        "coverage": 1.0,
+        "shape_available": 10,
+        "abstained": 2,
+        "vlm_calls": 8,
+        "batch_verified_queries": 44,
+        "actual_batch_vlm_calls": 0,
+        "validated_cached_generations": 44,
+        "wins_vs_baseline": 15,
+        "regressions_vs_baseline": 1,
+        "wins_vs_rapid": 4,
+        "regressions_vs_rapid": 1
+      }
+    }
+  ]
+}

@@ -5,9 +5,12 @@
   const state = {
     data: null, baseline: null, run: null, file: null, filter: "all",
     mode: "preset", imageMode: "evidence", loadingData: false,
-    live: { image: null, filename: "", record: null, catalog: null, loading: false, engine: "rapidocr", multiview: true, viewCache: new Map() },
+    live: { image: null, filename: "", record: null, catalog: null, loading: false, engine: "rapidocr", multiview: true, pipeline: "sqlite", verifyVisual: false, channel: "shape", timing: "", viewCache: new Map() },
   };
-  const labels = { ocr: "OCR", identifier: "型号检索", text: "文字检索", image: "图像检索", fusion: "融合排序", vlm: "视觉重排", total: "总计" };
+  const labels = { ocr: "OCR", identifier: "型号检索", text: "文字检索", image: "图像检索", fusion: "融合排序", sqlite: "SQLite 召回", sql: "SQLite 召回", sql_search: "SQLite 召回", retrieval: "候选检索", candidate_pool: "候选合并", shape: "形状估计与重排", vlm: "视觉核验", total: "总计" };
+  const keywordKinds = { model: "型号线索", model_like: "型号线索", alias: "型号别名", manufacturer: "制造商", maker: "制造商", description: "描述文字", text: "普通文字", word: "普通文字", batch: "批次线索", noise: "批次 / 噪声", likely_noise: "批次 / 噪声", number: "数字线索", numeric: "数字线索" };
+  const matchKinds = { exact: "精确匹配", folded: "容错别名", exact_alias: "精确别名", folded_alias: "容错别名", alias_exact: "精确别名", alias_folded: "容错别名", fuzzy: "模糊匹配", fts: "全文检索", manufacturer: "制造商匹配", maker: "制造商匹配", description: "描述匹配" };
+  const fieldNames = { alias: "别名", aliases: "别名", name: "名称", manufacturer: "制造商", maker: "制造商", description: "描述" };
   const text = (id, value) => { $(id).textContent = value == null ? "" : String(value); };
   const show = (id, visible) => { $(id).toggleAttribute("hidden", !visible); };
   const announce = (message) => text("live-status", message);
@@ -30,9 +33,10 @@
     return Array.isArray(records) ? records.find((record) => record.file === file) || null : records?.[file] || null;
   };
   const currentRecord = () => state.mode === "live" ? state.live.record : recordFor(state.run);
+  const activeChannel = (run = state.run) => state.mode === "live" ? state.live.channel : run?.channel || "fused";
   const rankings = (record, run = state.run) => {
     if (!record) return [];
-    const channel = state.mode === "live" ? "fused" : run?.channel || "fused";
+    const channel = activeChannel(run);
     return record.rankings?.[channel] || record.rankings?.fused || [];
   };
   const selectedView = (record) => {
@@ -87,9 +91,34 @@
     if (Number(view.rotation)) bits.push(`逆时针 ${Number(view.rotation)}°`);
     return bits.join(" · ");
   };
-  const compositeTiming = (run) => Boolean(run && (/cached baseline|not end.to.end|model load excluded/i.test(run.config?.timing || "") || ["reranked", "ensemble"].includes(run.channel)));
+  const sqliteRun = (run) => Boolean(run && (/^sqlite_/.test(run.name || "") || ["sql", "hybrid", "shape", "gated"].includes(run.channel)));
+  const compositeTiming = (run) => Boolean(run && (sqliteRun(run) ? /stage.only|stage.sum|separate|projection|not end.to.end|sum of|合计|分阶段|估算/i.test(run.config?.timing || "") : /cached baseline|not end.to.end|model load excluded/i.test(run.config?.timing || "") || ["reranked", "ensemble"].includes(run.channel)));
   const compositeTimingNote = "原管线耗时 + 视觉核验耗时；分别计时，未含模型加载。";
-  const timingNote = (run) => run?.channel === "ensemble" ? "冻结输出离线重放；各完整分支耗时串行合计估算，未实测端到端，未含模型加载。" : compositeTimingNote;
+  const timingNote = (run) => {
+    if (sqliteRun(run)) {
+      const timing = run.config?.timing || "";
+      if (/gate projection/i.test(timing)) return "门控阶段估算：完整批次实际调用了视觉模型；此行按门控规则选取所需阶段的耗时合计，未实测端到端，未含模型加载。";
+      if (/separately measured new.pool VLM/i.test(timing)) return "本次 OCR、数据库与形状阶段 + 单独测量的新候选视觉生成和准备耗时；未实测端到端，未含模型加载。";
+      if (/measured fresh.*OCR.*SQLite.*shape stages/i.test(timing)) return "重新实测 OCR、SQLite、图像检索与形状阶段；先做一张不计时预热，未含模型加载。SQL-only 的召回指标仍仅统计数据库候选。";
+      return timing || "以保存的阶段计时为准。";
+    }
+    return run?.channel === "ensemble" ? "冻结输出离线重放；各完整分支耗时串行合计估算，未实测端到端，未含模型加载。" : compositeTimingNote;
+  };
+  const timingScopeLabel = (run) => sqliteRun(run) && /projection|估算/i.test(run?.config?.timing || "") ? "门控估算" : run?.channel === "ensemble" ? "串行估算" : "分阶段合计";
+  const metricTimingNote = (run) => sqliteRun(run) ? /gate projection/i.test(run.config?.timing || "") ? "门控所需阶段的合计估算；完整批次实际运行了 VLM。" : compositeTiming(run) ? "含单独计时的 VLM 阶段；非端到端，不含模型加载。" : "重新实测各阶段；预热后计时，不含模型加载。" : timingNote(run);
+  const candidateOrigins = (record, id) => {
+    if (activeChannel() === "sql" && record?.retrieval?.candidates?.some((item) => item.part_id === id)) return ["sqlite"];
+    const poolItem = record?.retrieval?.pool?.find((item) => item.part_id === id);
+    return Array.isArray(poolItem?.origins) ? poolItem.origins : [];
+  };
+  const originText = (origins) => origins.map((origin) => ({ sqlite: "SQLite 召回", appearance: "图像补充" })[origin] || String(origin)).join(" + ");
+  const sqlCandidate = (record, id) => record?.retrieval?.candidates?.find((item) => item.part_id === id);
+  const matchText = (match) => {
+    const term = match.term || match.text || "";
+    const field = fieldNames[match.field] || match.field || "目录";
+    const kind = matchKinds[match.kind] || match.kind || "匹配";
+    return `${term ? `「${term}」→ ` : ""}${field}${match.alias ? `「${match.alias}」` : ""} · ${kind}`;
+  };
   const viewKey = (view) => JSON.stringify([view.id, view.crop, view.rotation, view.width, view.height]);
   function prepareLiveView(view) {
     const key = viewKey(view);
@@ -149,7 +178,7 @@
       text("image-placeholder-title", "实验记录暂不可用");
       text("image-placeholder-description", "请重新读取，或检查本地服务");
       text("experiments-body", "");
-      const row = node("tr"); const cell = node("td", "table-empty", "实验记录暂不可用"); cell.colSpan = 7; row.append(cell); $("experiments-body").append(row);
+      const row = node("tr"); const cell = node("td", "table-empty", "实验记录暂不可用"); cell.colSpan = 8; row.append(cell); $("experiments-body").append(row);
       announce("实验记录读取失败。");
     } finally {
       state.loadingData = false;
@@ -199,26 +228,29 @@
     const baseline = state.baseline?.summary;
     text("baseline-score", complete(state.baseline) ? percent(rate(baseline, "top1")) : "—");
     text("baseline-detail", baseline ? `${count(baseline, "top1")} 正确 · ${runLabel(state.baseline)}` : "暂无基线记录");
+    const baselineExample = complete(state.baseline) && count(baseline, "top1") ? `本次为 ${count(baseline, "top1")} = ${percent(rate(baseline, "top1"))}。` : "";
+    text("baseline-explanation", `基线是最初的 EasyOCR 方案。Top-1 是第一候选正确的比例。${baselineExample}这不是单张图片的置信度。`);
     const classes = Object.keys(state.data?.catalog || {}).length;
     text("scope-count", `${state.data?.samples?.length || 0} 张照片 / ${classes} 类`);
     const composite = state.mode === "preset" && compositeTiming(state.run);
-    show("latency-scope-note", composite);
-    text("latency-scope-note", composite ? timingNote(state.run) : "");
+    const showScope = state.mode === "preset" && (composite || sqliteRun(state.run));
+    show("latency-scope-note", showScope);
+    text("latency-scope-note", showScope ? metricTimingNote(state.run) : "");
     if (state.mode === "live") {
       text("selected-metric-label", "当前输入");
       text("selected-score", state.live.record ? "单张识别" : "待识别");
       text("selected-detail", "上传图片没有评估标签");
-      text("latency-metric-label", "本次推理时间");
+      text("latency-metric-label", "本次服务端计时");
       text("latency-score", duration(state.live.record?.ms?.total));
-      text("latency-detail", state.live.loading ? "正在加载或推理…" : "当前图片 · 本地 OCR 与检索");
+      text("latency-detail", state.live.loading ? "正在加载或推理…" : `当前图片 · ${state.live.pipeline === "sqlite" ? "SQLite + 形状" : "原多路检索"}${state.live.record?.vlm ? " + 视觉核验" : ""}`);
     } else {
       const summary = state.run?.summary;
       text("selected-metric-label", "当前实验 Top-1");
       text("selected-score", complete(state.run) ? percent(rate(summary, "top1")) : "未完成");
       text("selected-detail", summary ? `${count(summary, "top1")} 正确 · ${runLabel(state.run)}` : "暂无实验记录");
-      text("latency-metric-label", state.run?.channel === "ensemble" ? "串行估算 · p50" : composite ? "分阶段合计 · p50" : "当前实验延迟 · p50");
+      text("latency-metric-label", composite ? `${timingScopeLabel(state.run)} · p50` : sqliteRun(state.run) ? "记录耗时 · p50" : "当前实验延迟 · p50");
       text("latency-score", complete(state.run) ? duration(summary?.latency_ms?.p50) : "—");
-      text("latency-detail", complete(state.run) ? `p95 ${duration(summary?.latency_ms?.p95)}${composite ? "" : " · 预热后单图测量"}` : "运行未完成，不参与性能对照");
+      text("latency-detail", complete(state.run) ? `p95 ${duration(summary?.latency_ms?.p95)}${composite || sqliteRun(state.run) ? "" : " · 预热后单图测量"}` : "运行未完成，不参与性能对照");
     }
     text("evaluation-note-text", `${state.data?.samples?.length || 0} 张照片、${classes} 类的开发评估。标签由模型生成，复核意见未经元件专家确认。完整运行可比较；未完成运行仅显示覆盖数。`);
   }
@@ -236,9 +268,15 @@
     $("input-mode-tag").className = `tag ${live ? "tag-teal" : ""}`;
     text("evidence-mode-tag", live ? state.live.loading ? "运行中" : "实时" : "已保存");
     text("live-engine-name", `${state.live.engine === "rapidocr" ? "RapidOCR" : "EasyOCR"}${state.live.multiview ? " · 多视图" : " · 完整图像"}`);
+    text("live-result-description", `当前上传图片 · ${state.live.pipeline === "sqlite" ? "SQLite 关键词 + 形状" : "原多路检索"}${state.live.record?.vlm ? " + 本地视觉核验" : ""}`);
     $("predict-button").disabled = !state.live.image || state.live.loading;
+    $("pipeline-select").disabled = state.live.loading;
     $("engine-select").disabled = state.live.loading;
     $("multiview-input").disabled = state.live.loading;
+    $("verify-visual-input").disabled = state.live.loading || $("pipeline-select").value !== "sqlite";
+    show("verify-visual-note", $("pipeline-select").value !== "sqlite");
+    $("verify-visual-input").closest("label").classList.toggle("is-disabled", $("pipeline-select").value !== "sqlite");
+    text("live-pipeline-note", $("pipeline-select").value === "sqlite" ? `实时执行 OCR、SQLite 关键词召回与形状重排。${$("verify-visual-input").checked ? "证据不足时另运行本地视觉核验，首次加载模型可能较慢。" : "首次加载模型可能较慢。"}` : "实时执行原有 OCR 与多路检索。首次加载模型可能较慢。");
     $("upload-input").disabled = state.live.loading;
     text("predict-label", state.live.loading ? "正在识别…" : state.live.record ? "重新识别" : "开始识别");
     show("inference-overlay", live && state.live.loading);
@@ -319,13 +357,13 @@
     const observed = record?.ocr_text || record?.evidence?.text || "";
     text("ocr-text", observed || (record ? "未检测到可读文字" : live ? state.live.loading ? "正在读取图片中的文字…" : "上传图片并开始识别" : "当前实验没有该样本的记录"));
     $("ocr-text").classList.toggle("is-empty", !observed);
-    text("ocr-view-detail", view ? `所选视图：${viewDescription(view)}` : record ? "此记录只有文字输出，没有视图几何记录。" : "");
+    text("ocr-view-detail", view ? `所选视图：${viewDescription(view)} · 框分数为引擎原始值，未校准` : record ? "此记录只有文字输出，没有视图几何记录。" : "");
     text("run-status", state.run ? complete(state.run) ? `${state.run.channel === "ensemble" ? "固定输出组合重放" : "完整运行"} · ${state.run.summary?.n || 0} 张 · 实验回放` : `未完成 · 已覆盖 ${state.run.summary?.n || 0} / ${state.data?.samples?.length || 0} 张，不参与性能对照` : "暂无实验记录");
     $("run-status").classList.toggle("is-partial", Boolean(state.run && !complete(state.run)));
     const hits = $("identifier-hits"); hits.replaceChildren();
     const idHits = Array.isArray(record?.id_hits) ? record.id_hits : [];
     for (const hit of idHits.slice(0, 4)) {
-      const pid = Array.isArray(hit) ? hit[0] : hit.id || hit.pid;
+      const pid = Array.isArray(hit) ? hit[0] : hit.id || hit.pid || hit.part_id;
       const alias = Array.isArray(hit) ? hit[2] : hit.alias;
       const row = node("div", "identifier-hit"); row.append(node("code", "", alias || pid), node("span", "", pid)); hits.append(row);
     }
@@ -348,7 +386,7 @@
         votes.append(row);
       }
     }
-    const vlm = !live && record?.vlm;
+    const vlm = record?.vlm;
     show("vlm-section", Boolean(vlm));
     if (vlm) {
       const abstained = Boolean(vlm.abstained);
@@ -357,9 +395,89 @@
       text("vlm-reason", vlm.reason || (abstained ? "模型未给出可采纳的选择，保留原始候选顺序。" : "未保存判断说明。"));
       text("vlm-observed", vlm.observed_text ? `可见文字：${valueText(vlm.observed_text)}` : "");
       show("vlm-observed", Boolean(vlm.observed_text));
+      text("vlm-scope-note", live ? "本次实时核验 · 仅使用本次生成的候选；本地模型首次加载可能较慢。" : combined ? "固定输出组合重放 · 此处为已保存的视觉分支判断。" : record?.retrieval ? "已保存实测 · 在本次 SQLite 与图像补充候选中判断。" : "已保存实测 · 在冻结的 Top-10 候选中判断。");
     }
+    renderRetrieval(record);
+    renderShape(record);
+    renderSelectedEvidence(record);
     renderCandidates(record);
     renderTiming(record);
+  }
+
+  function renderRetrieval(record) {
+    const retrieval = record?.retrieval;
+    show("retrieval-section", Boolean(retrieval));
+    if (!retrieval) return;
+    const keywords = Array.isArray(retrieval.keywords) ? retrieval.keywords : [];
+    const candidates = Array.isArray(retrieval.candidates) ? retrieval.candidates : [];
+    const pool = Array.isArray(retrieval.pool) ? retrieval.pool : [];
+    text("sql-match-count", `${candidates.length} SQL 候选`);
+    const keywordList = $("keyword-list"); keywordList.replaceChildren();
+    for (const keyword of keywords) {
+      const chip = node("span", `keyword-chip${/noise|batch/.test(keyword.kind || "") ? " is-noise" : ""}`);
+      chip.append(node("code", "", keyword.text || keyword.normalized || ""), node("small", "", keywordKinds[keyword.kind] || keyword.kind || "文字线索"));
+      if (keyword.normalized && keyword.normalized !== keyword.text) chip.title = `归一化：${keyword.normalized}`;
+      keywordList.append(chip);
+    }
+    if (!keywords.length) keywordList.append(node("p", "empty-note", "没有可用于数据库检索的 OCR 关键词。"));
+    const strong = Array.isArray(retrieval.strong_ids) ? retrieval.strong_ids : [];
+    const supplemental = pool.filter((item) => Array.isArray(item.origins) && item.origins.includes("appearance")).length;
+    text("retrieval-summary", `数据库召回 ${candidates.length} 个候选${pool.length ? `，完整流程合并池 ${pool.length} 个` : ""}${supplemental ? `，其中 ${supplemental} 个带图像补充依据` : ""}。${strong.length ? `强型号线索：${strong.join("、")}。` : "未形成强型号线索。"}${activeChannel() === "sql" ? "本阶段只使用 SQL 排序；图像与形状用于后续阶段对照。" : retrieval.fallback_used ? "已使用图像补充候选；这些命中不计为 SQL 召回。" : ""}`);
+    const matches = $("sql-matches"); matches.replaceChildren();
+    for (const [index, candidate] of candidates.entries()) {
+      const receipt = node("div", "sql-receipt");
+      const heading = node("div", "sql-receipt-heading");
+      heading.append(node("strong", "", `${index + 1}. ${candidate.part_id}`));
+      if (candidate.tier) heading.append(node("span", "", matchKinds[candidate.tier] || candidate.tier));
+      receipt.append(heading);
+      const entries = Array.isArray(candidate.matches) ? candidate.matches : [];
+      for (const match of entries) receipt.append(node("p", "", matchText(match)));
+      if (!entries.length) receipt.append(node("p", "empty-note", "未保存逐关键词命中说明。"));
+      matches.append(receipt);
+    }
+    if (!candidates.length) matches.append(node("p", "empty-note", "数据库没有返回候选；图像补充的结果会单独标注。"));
+  }
+
+  function renderShape(record) {
+    const shape = record?.shape;
+    show("shape-section", Boolean(shape));
+    if (!shape) return;
+    const query = shape.query || {};
+    text("shape-status", query.available ? "可用 · 启发式" : "不可用");
+    $("shape-status").className = `tag ${query.available ? "tag-teal" : "tag-neutral"}`;
+    const features = $("shape-features"); features.replaceChildren();
+    const featureNames = { elongation: "长短轴比", solidity: "轮廓实心度", circularity: "圆度" };
+    if (query.available) {
+      for (const [key, label] of Object.entries(featureNames)) {
+        const value = number(query.features?.[key]);
+        if (value != null) features.append(node("dt", "", label), node("dd", "", value.toFixed(3)));
+      }
+      if (!features.childElementCount) features.append(node("dt", "", "特征"), node("dd", "", "未保存数值"));
+    }
+    show("shape-features", features.childElementCount > 0);
+    const notes = valueText(query.quality_notes);
+    text("shape-quality", [query.method ? `方法：${query.method}` : "", notes, !query.available ? "本次没有可用的形状估计，不提供形状分数。" : "由照片前景轮廓估计，受遮挡、背景与拍摄角度影响。", ["sql", "hybrid"].includes(activeChannel()) ? "本阶段仅展示对照，形状特征未参与排序。" : ""].filter(Boolean).join("；"));
+  }
+
+  function renderSelectedEvidence(record) {
+    const id = rankings(record)[0];
+    const visible = Boolean(record?.retrieval && id);
+    show("selected-evidence-section", visible);
+    if (!visible) return;
+    text("selected-candidate-name", `${partName(id)} · ${id}`);
+    const content = $("selected-candidate-evidence"); content.replaceChildren();
+    const origins = candidateOrigins(record, id);
+    content.append(node("p", "", origins.length ? `候选来源：${originText(origins)}` : "候选来源：未保存"));
+    const candidate = sqlCandidate(record, id);
+    const entries = Array.isArray(candidate?.matches) ? candidate.matches : [];
+    for (const match of entries) content.append(node("p", "", matchText(match)));
+    if (!candidate) content.append(node("p", "", "该候选未出现在 SQL 召回结果中。"));
+    else if (!entries.length) content.append(node("p", "", "该候选未保存逐关键词命中说明。"));
+    const shapeScore = number(record?.shape?.reference_scores?.[id]);
+    content.append(node("p", "", shapeScore == null ? "形状：没有可用的查询图与参考图对比" : `参考图形状相似度：${shapeScore.toFixed(3)}（非概率${["sql", "hybrid"].includes(activeChannel()) ? "，本阶段未参与排序" : ""}）`));
+    const decision = record.decision;
+    show("candidate-decision", Boolean(decision));
+    text("candidate-decision", decision ? `${decision.used_vlm ? "已使用视觉核验" : decision.accepted_sql_id ? `保留强 SQL 型号 ${decision.accepted_sql_id}` : "未使用视觉核验"}${decision.reason ? `：${decision.reason}` : ""}` : "");
   }
 
   function renderCandidates(record) {
@@ -384,15 +502,23 @@
       else heading.textContent = part.name || id;
       info.append(heading, node("code", "", id));
       const evidence = node("div", "candidate-evidence");
-      const hit = record?.id_hits?.find((entry) => (Array.isArray(entry) ? entry[0] : entry.id || entry.pid) === id);
+      const hit = record?.id_hits?.find((entry) => (Array.isArray(entry) ? entry[0] : entry.id || entry.pid || entry.part_id) === id);
       if (hit) { const tag = node("span", "identifier-tag", "型号命中"); tag.title = `命中别名：${Array.isArray(hit) ? hit[2] || id : hit.alias || id}`; evidence.append(tag); }
       for (const [channel, label] of [["text", "文字"], ["image", "图像"]]) {
         const rank = record?.rankings?.[channel]?.indexOf(id);
         if (rank != null && rank >= 0 && rank < 3) evidence.append(node("span", "", `${label} #${rank + 1}`));
       }
+      for (const origin of candidateOrigins(record, id)) evidence.append(node("span", origin === "sqlite" ? "identifier-tag" : "", originText([origin])));
+      if (record?.retrieval?.strong_ids?.includes(id)) evidence.append(node("span", "identifier-tag", "强型号线索"));
+      const shapeRank = record?.shape?.ranked_ids?.indexOf(id);
+      const shapeScore = number(record?.shape?.reference_scores?.[id]);
+      if (!["sql", "hybrid"].includes(activeChannel()) && shapeScore != null && shapeRank != null && shapeRank >= 0 && shapeRank < 3) evidence.append(node("span", "", `形状阶段 #${shapeRank + 1}`));
       if (!evidence.childElementCount) evidence.append(node("span", "", state.mode !== "live" && state.run?.channel === "reranked" ? "重排候选" : "融合候选"));
       if (state.mode === "preset" && sample()?.gt === id) evidence.append(node("span", "truth-tag", "评估标签"));
-      info.append(evidence); card.append(imageWrap, info); list.append(card);
+      info.append(evidence);
+      const receipt = sqlCandidate(record, id)?.matches?.[0];
+      if (receipt) info.append(node("p", "candidate-receipt", matchText(receipt)));
+      card.append(imageWrap, info); list.append(card);
     }
   }
 
@@ -402,34 +528,37 @@
     text("timing-total", duration(record?.ms?.total));
     const content = $("timing-content"); content.replaceChildren();
     const composite = state.mode === "preset" && compositeTiming(state.run);
-    for (const [key, value] of times) content.append(node("dt", "", key === "total" && composite ? "阶段合计" : labels[key] || key), node("dd", "", duration(value)));
-    show("timing-scope-note", composite);
-    text("timing-scope-note", composite ? timingNote(state.run) : "");
+    for (const [key, value] of times) content.append(node("dt", "", key === "total" && composite ? timingScopeLabel(state.run) : labels[key] || key), node("dd", "", duration(value)));
+    const scope = state.mode === "live" ? state.live.timing ? /measured live end.to.end/i.test(state.live.timing) ? "本次实时端到端计时，包含本次请求所需的视觉进程与模型加载；强且无冲突的 SQL 线索可跳过视觉调用。" : state.live.timing : "" : composite || sqliteRun(state.run) ? timingNote(state.run) : "";
+    show("timing-scope-note", Boolean(scope));
+    text("timing-scope-note", scope);
   }
 
-  function setMatchStatus(id, candidate, gt) {
+  function setMatchStatus(id, candidate, gt, hasRecord) {
     const el = $(id);
     const correct = Boolean(candidate && gt && candidate === gt);
-    el.className = `result-status ${candidate && gt ? correct ? "is-correct" : "is-wrong" : ""}`;
-    el.textContent = !candidate ? "暂无记录" : correct ? "✓ 与评估标签一致" : "与评估标签不同";
+    el.className = `result-status ${hasRecord && gt ? correct ? "is-correct" : "is-wrong" : ""}`;
+    el.textContent = !hasRecord ? "暂无记录" : !candidate ? gt ? "未检索到候选 · 与评估标签不符" : "未检索到候选" : correct ? "✓ 与评估标签一致" : "与评估标签不同";
   }
 
   function renderSampleComparison(record) {
     const item = sample();
     text("ground-truth-name", item ? partName(item.gt, state.data.catalog) : "—");
     text("ground-truth-id", item?.gt || "");
-    const base = recordFor(state.baseline)?.rankings?.fused?.[0];
+    const baseRecord = recordFor(state.baseline);
+    const base = baseRecord?.rankings?.fused?.[0];
     const current = rankings(record)[0];
-    text("comparison-baseline-name", base ? partName(base, state.data?.catalog) : "—");
-    text("comparison-current-name", current ? partName(current, state.data?.catalog) : "—");
-    text("comparison-current-label", state.run?.channel === "ensemble" ? "组合 Top-1" : state.run?.channel === "reranked" ? "视觉重排 Top-1" : "当前实验 Top-1");
-    setMatchStatus("comparison-baseline-status", base, item?.gt);
-    setMatchStatus("comparison-current-status", current, item?.gt);
+    text("comparison-baseline-name", base ? partName(base, state.data?.catalog) : baseRecord ? "未检索到候选" : "—");
+    text("comparison-current-name", current ? partName(current, state.data?.catalog) : record ? "未检索到候选" : "—");
+    text("comparison-current-label", state.run?.channel === "ensemble" ? "组合 Top-1" : state.run?.channel === "gated" ? "门控方案 Top-1" : state.run?.channel === "reranked" ? "视觉重排 Top-1" : "当前实验 Top-1");
+    setMatchStatus("comparison-baseline-status", base, item?.gt, Boolean(baseRecord));
+    setMatchStatus("comparison-current-status", current, item?.gt, Boolean(record));
     let label = "等待记录"; let className = "tag tag-neutral";
-    if (base && current) {
-      if (base === current) label = "Top-1 未变";
-      else if (current === item?.gt && base !== item.gt) { label = "改善"; className = "tag tag-teal"; }
-      else if (base === item?.gt && current !== item.gt) { label = "退化"; className = "tag tag-warning"; }
+    if (baseRecord && record) {
+      if (!base && !current) label = "均未检索到候选";
+      else if (base === current) label = "Top-1 未变";
+      else if (item?.gt && current === item.gt && base !== item.gt) { label = "改善"; className = "tag tag-teal"; }
+      else if (item?.gt && base === item.gt && current !== item.gt) { label = "退化"; className = "tag tag-warning"; }
       else label = "候选变化";
     }
     text("comparison-change", label); $("comparison-change").className = className;
@@ -459,16 +588,20 @@
       nameWrap.append(button);
       if (run.name === state.baseline?.name) nameWrap.append(node("span", "tag tag-neutral", "基线"));
       if (run.channel === "ensemble") nameWrap.append(node("span", "tag tag-neutral", `组合重放 · VLM ${run.summary?.vlm_calls ?? "—"}/${run.summary?.n || 0}`));
+      if (sqliteRun(run) && ["reranked", "gated"].includes(run.channel) && finite(run.summary?.vlm_calls)) nameWrap.append(node("span", "tag tag-neutral", `VLM ${run.summary.vlm_calls}/${run.summary?.n || 0}`));
       if (!complete(run)) nameWrap.append(node("span", "tag tag-warning", "未完成"));
       nameCell.append(nameWrap); row.append(nameCell, node("td", "table-count", `${run.summary?.n || 0} / ${state.data?.samples?.length || 0}`));
       if (!complete(run)) {
-        const cell = node("td", "partial-caption", "未纳入性能对照"); cell.colSpan = 5; row.append(cell);
+        const cell = node("td", "partial-caption", "未纳入性能对照"); cell.colSpan = 6; row.append(cell);
       } else {
-        for (const metric of ["top1", "top3", "recall10"]) {
+        for (const metric of ["top1", "top3", "recall5", "recall10"]) {
           const cell = node("td", "", percent(rate(run.summary, metric))); const values = count(run.summary, metric); if (values) cell.title = values; row.append(cell);
         }
         const latency = node("td", "", `${duration(run.summary?.latency_ms?.p50)} / ${duration(run.summary?.latency_ms?.p95)}`);
-        if (compositeTiming(run)) latency.append(node("span", "table-time-scope", run.channel === "ensemble" ? "串行估算" : "分阶段合计"));
+        if (compositeTiming(run) || sqliteRun(run)) {
+          const scope = node("span", "table-time-scope", compositeTiming(run) ? timingScopeLabel(run) : "阶段记录");
+          scope.title = timingNote(run); latency.append(scope);
+        }
         row.append(latency);
         const changes = node("td");
         const wins = run.summary?.wins; const regressions = run.summary?.regressions;
@@ -479,12 +612,14 @@
       }
       tbody.append(row);
     }
-    if (!tbody.childElementCount) { const row = node("tr"); const cell = node("td", "table-empty", "暂无实测运行。"); cell.colSpan = 7; row.append(cell); tbody.append(row); }
+    if (!tbody.childElementCount) { const row = node("tr"); const cell = node("td", "table-empty", "暂无实测运行。"); cell.colSpan = 8; row.append(cell); tbody.append(row); }
     const hasComposite = state.data?.runs.some(compositeTiming);
     const warmup = state.data?.runs.some((run) => /warmup/i.test(run.config?.timing || ""));
-    show("table-timing-note", hasComposite || warmup);
+    const sqliteTiming = [...new Set((state.data?.runs || []).filter(sqliteRun).map(timingNote))];
+    show("table-timing-note", hasComposite || warmup || sqliteTiming.length > 0);
     const hasEnsemble = state.data?.runs.some((run) => run.channel === "ensemble");
-    text("table-timing-note", `${warmup ? "OCR 为预热后的单图测量，与原始整批二次运行的计时方法不同。" : ""}${hasComposite ? `视觉重排：${compositeTimingNote}` : ""}${hasEnsemble ? "组合策略为固定输出离线重放；时间为所需完整分支串行合计估算，未实测端到端。" : ""}`);
+    const hasOldVLM = state.data?.runs.some((run) => !sqliteRun(run) && run.channel === "reranked");
+    text("table-timing-note", [warmup ? "OCR 为预热后的单图测量，与原始整批二次运行的计时方法不同。" : "", hasOldVLM ? `原视觉重排：${compositeTimingNote}` : "", hasEnsemble ? "原组合策略为固定输出离线重放；时间为所需完整分支串行合计估算，未实测端到端。" : "", ...sqliteTiming.map((note) => `SQLite 流程：${note}`)].filter(Boolean).join(" "));
   }
 
   function renderAll() {
@@ -521,7 +656,7 @@
       const dataURL = await new Promise((resolve, reject) => {
         const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(new Error("图片文件无法读取，请重新选择。")); reader.readAsDataURL(file);
       });
-      state.live.image = dataURL; state.live.filename = file.name; state.live.record = null; state.live.catalog = null; state.live.viewCache = new Map(); state.mode = "live";
+      state.live.image = dataURL; state.live.filename = file.name; state.live.record = null; state.live.catalog = null; state.live.channel = "shape"; state.live.timing = ""; state.live.viewCache = new Map(); state.mode = "live";
       text("upload-file-name", `${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`);
       renderAll(); announce(`已选择 ${file.name}，点击开始识别以运行本地 OCR。`);
     } catch (error) { uploadError(error.message); }
@@ -532,14 +667,17 @@
   async function predict() {
     if (!state.live.image || state.live.loading) return;
     state.live.engine = $("engine-select").value; state.live.multiview = $("multiview-input").checked;
-    state.live.loading = true; state.live.record = null; show("upload-error", false); renderAll();
-    announce("正在本地运行 OCR 与检索。首次加载模型可能较慢。");
+    state.live.pipeline = $("pipeline-select").value; state.live.verifyVisual = state.live.pipeline === "sqlite" && $("verify-visual-input").checked;
+    state.live.channel = state.live.pipeline === "sqlite" ? state.live.verifyVisual ? "gated" : "shape" : "fused";
+    state.live.loading = true; state.live.record = null; state.live.timing = ""; show("upload-error", false); renderAll();
+    announce(`正在本地运行 OCR 与检索${state.live.verifyVisual ? "及按需视觉核验" : ""}。首次加载模型可能较慢。`);
     try {
-      const response = await fetch("/api/predict", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: state.live.image, engine: state.live.engine, multiview: state.live.multiview }) });
+      const response = await fetch("/api/predict", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image: state.live.image, engine: state.live.engine, multiview: state.live.multiview, pipeline: state.live.pipeline, verify_visual: state.live.verifyVisual }) });
       const result = await response.json();
       if (!response.ok || result.error) throw new Error(result.error || `识别失败（HTTP ${response.status}）`);
       if (!result.record) throw new Error("服务没有返回识别结果。");
       state.live.record = result.record; state.live.catalog = result.catalog || state.data?.catalog || {};
+      state.live.channel = result.channel || "fused"; state.live.timing = result.timing || "";
       announce(`识别完成。第一候选：${partName(rankings(result.record)[0], state.live.catalog)}。`);
     } catch (error) { uploadError(error.message || "本地识别失败，请重试。"); }
     finally { state.live.loading = false; renderAll(); }
@@ -555,6 +693,8 @@
   for (const [id, filter] of [["filter-all", "all"], ["filter-errors", "errors"]]) $(id).addEventListener("click", () => { state.filter = filter; renderSamplePicker(); renderAll(); announce(`显示${filter === "all" ? "全部样本" : "基线错误样本"}，共 ${filteredSamples().length} 张。`); });
   for (const [id, mode] of [["view-original", "original"], ["view-evidence", "evidence"]]) $(id).addEventListener("click", () => { state.imageMode = mode; renderImage(currentRecord()); });
   $("upload-input").addEventListener("change", (event) => readUpload(event.target.files?.[0]));
+  $("pipeline-select").addEventListener("change", () => { if ($("pipeline-select").value !== "sqlite") $("verify-visual-input").checked = false; renderMode(); });
+  $("verify-visual-input").addEventListener("change", renderMode);
   $("predict-button").addEventListener("click", predict);
   const zone = $("upload-zone");
   for (const type of ["dragenter", "dragover"]) zone.addEventListener(type, (event) => { event.preventDefault(); if (!state.live.loading) zone.classList.add("is-dragging"); });

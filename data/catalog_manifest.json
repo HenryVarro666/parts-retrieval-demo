@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-31",
+  "metadata": {
+    "owner": "partsid.sqlite_catalog",
+    "schema_version": 1,
+    "sqlite_version": "3.53.1",
+    "catalog_sha256": "c631aef5d477e33120b3de8908f95c7aa57c288c4b051b8925e9d61870240e7d",
+    "references_sha256": "9463032d58002710fc77322e7e86f31281b5f495821a7d4df84ebcf6bf0390a1",
+    "part_count": 18,
+    "reference_count": 18,
+    "confidence_calibrated": false,
+    "keyword_policy": "deduplicated words and known 2/3-word joins within one OCR view; max 64 characters per word",
+    "score_policy": "exact > folded > fuzzy > maker > FTS; bounded multi-keyword support"
+  },
+  "source_file_sha256": "14b83f2d5beba0b70f7667b6c87e9cfeb2f5674ce2e1c7da9c7b69a4ff048adc",
+  "database_sha256": "01fc25b07d04ed35dc49e6559fb54589d2804f8c282c68469c7b435a777c07e8"
+}

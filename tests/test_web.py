@@ -45,3 +45,18 @@ def test_web_data_joins_review_by_file_without_hiding_partial_runs(tmp_path):
     assert result["samples"][0]["review"]["observed_text"] == "A123"
     assert result["runs"][0]["status"] == "running"
     assert result["catalog"]["A"]["catalog_file"] == "images/raw/A/ref.jpg"
+
+
+def test_empty_sql_result_counts_as_a_regression_against_correct_baseline(tmp_path):
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "parts.json").write_text('[{"id":"A","name":"Part A"}]')
+    (data / "labels.csv").write_text('file,part_id,split\nref.jpg,A,catalog\nq.jpg,A,query\n')
+    out = tmp_path / "results/experiments"
+    out.mkdir(parents=True)
+    for name, channel, ranking in [("easyocr_whole", "fused", ["A"]), ("sqlite_keywords", "sql", [])]:
+        (out / f"{name}.json").write_text(json.dumps({"name": name, "channel": channel, "status": "complete", "config": {},
+            "summary": {"n": 1}, "records": [{"file": "q.jpg", "gt": "A", "rankings": {channel: ranking}}]}))
+    result = web_payload(tmp_path)
+    sql = next(r for r in result["runs"] if r["name"] == "sqlite_keywords")
+    assert sql["summary"]["regressions"] == 1

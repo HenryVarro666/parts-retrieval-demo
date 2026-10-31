@@ -1,0 +1,277 @@
+{
+  "date": "2026-10-31",
+  "descriptors": {
+    "2N3055": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        105,
+        99,
+        808,
+        635
+      ],
+      "features": {
+        "elongation": 1.1559715026158246,
+        "solidity": 0.9360660646825762,
+        "circularity": 0.5691501374784428
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "ATMEGA328P": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        152,
+        95,
+        750,
+        525
+      ],
+      "features": {
+        "elongation": 3.3489209828298945,
+        "solidity": 0.7368892337999582,
+        "circularity": 0.0875841479313492
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "ATMEGA8": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Nonuniform border background makes segmentation unreliable."
+      ]
+    },
+    "ESP32": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Nonuniform border background makes segmentation unreliable."
+      ]
+    },
+    "ESP8266": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Nonuniform border background makes segmentation unreliable."
+      ]
+    },
+    "I80286": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        35,
+        47,
+        895,
+        618
+      ],
+      "features": {
+        "elongation": 1.5030452270192545,
+        "solidity": 0.943419822215212,
+        "circularity": 0.32885883711629144
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "I8080": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Fragmented foreground has no sufficiently dominant component."
+      ]
+    },
+    "I8085": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        22,
+        30,
+        935,
+        289
+      ],
+      "features": {
+        "elongation": 3.588106763522841,
+        "solidity": 0.9535790510589394,
+        "circularity": 0.4459952723938843
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "I8086": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        92,
+        92,
+        863,
+        359
+      ],
+      "features": {
+        "elongation": 3.531890402191383,
+        "solidity": 0.7715031793808679,
+        "circularity": 0.064021124721735
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "I8088": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        97,
+        97,
+        860,
+        335
+      ],
+      "features": {
+        "elongation": 3.805867703428093,
+        "solidity": 0.9191453989935299,
+        "circularity": 0.4203584261951202
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "LM317": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Nonuniform border background makes segmentation unreliable."
+      ]
+    },
+    "LM7805": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        177,
+        95,
+        855,
+        570
+      ],
+      "features": {
+        "elongation": 2.24968143543364,
+        "solidity": 0.5266421236194536,
+        "circularity": 0.07856206458468624
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "MAX232": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        245,
+        147,
+        745,
+        520
+      ],
+      "features": {
+        "elongation": 2.089787586076775,
+        "solidity": 0.7816502270236417,
+        "circularity": 0.12902442596208702
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "MC68000": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        17,
+        32,
+        933,
+        280
+      ],
+      "features": {
+        "elongation": 3.7244897959183674,
+        "solidity": 0.9316498512859392,
+        "circularity": 0.14615466406944508
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "NE555": {
+      "available": true,
+      "method": "border_lab_otsu_v1",
+      "bbox": [
+        104,
+        56,
+        650,
+        515
+      ],
+      "features": {
+        "elongation": 1.2854138027507986,
+        "solidity": 0.7216942096948116,
+        "circularity": 0.20061161021487978
+      },
+      "quality_notes": [
+        "Heuristic silhouette; package type, pins and physical size remain unknown."
+      ]
+    },
+    "UA741": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Fragmented foreground has no sufficiently dominant component."
+      ]
+    },
+    "ULN2003": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Nonuniform border background makes segmentation unreliable."
+      ]
+    },
+    "Z80": {
+      "available": false,
+      "method": "border_lab_otsu_v1",
+      "bbox": null,
+      "features": {},
+      "quality_notes": [
+        "Fragmented foreground has no sufficiently dominant component."
+      ]
+    }
+  },
+  "reference_image_sha256": {
+    "2N3055": "512c3490f51e6cf62f586adb21cf4e4eee91c94af9da52d7330a815e215892ca",
+    "ATMEGA328P": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+    "ATMEGA8": "c6a78082515120687a38553c6eef1ca545692b5043c4450d7ddb673fb45fcba2",
+    "ESP32": "7b7acc644b0b82e3ec6485fe03c7f3c5852c16b3231b69c085cd38f9ec813d37",
+    "ESP8266": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+    "I80286": "9e1a80cbd139306d91cb76a178f887c941fc7bbf07d57b7fa5c51b77e8526015",
+    "I8080": "bb4b646dde79aa1601eda1a68783333e94eea8795afcc9bfb64bf3aa87938e16",
+    "I8085": "642e83a133029851a2b82b734efd7e0f4c2e3f2fa5ad08cca4e0a0909215eba2",
+    "I8086": "b4ed6dba49f054229493ffcdb9e19445ba28b64ac42028efa83cfa8f636525b8",
+    "I8088": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+    "LM317": "3fc39ea0151ade831a852db510007a44f1c1fe285fef049196ec8e06ea1d4ce2",
+    "LM7805": "4ae32116a83de560faf713d34ebf1a9d57f5a2b361354244e54a9fef897a792a",
+    "MAX232": "082b2522cf81568f6fdae7b385abdfa8e6a7024ce6ef37c3291b92934ea9139f",
+    "MC68000": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+    "NE555": "6c50382ab068f395a8536df9eb2ec448413264e8af98201db1bb55abedfb6a51",
+    "UA741": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+    "ULN2003": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+    "Z80": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549"
+  }
+}
