@@ -6,6 +6,12 @@ This is a small demo built from public photos and off-the-shelf models. Nothing 
 
 Claude Code (Anthropic's AI coding agent) produced the original baseline and photo labels on 2026-10-30 (see Data). The subsequent OCR/VLM experiments and local evidence workbench are documented separately below; the original catalog, labels and result files are preserved.
 
+## Documentation and continuation
+
+Start with the [documentation index](docs/README.md), [current handoff](docs/HANDOFF.md), and [issue/improvement ledger](docs/ISSUES_AND_IMPROVEMENTS.md). Historical problems, fixes and unsuccessful approaches are linked to their saved evidence. Every new task must update the ledger, dated experiment record and handoff using the [documentation workflow](docs/DOCUMENTATION_WORKFLOW.md); the repository's [AGENTS.md](AGENTS.md) makes this part of future delivery.
+
+The separate photovoltaic reconstruction project already has a V3 multiview point-cloud workbench. Its current issues and the next scale-calibration experiments are connected in the [reconstruction handoff](docs/RECONSTRUCTION_HANDOFF.md). Recognition accuracy, point-cloud quality and measured dimensions remain separate evaluations.
+
 ## Evidence workbench and follow-up experiments
 
 Launch the local page (Apple Silicon and CPU OCR path tested):
