@@ -21,3 +21,10 @@ User-authorized continuation: collect public photographs, compare fixed single/t
 ## Interpretation boundary
 
 Eight selected units are an exploratory stress set, not a representative accuracy estimate. Two added groups reuse one capture each from the historical 44 queries; the anchor is also reused. A chronological first-view baseline may be unusually easy or hard, so publish all-view single results alongside it. Do not claim that adding images always improves recognition.
+
+## Completed evidence
+
+- Frozen dataset: `8f3e44d59172b0de7a42ae1104f208a42f365ce7`; 8 groups /24 views, selection and crops unchanged after inference.
+- Measured implementation: `7cb510bcc227b8a7fc6df2f94452e10e7e21808f`; three policies, per-view runs, stratified results, trilingual replay and source credits.
+- Independent review accepted after reporting and cache-invalidation fixes. Full local and fresh-GitHub-clone suites:178 Python +16 Node tests. Offline regeneration left the clone clean; actual fresh-clone ATMEGA retrieval rankings/OCR matched the saved run.
+- Private `main` and `experiment/public-triplets` synchronized; detailed measurements, browser screenshots and reproduction boundaries are in `docs/research/2026-10-31-public-triplets-results.md` and `2026-10-31-public-triplets-verification.md`.

@@ -34,3 +34,17 @@
 ## 运行边界
 
 本机Apple M4 Pro实际执行了OCR、SQLite、SigLIP、形状与Qwen3-VL联合核验，没有训练、模型调参或云端模型API。模型权重、环境、候选研究暂存和实时上传缓存不在Git中；源图/许可、裁剪、代码、结果、译文和网页纳入版本控制。其他硬件/CUDA的实际质量与时间尚未验证。
+
+## GitHub 私有远端新克隆验证
+
+代码/数据/网页版本 **`7cb510bcc227b8a7fc6df2f94452e10e7e21808f`** 已原子推送至 [私有仓库](https://github.com/HenryVarro666/parts-retrieval-demo) 的 `main` 和 `experiment/public-triplets`。GitHub元数据在推送后再次确认 `visibility: private`、默认分支`main`。
+
+从GitHub远端新克隆到 `/tmp/partsid-public-verify-7cb510b`，并非复制本地工作目录，完成以下验证：
+
+- `uv sync --frozen --extra experiments` 成功，建立新的`.venv`并安装64个锁定包，锁文件未改动。
+- 离线重建旧/新目标裁剪和清单，验证全部来源并重算6个多图报告，重新导出148个原文/444条译文；产物逐字节一致，`git status --short`为空。
+- 完整套件 **178 Python tests +16 Node tests** 通过。新克隆没有`.venv-vlm`，仍可回放44个旧查询、15个旧实验及6个多图实验，并读取全部保存的视觉判断和三语分析，无需重新生成。
+- 另行真实运行ATMEGA328P三图OCR/SQLite/SigLIP/形状对照：**单图和三图的完整排序、三张OCR原文与冻结检索结果完全一致**。输出保留在`/tmp/partsid-public-clone-smoke-7cb510b.json`，没有覆盖已提交的实验。
+- 此次复现仍在同一台Mac，使用现有包/模型缓存；没有把新目录安装和实测当作另一种硬件或CUDA已验证。没有复制旧VLM环境或将权重打包入Git。
+
+后续提交仅更新本验证记录、计划状态以及公开源图原有EXIF的文档说明；代码、数据、模型输出和网页与上述验证版本相同。
