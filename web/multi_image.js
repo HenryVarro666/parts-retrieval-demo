@@ -1,6 +1,7 @@
 (function (root) {
   "use strict";
   const api = {
+    runType(run) { return run.scope === 'duplicate_control' ? 'multi.control' : run.visual_enabled ? run.force_visual ? 'multi.visualRun' : 'multi.selectiveRun' : 'multi.retrievalRun'; },
     fileError(files) {
       if (!files.length || files.length > 3) return "multi.tooMany";
       for (const file of files) {

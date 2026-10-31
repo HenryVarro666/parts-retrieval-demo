@@ -428,7 +428,7 @@
     text("run-status", state.run ? complete(state.run) ? t("experiments.status", { status: state.run.channel === "ensemble" ? t("ensemble.replay") : t("experiments.complete"), count: state.run.summary?.n || 0 }) : t("experiments.partial", { count: state.run.summary?.n || 0, total: state.data?.samples?.length || 0 }) : t("metrics.noExperiment"));
     $("run-status").classList.toggle("is-partial", Boolean(state.run && !complete(state.run)));
     const hits = $("identifier-hits"); hits.replaceChildren();
-    const idHits = Array.isArray(record?.id_hits) ? record.id_hits : [];
+    const idHits = Array.isArray(photo?.id_hits) ? photo.id_hits : [];
     for (const hit of idHits.slice(0, 4)) {
       const pid = Array.isArray(hit) ? hit[0] : hit.id || hit.pid || hit.part_id;
       const alias = Array.isArray(hit) ? hit[2] : hit.alias;
@@ -705,7 +705,9 @@
     const body = $("multi-experiments-body"); body.replaceChildren();
     for (const run of state.data?.multi_image_runs || []) {
       const row = node("tr"); const s = run.summary;
-      row.append(node("td", "", t(run.scope === 'duplicate_control' ? "multi.control" : run.visual_enabled ? "multi.visualRun" : "multi.retrievalRun")), node("td", "", s.objects));
+      const name = node("td", "", t(M.runType(run)));
+      name.append(node("small", "table-time-scope", t('multi.scope.' + run.scope)));
+      row.append(name, node("td", "", s.objects));
       for (const metric of ['top1_k', 'top3_k', 'recall10_k']) row.append(node("td", "", `${s.single[metric]}/${s.single.n} → ${s.multi[metric]}/${s.multi.n}`));
       row.append(node("td", "", `${duration(s.single.latency_ms.p50)} / ${duration(s.multi.latency_ms.p50)}`));
       const actions = node("td");
@@ -805,11 +807,11 @@
   async function readUploads(files) {
     files = Array.from(files || []);
     if (!files.length || state.live.loading) return;
-    const sequence = ++uploadSequence;
     state.live.error = null;
     show("upload-error", false);
     const invalid = M.fileError(files);
     if (invalid) { uploadError(uiError(invalid)); return; }
+    const sequence = ++uploadSequence;
     state.live.reading = true; renderMode();
     try {
       const images = [];

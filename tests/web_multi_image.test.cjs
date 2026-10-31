@@ -30,3 +30,8 @@ test('optional label scores results after inference without treating agreement a
   assert.equal(M.score(['B'], ''), null);
   assert.deepEqual(M.score([], 'A'), {top1: false, top3: false, recall10: false});
 });
+
+test('saved selective verification is distinguished from forced verification', () => {
+  assert.equal(M.runType({scope: 'exploratory_same_object', visual_enabled: true, force_visual: false}), 'multi.selectiveRun');
+  assert.equal(M.runType({scope: 'confirmed_same_object', visual_enabled: true, force_visual: true}), 'multi.visualRun');
+});

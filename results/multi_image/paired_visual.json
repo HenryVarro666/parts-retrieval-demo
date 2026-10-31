@@ -8182,5 +8182,6 @@
     "regressions": 0
   },
   "timing": "fresh extraction in both paths; retrieval initialization excluded; single first; requested VLM process/load included; no historical VLM cache",
-  "retrieval_setup_ms": 2717.1742919963435
+  "retrieval_setup_ms": 2717.1742919963435,
+  "manifest_file": "data/multi_image/manifest.json"
 }

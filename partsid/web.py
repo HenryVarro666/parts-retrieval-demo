@@ -60,12 +60,14 @@ def decode_uploads(payload):
     return images
 
 
-def allowed_images(root=ROOT):
+def allowed_images(root=ROOT, requested=None):
     with open(root / "data/labels.csv", encoding="utf-8") as f:
         allowed = {r["file"] for r in csv.DictReader(f)}
     manifest = root / "data/multi_image/manifest.json"
     if manifest.exists():
         allowed.update(p["file"] for g in json.loads(manifest.read_text()).get("groups", []) for p in g.get("photos", []))
+    if requested in allowed:
+        return allowed
     for run in multi_payload(root):
         allowed.update(p["file"] for pair in run["records"] for p in pair["record"]["photos"])
     return allowed
@@ -82,7 +84,7 @@ def multi_payload(root=ROOT):
             validate_saved(doc, root)
         except ValueError:
             continue
-        runs.append({"name": path.stem, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"],
+        runs.append({"name": path.stem, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"], "force_visual": doc.get("force_visual", False),
                      "summary": doc["summary"], "setup_ms": doc.get("retrieval_setup_ms"),
                      "records": [] if doc["scope"] == "duplicate_control" else doc["records"]})
     return runs
@@ -199,7 +201,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(200, web_payload())
             if parsed.path == "/api/image":
                 query = parse_qs(parsed.query)
-                path = dataset_path(query.get("file", [""])[0], ROOT / "data", allowed_images())
+                requested = query.get("file", [""])[0]
+                path = dataset_path(requested, ROOT / "data", allowed_images(ROOT, requested))
                 with Image.open(path) as source:
                     image = ImageOps.exif_transpose(source).convert("RGB")
                     if "crop" in query:

@@ -4,6 +4,7 @@
       "file": "duplicate_control.json",
       "scope": "duplicate_control",
       "visual_enabled": false,
+      "force_visual": false,
       "summary": {
         "objects": 44,
         "cases": 44,
@@ -35,6 +36,7 @@
       "file": "paired_retrieval.json",
       "scope": "exploratory_same_object",
       "visual_enabled": false,
+      "force_visual": false,
       "summary": {
         "objects": 1,
         "cases": 1,
@@ -66,6 +68,7 @@
       "file": "paired_visual.json",
       "scope": "exploratory_same_object",
       "visual_enabled": true,
+      "force_visual": true,
       "summary": {
         "objects": 1,
         "cases": 1,

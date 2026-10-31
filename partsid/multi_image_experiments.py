@@ -50,7 +50,7 @@ def load_manifest(path, root=ROOT):
         photos = group.get("photos")
         if not isinstance(photos, list) or len(photos) != 3:
             raise ValueError("Paired evaluation requires three photos")
-        pixels = []
+        pixels, captures = [], []
         for photo in photos:
             file = data_path(root, photo.get("file"))
             if photo.get("sha256") != sha256(file):
@@ -60,12 +60,14 @@ def load_manifest(path, root=ROOT):
                 raise ValueError("Photo exceeds upload budget")
             pixels.append(sig["pixel_sha256"])
             source = photo.get("source")
+            captures.append(sig["pixel_sha256"])
             if source:
                 original = data_path(root, source.get("file"))
                 if source.get("sha256") != sha256(original):
                     raise ValueError("Stale original hash")
                 if original in catalog_paths:
                     raise ValueError("Paired source overlaps catalog")
+                captures[-1] = image_signature(original)["pixel_sha256"]
                 crop = source.get("crop")
                 with Image.open(original) as image:
                     image = ImageOps.exif_transpose(image).convert("RGB")
@@ -79,6 +81,8 @@ def load_manifest(path, root=ROOT):
                         raise ValueError("Derived photo differs from declared source crop")
         if len(set(pixels)) != 3:
             raise ValueError("Repeated pixels are not a true three-photo group")
+        if len(set(captures)) != 3:
+            raise ValueError("Three independent source captures are required; crops of one capture are not separate photos")
         if catalog_pixels.intersection(pixels):
             raise ValueError("Paired queries overlap catalog")
     return doc["groups"]
@@ -121,6 +125,22 @@ def validate_saved(doc, root=ROOT):
         path = (Path(root) / file).resolve()
         if not path.is_relative_to(Path(root).resolve()) or not path.is_file() or sha256(path) != digest:
             raise ValueError("Paired experiment source changed")
+    scope = doc.get("scope")
+    if scope == "duplicate_control":
+        for group in doc.get("groups", []):
+            pixels = [image_signature(data_path(root, p["file"]))["pixel_sha256"] for p in group["photos"]]
+            if len(pixels) != 3 or len(set(pixels)) != 1:
+                raise ValueError("Duplicate controls require one capture repeated three times")
+    elif scope in ("exploratory_same_object", "confirmed_same_object"):
+        manifest = doc.get("manifest_file")
+        if not isinstance(manifest, str) or manifest not in doc["sources_sha256"]:
+            raise ValueError("Paired experiment requires its hashed source manifest")
+        path = (Path(root) / manifest).resolve()
+        source = json.loads(path.read_text())
+        if scope != source.get("scope") or doc.get("groups") != load_manifest(path, root):
+            raise ValueError("Paired scope/groups differ from the source manifest")
+    else:
+        raise ValueError("Unknown paired experiment scope")
     if doc.get("summary") != summarize_pairs(doc["records"]):
         raise ValueError("Paired experiment summary mismatch")
     if len(doc["records"]) != len(doc.get("groups", [])) or len({r["object_id"] for r in doc["records"]}) != len(doc["records"]):
@@ -156,6 +176,7 @@ def evaluate(groups, pipeline, root=ROOT, scope="exploratory_same_object", visua
         raise ValueError("Sources changed during paired experiment")
     doc = {"schema": 1, "status": "complete", "created_at": datetime.now(timezone.utc).isoformat(),
            "scope": scope, "visual_enabled": visual, "force_visual": force_visual, "groups": groups, "sources_sha256": source,
+           "manifest_file": str(Path(manifest).resolve().relative_to(Path(root).resolve())) if manifest else None,
            "pipeline": pipeline.metadata, "records": records, "summary": summarize_pairs(records),
            "timing": "fresh extraction in both paths; retrieval initialization excluded; single first; requested VLM process/load included; no historical VLM cache"}
     return validate_saved(doc, root)
@@ -172,7 +193,7 @@ def report(root=ROOT):
         if doc.get("schema") != 1:
             continue
         validate_saved(doc, root)
-        runs.append({"file": path.name, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"], "summary": doc["summary"]})
+        runs.append({"file": path.name, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"], "force_visual": doc.get("force_visual", False), "summary": doc["summary"]})
     result = {"runs": runs, "confirmed_objects": max((r["summary"]["objects"] for r in runs if r["scope"] == "confirmed_same_object"), default=0),
               "exploratory_objects": max((r["summary"]["objects"] for r in runs if r["scope"] == "exploratory_same_object"), default=0)}
     lines = ["# Single / multi-photo paired comparison", "", "Historical 44-photo experiments remain unchanged. Duplicate controls do not measure multi-angle benefit. Visually supported same-object groups are exploratory, not owner/expert-confirmed. Single runs first with loaded retrieval models shared; fresh query extraction in both paths, requested VLM process/loading included.", "",

@@ -88,3 +88,28 @@ def test_custom_paired_manifest_images_are_available_in_saved_web_replay(tmp_pat
     directory = tmp_path / "results/multi_image"; directory.mkdir(parents=True)
     (directory / "custom.json").write_text(json.dumps(doc))
     assert {"0.png", "1.png", "2.png"}.issubset(allowed_images(tmp_path))
+
+
+@pytest.mark.parametrize("name", ["paired_retrieval.json", "duplicate_control.json"])
+def test_scope_cannot_promote_exploratory_or_duplicate_data_to_confirmed(name):
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    doc = json.loads((root / "results/multi_image" / name).read_text())
+    doc["scope"] = "confirmed_same_object"
+    with pytest.raises(ValueError): exp.validate_saved(doc, root)
+
+
+def test_three_crops_of_one_source_capture_are_not_three_real_photos(tmp_path):
+    from PIL import Image
+    path, doc = manifest(tmp_path)
+    original = tmp_path / "data/0.png"
+    with Image.open(original) as image:
+        for i, box in enumerate([[0,0,30,40], [5,0,45,40], [20,0,70,40]]):
+            target = tmp_path / f"data/crop-{i}.png"; image.crop(box).save(target)
+            doc["groups"][0]["photos"][i] = {"file": target.name, "sha256": sha256(target),
+                "source": {"file": original.name, "sha256": sha256(original), "crop": box}}
+    doc["groups"][0]["identity_basis"]["status"] = "user_confirmed"
+    doc["scope"] = "confirmed_same_object"
+    path.write_text(json.dumps(doc))
+    with pytest.raises(ValueError, match="capture"):
+        exp.load_manifest(path, tmp_path)
