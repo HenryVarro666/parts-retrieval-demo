@@ -8,7 +8,7 @@
   const state = {
     data: null, baseline: null, run: null, file: null, filter: "all",
     mode: "preset", imageMode: "evidence", loadingData: false, dataError: null,
-    live: { image: null, images: [], activePhoto: 0, filename: "", record: null, comparison: null, setupMs: null, requestMs: null, catalog: null, loading: false, reading: false, error: null, engine: "rapidocr", multiview: true, pipeline: "sqlite", verifyVisual: false, channel: "shape", timing: "", viewCache: new Map() },
+    live: { image: null, images: [], activePhoto: 0, filename: "", record: null, comparison: null, singleRecords: null, setupMs: null, requestMs: null, catalog: null, loading: false, reading: false, error: null, engine: "rapidocr", multiview: true, pipeline: "sqlite", verifyVisual: false, channel: "shape", timing: "", viewCache: new Map() },
   };
   const labels = { ocr: "OCR", identifier: "型号检索", text: "文字检索", image: "图像检索", fusion: "融合排序", sqlite: "SQLite 召回", sql: "SQLite 召回", sql_search: "SQLite 召回", retrieval: "候选检索", candidate_pool: "候选合并", shape: "形状估计与重排", vlm: "视觉核验", verification_prepare: "视觉输入准备", total: "总计" };
   const keywordKinds = { model: "型号线索", model_like: "型号线索", alias: "型号别名", manufacturer: "制造商", maker: "制造商", description: "描述文字", text: "普通文字", word: "普通文字", batch: "批次线索", noise: "批次 / 噪声", likely_noise: "批次 / 噪声", number: "数字线索", numeric: "数字线索" };
@@ -403,9 +403,10 @@
     show("image-view-label", Boolean(source));
     text("image-view-label", evidence ? `OCR · ${viewDescription(view)}` : t("image.originalLabel"));
     text("image-filename", live ? state.live.filename || t("input.upload") : basename(item?.file) || "—");
-    const link = !live && safeLink(item?.page_url);
+    const credit = live ? state.live.record?.photos?.[state.live.activePhoto]?.source : item;
+    const link = safeLink(credit?.page_url);
     show("source-link", Boolean(link)); if (link) $("source-link").href = link;
-    const attribution = live ? "" : [item?.artist, item?.license].filter(Boolean).map((value) => String(value).replace(/<[^>]*>/g, "")).join(" · ");
+    const attribution = [credit?.artist, credit?.license, live && credit ? sourceDescription(credit) : null].filter(Boolean).map((value) => String(value).replace(/<[^>]*>/g, "")).join(" · ");
     text("image-attribution", attribution); show("image-attribution", Boolean(attribution));
     const strip = $("photo-strip"); strip.replaceChildren(); show("photo-strip", live && state.live.images.length > 1);
     if (live) for (const [index, photo] of state.live.images.entries()) {
@@ -703,21 +704,51 @@
 
   function renderMultiExperiments() {
     const body = $("multi-experiments-body"); body.replaceChildren();
-    for (const run of state.data?.multi_image_runs || []) {
+    const runs = [...(state.data?.multi_image_runs || [])].sort((a,b) => Number(Boolean(b.cohort)) - Number(Boolean(a.cohort)) || Number(a.force_visual) - Number(b.force_visual) || Number(a.visual_enabled) - Number(b.visual_enabled));
+    const expanded = runs.find(run => run.cohort);
+    show('public-triplets-summary', Boolean(expanded));
+    if (expanded) {
+      const groups = expanded.groups || [];
+      text('public-triplets-summary', t('multi.publicSummary', {n: groups.length, photos: groups.length*3,
+        added: groups.filter(g => g.cohort_kind === 'new_public').length,
+        still: groups.filter(g => g.capture_kind === 'still_photo').length,
+        video: groups.filter(g => g.capture_kind === 'video_frame').length}));
+    }
+    for (const run of runs) {
       const row = node("tr"); const s = run.summary;
       const name = node("td", "", t(M.runType(run)));
+      name.append(node('small', 'table-time-scope cohort-name', t(run.cohort ? 'multi.publicCohort' : 'multi.previousCohort')));
       name.append(node("small", "table-time-scope", t('multi.scope.' + run.scope)));
+      if (run.cohort) name.append(node('small', 'table-time-scope', t('multi.callCounts', {
+        single: (run.records || []).filter(r => r.comparison.single.vlm_executed).length,
+        multi: (run.records || []).filter(r => r.comparison.multi.vlm_executed).length, n: s.objects})));
+      if (run.strata_summary) {
+        const strata = node('details', 'strata-details'); strata.append(node('summary', '', t('multi.strata')));
+        for (const [field, values] of Object.entries(run.strata_summary)) for (const [key, value] of Object.entries(values)) {
+          strata.append(node('p', '', `${t('multi.stratum.' + key)} · ${value.objects}: ${value.single.top1_k}/${value.single.n} → ${value.multi.top1_k}/${value.multi.n}`));
+        }
+        name.append(strata);
+      }
       row.append(name, node("td", "", s.objects));
-      for (const metric of ['top1_k', 'top3_k', 'recall10_k']) row.append(node("td", "", `${s.single[metric]}/${s.single.n} → ${s.multi[metric]}/${s.multi.n}`));
-      row.append(node("td", "", `${duration(s.single.latency_ms.p50)} / ${duration(s.multi.latency_ms.p50)}`));
-      const actions = node("td");
+      for (const metric of ['top1_k', 'top3_k', 'recall10_k']) {
+        const cell = node('td', '', `${s.single[metric]}/${s.single.n} → ${s.multi[metric]}/${s.multi.n}`);
+        if (metric === 'top1_k' && s.all_single) cell.append(node('small', 'table-time-scope', t('multi.changes', {wins: s.wins, losses: s.regressions})));
+        row.append(cell);
+      }
+      const times = node('td', '', `${duration(s.single.latency_ms.p50)} / ${duration(s.multi.latency_ms.p50)}`);
+      if (s.all_single) times.append(node('small', 'table-time-scope', `p95: ${duration(s.single.latency_ms.p95)} / ${duration(s.multi.latency_ms.p95)}`));
+      row.append(times);
+      const allSingles = node('td', '', s.all_single ? `${s.all_single.top1_k}/${s.all_single.n}` : '—');
+      if (s.all_single) allSingles.append(node('small', 'table-time-scope', t('multi.allSingleTime', {time: duration(s.all_single.latency_ms.p50), n: s.objects})));
+      row.append(allSingles);
+      const actions = node("td", 'triplet-actions');
       for (const saved of run.records || []) {
-        const button = node("button", "run-table-button", `${t('multi.inspect')} ${saved.object_id}`); button.type = "button";
+        const button = node("button", "run-table-button", `${t('multi.inspect')} ${saved.gt} · ${saved.object_id}`); button.type = "button";
         button.addEventListener('click', () => {
           if (state.live.loading || state.live.reading) return;
           const images = saved.record.photos.map(p => ({url: imageURL(p.file), filename: basename(p.file)}));
           Object.assign(state.live, {saved: true, images, activePhoto: 0, image: images[0].url, filename: images[0].filename,
-            record: saved.record, comparison: saved.comparison, setupMs: run.setup_ms, requestMs: saved.comparison.request_elapsed_ms,
+            record: saved.record, comparison: saved.comparison, singleRecords: saved.single_photo_records || null, setupMs: run.setup_ms, requestMs: saved.comparison.request_elapsed_ms,
             catalog: state.data.catalog, channel: run.visual_enabled ? 'gated' : 'shape', engine: 'rapidocr', multiview: true,
             pipeline: 'sqlite', verifyVisual: run.visual_enabled, timing: '', error: null, viewCache: new Map()});
           state.mode = 'live'; $("pipeline-select").value = 'sqlite'; $("engine-select").value = 'rapidocr';
@@ -729,7 +760,12 @@
       }
       if (!actions.childElementCount) actions.textContent = '—'; row.append(actions); body.append(row);
     }
-    if (!body.childElementCount) { const row = node('tr'), cell = node('td', 'table-empty', t('multi.noRuns')); cell.colSpan = 7; row.append(cell); body.append(row); }
+    if (!body.childElementCount) { const row = node('tr'), cell = node('td', 'table-empty', t('multi.noRuns')); cell.colSpan = 8; row.append(cell); body.append(row); }
+  }
+
+  function sourceDescription(source) {
+    return [source.capture_kind ? t('multi.capture.' + source.capture_kind) : '', source.video_timecode || source.capture_datetime_local || '',
+      ...(source.quality_flags || []).map(flag => t('multi.quality.' + flag))].filter(Boolean).join(' · ');
   }
 
   function renderAll() {
@@ -780,6 +816,23 @@
         node("p", "", t("multi.appearance", {ids: (r.rankings.image || []).slice(0, 3).join(' / ') || '—'})),
         node("p", "", t("multi.shape", {status: r.shape?.query?.available ? t("shape.available") : t("shape.unavailable")})),
         node("p", "", photo.duplicate_of != null ? t("multi.reused") : t("multi.photoTime", {time: duration(r.ms?.total)})));
+      if (photo.source) {
+        const source = photo.source;
+        row.append(node('p', 'photo-source', sourceDescription(source)));
+        const url = safeLink(source.page_url);
+        if (url) { const link = node('a', 'photo-source', [source.artist, source.license].filter(Boolean).join(' · ')); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; row.append(link); }
+      }
+      const single = state.live.singleRecords?.[photo.index];
+      if (single) {
+        const ids = single.rankings.gated || single.rankings.shape || [];
+        const detail = node('details', 'single-view-details');
+        detail.append(node('summary', '', t('multi.standalone', {id: ids[0] || '—', time: duration(single.ms.total)})),
+          node('p', '', `Top-3: ${ids.slice(0,3).join(' / ') || '—'}`), node('p', '', t('multi.top10', {ids: ids.slice(0,10).join(' / ') || '—'})),
+          node('p', '', t(single.decision?.actual_vlm_executed ? 'multi.vlmCalled' : 'multi.vlmSkipped')));
+        if (single.vlm?.reason) detail.append(proseElement(single.vlm.reason));
+        if (single.vlm?.observed_text) detail.append(node('p', '', t('vlm.observed', {text: single.vlm.observed_text})));
+        row.append(detail);
+      }
       list.append(row);
     }
   }
@@ -822,7 +875,7 @@
         images.push({url: dataURL, filename: file.name});
       }
       if (sequence !== uploadSequence) return;
-      Object.assign(state.live, {saved: false, images, activePhoto: 0, image: images[0].url, filename: images[0].filename, record: null, comparison: null, setupMs: null, requestMs: null, catalog: null, channel: "shape", timing: "", viewCache: new Map()}); state.mode = "live";
+      Object.assign(state.live, {saved: false, images, activePhoto: 0, image: images[0].url, filename: images[0].filename, record: null, comparison: null, singleRecords: null, setupMs: null, requestMs: null, catalog: null, channel: "shape", timing: "", viewCache: new Map()}); state.mode = "live";
       text("upload-file-name", files.map(file => `${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`).join('\n'));
       renderAll(); announce(t("multi.loaded", {n: files.length}));
     } catch (error) { if (sequence === uploadSequence) uploadError(error); }

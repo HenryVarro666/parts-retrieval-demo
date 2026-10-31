@@ -113,3 +113,121 @@ def test_three_crops_of_one_source_capture_are_not_three_real_photos(tmp_path):
     path.write_text(json.dumps(doc))
     with pytest.raises(ValueError, match="capture"):
         exp.load_manifest(path, tmp_path)
+
+
+@pytest.mark.parametrize("field", ["capture_id", "original_document_id", "pageid"])
+def test_metadata_rejects_same_capture_even_when_pixels_differ(tmp_path, field):
+    from PIL import Image
+    path, document = manifest(tmp_path)
+    for i, photo in enumerate(document["groups"][0]["photos"]):
+        original = tmp_path / f"data/source-{i}.png"
+        with Image.open(tmp_path / "data" / photo["file"]) as image:
+            image.save(original)
+            size = image.size
+        photo["source"] = {"file": original.name, "sha256": sha256(original),
+                           "crop": [0, 0, *size], field: "same-capture"}
+    path.write_text(json.dumps(document))
+    with pytest.raises(ValueError, match="capture"):
+        exp.load_manifest(path, tmp_path)
+
+
+def test_catalog_capture_id_excluded_even_for_different_pixels(tmp_path):
+    from PIL import Image
+    path, document = manifest(tmp_path)
+    data = tmp_path / "data"
+    Image.new("RGB", (13, 19), "blue").save(data / "catalog.png")
+    (data / "labels.csv").write_text("file,part_id,split,pageid\ncatalog.png,A,catalog,123\n")
+    photo = document["groups"][0]["photos"][0]
+    with Image.open(data / photo["file"]) as image:
+        image.save(data / "original.png")
+        size = image.size
+    photo["source"] = {"file": "original.png", "sha256": sha256(data / "original.png"),
+                       "crop": [0, 0, *size], "pageid": 123}
+    path.write_text(json.dumps(document))
+    with pytest.raises(ValueError, match="catalog"):
+        exp.load_manifest(path, tmp_path)
+
+
+def test_each_view_is_measured_independently_and_replay_binds_its_order(tmp_path):
+    from tests.test_multi_image import evidence
+    path, document = manifest(tmp_path)
+    (tmp_path / "data/parts.json").write_text('[{"id":"A"}]')
+    (tmp_path / "data/catalog.sqlite").write_bytes(b"test")
+    class Pipeline:
+        metadata = {"test": True}
+        calls = []
+        def run(self, p):
+            self.calls.append(p.name)
+            return evidence(["A"], ["A", "B"], ["A"])
+    pipeline = Pipeline()
+    doc = exp.evaluate(document["groups"], pipeline, tmp_path, manifest=path, all_single_views=True)
+    assert pipeline.calls == ["0.png", "0.png", "1.png", "2.png", "1.png", "2.png"]
+    pair = doc["records"][0]
+    assert pair["single_photo_records"][0] == pair["baseline_record"]
+    assert [r["photos"][0]["file"] for r in pair["single_photo_records"]] == ["0.png", "1.png", "2.png"]
+    assert doc["summary"]["all_single"]["n"] == 3
+    assert doc["summary"]["objects"] == 1
+    doc["records"][0]["single_photo_records"][2]["photos"][0]["file"] = "0.png"
+    with pytest.raises(ValueError, match="single"):
+        exp.validate_saved(doc, tmp_path)
+
+
+def test_public_named_run_without_optional_all_single_views_can_be_reported(tmp_path):
+    doc = completed(tmp_path)
+    directory = tmp_path / "results/multi_image"
+    directory.mkdir(parents=True)
+    (directory / "public_regular.json").write_text(json.dumps(doc))
+    assert exp.report(tmp_path)["runs"][0]["summary"]["single"]["top1_k"] == 1
+
+
+def test_web_validation_cache_reuses_only_unchanged_result_and_source_bytes(tmp_path, monkeypatch):
+    from partsid.web import multi_payload
+    from PIL import Image
+    import os
+    doc = completed(tmp_path)
+    directory = tmp_path / "results/multi_image"
+    directory.mkdir(parents=True)
+    (directory / "custom.json").write_text(json.dumps(doc))
+    calls = []
+    validate = exp.validate_saved
+    def counted(*args):
+        calls.append(True)
+        return validate(*args)
+    monkeypatch.setattr(exp, "validate_saved", counted)
+    assert len(multi_payload(tmp_path)) == len(multi_payload(tmp_path)) == 1
+    assert len(calls) == 1
+    # Preserve mtime to ensure cache validity does not rely on stat timestamps.
+    photo = tmp_path / "data/0.png"
+    stat = photo.stat()
+    Image.new("RGB", (80, 40), "magenta").save(photo)
+    os.utime(photo, ns=(stat.st_atime_ns, stat.st_mtime_ns))
+    assert multi_payload(tmp_path) == []
+
+
+def test_replay_requires_complete_dependency_hash_coverage(tmp_path):
+    doc = completed(tmp_path)
+    del doc["sources_sha256"]["data/0.png"]
+    with pytest.raises(ValueError, match="coverage"):
+        exp.validate_saved(doc, tmp_path)
+
+
+def test_web_cache_detects_a_retargeted_query_symlink(tmp_path):
+    from partsid.web import multi_payload
+    from tests.test_multi_image import evidence
+    path, document = manifest(tmp_path)
+    photo = tmp_path / "data/0.png"
+    photo.rename(tmp_path / "data/first-target.png")
+    photo.symlink_to("first-target.png")
+    (tmp_path / "data/parts.json").write_text('[{"id":"A"}]')
+    (tmp_path / "data/catalog.sqlite").write_bytes(b"test")
+    class Pipeline:
+        metadata = {"test": True}
+        def run(self, p): return evidence(["A"], ["A", "B"], ["A"])
+    doc = exp.evaluate(document["groups"], Pipeline(), tmp_path, manifest=path)
+    directory = tmp_path / "results/multi_image"
+    directory.mkdir(parents=True)
+    (directory / "custom.json").write_text(json.dumps(doc))
+    assert len(multi_payload(tmp_path)) == 1
+    photo.unlink()
+    photo.symlink_to("1.png")
+    assert multi_payload(tmp_path) == []

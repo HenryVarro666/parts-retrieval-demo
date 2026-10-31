@@ -3,6 +3,7 @@
     {
       "file": "duplicate_control.json",
       "scope": "duplicate_control",
+      "cohort": null,
       "visual_enabled": false,
       "force_visual": false,
       "summary": {
@@ -35,6 +36,7 @@
     {
       "file": "paired_retrieval.json",
       "scope": "exploratory_same_object",
+      "cohort": null,
       "visual_enabled": false,
       "force_visual": false,
       "summary": {
@@ -67,6 +69,7 @@
     {
       "file": "paired_visual.json",
       "scope": "exploratory_same_object",
+      "cohort": null,
       "visual_enabled": true,
       "force_visual": true,
       "summary": {
@@ -95,8 +98,851 @@
         "wins": 0,
         "regressions": 0
       }
+    },
+    {
+      "file": "public_gated.json",
+      "scope": "exploratory_same_object",
+      "cohort": "public-triplets-2026-10-31",
+      "visual_enabled": true,
+      "force_visual": false,
+      "summary": {
+        "objects": 8,
+        "cases": 8,
+        "single": {
+          "n": 8,
+          "top1_k": 7,
+          "top3_k": 8,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 1119.8451459968055,
+            "p95": 7062.115555699711
+          }
+        },
+        "multi": {
+          "n": 8,
+          "top1_k": 8,
+          "top3_k": 8,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 6004.103625000425,
+            "p95": 10197.92838344838
+          }
+        },
+        "wins": 1,
+        "regressions": 0,
+        "all_single": {
+          "n": 24,
+          "objects": 8,
+          "top1_k": 20,
+          "top3_k": 22,
+          "recall10_k": 23,
+          "latency_ms": {
+            "p50": 1210.9355624997988,
+            "p95": 7495.370347349308
+          },
+          "vlm_calls": 9
+        }
+      },
+      "strata_summary": {
+        "cohort_kind": {
+          "new_public": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 6,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 1169.4629169942345,
+                "p95": 7130.372178599646
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 3927.4730830002227,
+                "p95": 10236.24652509825
+              }
+            },
+            "wins": 1,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 17,
+              "top3_k": 19,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 1228.778999997303,
+                "p95": 7539.911915999255
+              },
+              "vlm_calls": 8
+            }
+          },
+          "prior_anchor": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 788.4461249996093,
+                "p95": 788.4461249996093
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 8669.958208003663,
+                "p95": 8669.958208003663
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 909.390208995319,
+                "p95": 6609.610333399178
+              },
+              "vlm_calls": 1
+            }
+          }
+        },
+        "capture_kind": {
+          "still_photo": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 6,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 1169.4629169942345,
+                "p95": 7130.372178599646
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 8080.734167000628,
+                "p95": 10236.24652509825
+              }
+            },
+            "wins": 1,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 17,
+              "top3_k": 19,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 1230.332625003939,
+                "p95": 7539.911915999255
+              },
+              "vlm_calls": 9
+            }
+          },
+          "video_frame": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 800.6592919991817,
+                "p95": 800.6592919991817
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 2797.0932080061175,
+                "p95": 2797.0932080061175
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 800.6592919991817,
+                "p95": 1185.9670291974908
+              },
+              "vlm_calls": 0
+            }
+          }
+        },
+        "quality_stratum": {
+          "blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 3,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 3702.5560415022483,
+                "p95": 7335.1420472994505
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 8890.263354500348,
+                "p95": 10351.20095004786
+              }
+            },
+            "wins": 1,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 8,
+              "top3_k": 10,
+              "recall10_k": 11,
+              "latency_ms": {
+                "p50": 6201.085479002359,
+                "p95": 8117.673947251387
+              },
+              "vlm_calls": 8
+            }
+          },
+          "no_marked_blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 935.4433334992791,
+                "p95": 1154.5775856950058
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 3114.066771002399,
+                "p95": 7884.120526902916
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 12,
+              "top3_k": 12,
+              "recall10_k": 12,
+              "latency_ms": {
+                "p50": 1060.7763125008205,
+                "p95": 3935.1641062483395
+              },
+              "vlm_calls": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "public_retrieval.json",
+      "scope": "exploratory_same_object",
+      "cohort": "public-triplets-2026-10-31",
+      "visual_enabled": false,
+      "force_visual": false,
+      "summary": {
+        "objects": 8,
+        "cases": 8,
+        "single": {
+          "n": 8,
+          "top1_k": 6,
+          "top3_k": 8,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 867.47314600143,
+            "p95": 1132.8812774027028
+          }
+        },
+        "multi": {
+          "n": 8,
+          "top1_k": 6,
+          "top3_k": 7,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 2519.750687497435,
+            "p95": 3590.512099445914
+          }
+        },
+        "wins": 0,
+        "regressions": 0,
+        "all_single": {
+          "n": 24,
+          "objects": 8,
+          "top1_k": 17,
+          "top3_k": 21,
+          "recall10_k": 23,
+          "latency_ms": {
+            "p50": 938.1666045010206,
+            "p95": 1290.3915089049406
+          },
+          "vlm_calls": 0
+        }
+      },
+      "strata_summary": {
+        "cohort_kind": {
+          "new_public": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 5,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 950.8758750016568,
+                "p95": 1134.4203212029242
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 5,
+              "top3_k": 6,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 2552.0332919986686,
+                "p95": 3610.8398410957307
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 14,
+              "top3_k": 18,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 973.6832089984091,
+                "p95": 1313.3263340059784
+              },
+              "vlm_calls": 0
+            }
+          },
+          "prior_anchor": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 677.5607500021579,
+                "p95": 677.5607500021579
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 2018.5929159997613,
+                "p95": 2018.5929159997613
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 677.5607500021579,
+                "p95": 743.3145249960944
+              },
+              "vlm_calls": 0
+            }
+          }
+        },
+        "capture_kind": {
+          "still_photo": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 5,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 950.8758750016568,
+                "p95": 1134.4203212029242
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 5,
+              "top3_k": 6,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 2487.4680829962017,
+                "p95": 3610.8398410957307
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 14,
+              "top3_k": 18,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 950.8758750016568,
+                "p95": 1313.3263340059784
+              },
+              "vlm_calls": 0
+            }
+          },
+          "video_frame": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 705.8499999984633,
+                "p95": 705.8499999984633
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 2552.0332919986686,
+                "p95": 2552.0332919986686
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 705.8499999984633,
+                "p95": 1104.172074697999
+              },
+              "vlm_calls": 0
+            }
+          }
+        },
+        "quality_stratum": {
+          "blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 2,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 867.47314600143,
+                "p95": 1088.5740330500994
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 2,
+              "top3_k": 3,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 2906.859770497249,
+                "p95": 3671.823066045181
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 5,
+              "top3_k": 9,
+              "recall10_k": 11,
+              "latency_ms": {
+                "p50": 938.1666045010206,
+                "p95": 1319.4278835537261
+              },
+              "vlm_calls": 0
+            }
+          },
+          "no_marked_blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 883.802978998574,
+                "p95": 1131.3697901034175
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 2490.1370209991,
+                "p95": 3004.557672403098
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 12,
+              "top3_k": 12,
+              "recall10_k": 12,
+              "latency_ms": {
+                "p50": 862.1518544969149,
+                "p95": 1145.8035585514153
+              },
+              "vlm_calls": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "public_visual.json",
+      "scope": "exploratory_same_object",
+      "cohort": "public-triplets-2026-10-31",
+      "visual_enabled": true,
+      "force_visual": true,
+      "summary": {
+        "objects": 8,
+        "cases": 8,
+        "single": {
+          "n": 8,
+          "top1_k": 8,
+          "top3_k": 8,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 7137.69418749871,
+            "p95": 7715.384762596659
+          }
+        },
+        "multi": {
+          "n": 8,
+          "top1_k": 8,
+          "top3_k": 8,
+          "recall10_k": 8,
+          "latency_ms": {
+            "p50": 10371.88343750313,
+            "p95": 11597.95258170052
+          }
+        },
+        "wins": 0,
+        "regressions": 0,
+        "all_single": {
+          "n": 24,
+          "objects": 8,
+          "top1_k": 21,
+          "top3_k": 22,
+          "recall10_k": 23,
+          "latency_ms": {
+            "p50": 7214.617541500047,
+            "p95": 9089.40711864816
+          },
+          "vlm_calls": 24
+        }
+      },
+      "strata_summary": {
+        "cohort_kind": {
+          "new_public": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 7174.07733300206,
+                "p95": 7724.128516796918
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 10675.108625000576,
+                "p95": 11618.54050460097
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 18,
+              "top3_k": 19,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 7283.101125001849,
+                "p95": 9122.567874997912
+              },
+              "vlm_calls": 21
+            }
+          },
+          "prior_anchor": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 6328.909374999057,
+                "p95": 6328.909374999057
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 8735.733666995657,
+                "p95": 8735.733666995657
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 7106.061457998294,
+                "p95": 7125.864833001833
+              },
+              "vlm_calls": 3
+            }
+          }
+        },
+        "capture_kind": {
+          "still_photo": {
+            "objects": 7,
+            "cases": 7,
+            "single": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 7101.311041995359,
+                "p95": 7724.128516796918
+              }
+            },
+            "multi": {
+              "n": 7,
+              "top1_k": 7,
+              "top3_k": 7,
+              "recall10_k": 7,
+              "latency_ms": {
+                "p50": 10675.108625000576,
+                "p95": 11618.54050460097
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 21,
+              "objects": 7,
+              "top1_k": 18,
+              "top3_k": 19,
+              "recall10_k": 20,
+              "latency_ms": {
+                "p50": 7128.065208002226,
+                "p95": 9122.567874997912
+              },
+              "vlm_calls": 21
+            }
+          },
+          "video_frame": {
+            "objects": 1,
+            "cases": 1,
+            "single": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 7174.07733300206,
+                "p95": 7174.07733300206
+              }
+            },
+            "multi": {
+              "n": 1,
+              "top1_k": 1,
+              "top3_k": 1,
+              "recall10_k": 1,
+              "latency_ms": {
+                "p50": 9922.451708000153,
+                "p95": 9922.451708000153
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 3,
+              "objects": 1,
+              "top1_k": 3,
+              "top3_k": 3,
+              "recall10_k": 3,
+              "latency_ms": {
+                "p50": 7584.568250000302,
+                "p95": 7700.687375002599
+              },
+              "vlm_calls": 3
+            }
+          }
+        },
+        "quality_stratum": {
+          "blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 6943.787250496825,
+                "p95": 7675.299041998005
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 10699.48391700018,
+                "p95": 11680.304273302318
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 9,
+              "top3_k": 10,
+              "recall10_k": 11,
+              "latency_ms": {
+                "p50": 7032.901000500715,
+                "p95": 8499.223741848982
+              },
+              "vlm_calls": 12
+            }
+          },
+          "no_marked_blur_or_occlusion": {
+            "objects": 4,
+            "cases": 4,
+            "single": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 7228.589229001955,
+                "p95": 7553.923733044576
+              }
+            },
+            "multi": {
+              "n": 4,
+              "top1_k": 4,
+              "top3_k": 4,
+              "recall10_k": 4,
+              "latency_ms": {
+                "p50": 10298.780166500364,
+                "p95": 10845.054968747718
+              }
+            },
+            "wins": 0,
+            "regressions": 0,
+            "all_single": {
+              "n": 12,
+              "objects": 4,
+              "top1_k": 12,
+              "top3_k": 12,
+              "recall10_k": 12,
+              "latency_ms": {
+                "p50": 7298.365771002864,
+                "p95": 9000.978435048819
+              },
+              "vlm_calls": 12
+            }
+          }
+        }
+      }
     }
   ],
   "confirmed_objects": 0,
-  "exploratory_objects": 1
+  "exploratory_objects": 8
 }

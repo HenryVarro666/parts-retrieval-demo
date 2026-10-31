@@ -1,6 +1,6 @@
 # 公开同一实物三视图：来源与冻结记录
 
-本批 8 组 / 24 张目标裁剪，新增 7 组，保留 1 组 I80286 历史对照。所有组均为 `visually_supported`，并无实物持有人或专家确认；这是探索性难例集合。
+本批 8 组 / 24 张目标裁剪，新增 7 组，保留 1 组 I80286 历史对照。所有组均为 `visually_supported`，并无实物持有人或专家确认；这是探索性难例集合。新增的是三图实物分组，不等于所有拍摄都此前未收集：24 个来源拍摄中，16 个不在原 209 条原始库，8 个已存在（UA741 1、ATMEGA328P 1、Z80 3、I80286 对照 3）；其中只有前两张属于原 44 查询。Z80 三张为首次完成同一实物核验与成组测试。
 
 数据选择和裁剪在运行新批次推理前冻结。新组按拍摄时间排序，视频按时间码排序；历史对照保持原顺序。第一张作为配对单图基线，另外逐张测量全部 24 张单图。不会根据结果更换顺序或剔除失败样例。
 
@@ -29,11 +29,11 @@
 ## 复现
 
 ```bash
-uv run python scripts/prepare_public_triplets.py
-uv run python -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --output results/multi_image/public_retrieval.json
-uv run python -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --visual --output results/multi_image/public_gated.json
-uv run python -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --visual --force-visual --output results/multi_image/public_visual.json
-uv run python -m partsid.multi_image_experiments report
+uv run --frozen python scripts/prepare_public_triplets.py
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --output results/multi_image/public_retrieval.json
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --visual --output results/multi_image/public_gated.json
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --visual --force-visual --output results/multi_image/public_visual.json
+uv run --frozen python -I -m partsid.multi_image_experiments report
 ```
 
 准备脚本离线从已保存来源重建裁剪；首次模型运行需要下载固定版本权重。三个实验串行运行，共享各命令内已加载的检索模型，单图优先，三图其次，然后第 2、3 张独立单图。总耗时包含实际请求的 VLM 进程启动/加载，不含检索模型初始化（另存）。不在浏览器同时发起推理。模型、目录、prompt 与融合阈值保持原样。

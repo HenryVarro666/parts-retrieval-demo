@@ -3,6 +3,7 @@ import argparse
 import base64
 import binascii
 import csv
+import hashlib
 import io
 import json
 import tempfile
@@ -19,6 +20,8 @@ MAX_UPLOAD = 10 * 1024 * 1024
 _lock = threading.Lock()
 _pipes = {}
 _candidate_pipes = {}
+_multi_validation_cache = {}
+_multi_validation_lock = threading.Lock()
 
 
 def dataset_path(rel, data, allowed):
@@ -74,17 +77,29 @@ def allowed_images(root=ROOT, requested=None):
 
 
 def multi_payload(root=ROOT):
-    from .multi_image_experiments import validate_saved
+    from .multi_image_experiments import replay_fingerprint, validate_saved
     runs = []
     for path in sorted((root / "results/multi_image").glob("*.json")):
-        doc = json.loads(path.read_text())
+        raw = path.read_bytes()
+        doc = json.loads(raw)
         if doc.get("schema") != 1:
             continue
         try:
-            validate_saved(doc, root)
-        except ValueError:
+            key = (str(root.resolve()), str(path.resolve()))
+            digest = hashlib.sha256(raw).hexdigest()
+            with _multi_validation_lock:
+                # Enumerate logical dependencies independently of the stored hash list.
+                # Include resolved targets so symlink retargeting also invalidates hits.
+                fingerprint = (digest, replay_fingerprint(doc, root))
+                if _multi_validation_cache.get(key) != fingerprint:
+                    validate_saved(doc, root)
+                    if fingerprint != (digest, replay_fingerprint(doc, root)):
+                        raise ValueError("Replay dependencies changed during validation")
+                    _multi_validation_cache[key] = fingerprint
+        except (ValueError, OSError):
             continue
         runs.append({"name": path.stem, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"], "force_visual": doc.get("force_visual", False),
+                     "cohort": doc.get("cohort"), "groups": doc["groups"], "strata_summary": doc.get("strata_summary"),
                      "summary": doc["summary"], "setup_ms": doc.get("retrieval_setup_ms"),
                      "records": [] if doc["scope"] == "duplicate_control" else doc["records"]})
     return runs

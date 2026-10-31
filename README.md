@@ -49,6 +49,27 @@ uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments
 
 For normal selective VLM testing, omit `--force-visual`. Each inference command makes fresh measurements and replaces only its named multi-image result. Manifest validation rejects repeated pixels, catalog-image overlap, missing grouping provenance and stale/incorrect source crops. [Multi-photo guide](docs/MULTI_IMAGE_GUIDE.md) describes capturing new triplets and adding a manifest. Historical catalog/labels/results stay unchanged; the analysis-translation cache adds the new explanations while retaining all existing entries.
 
+## Expanded public triplets (2026-10-31)
+
+Seven newly grouped physical-unit hypotheses plus the previous 80286 anchor: **8 groups /24 views**, covering UA741, ULN2003, ATMEGA328P, I8088, Z80, MC68000, ESP8266 and I80286. All identities remain visually supported, not owner/expert-confirmed. Seven groups are still photographs; the I8088 group uses different actual camera viewpoints from one video and is reported separately. Sixteen captures are outside the original209-source pool; eight reuse collected sources, including two historical44 queries. This is a selected exploratory stress set.
+
+| Fixed policy | Top-1 first photo → three | p50 seconds first / three | All views run alone |
+|---|---|---|---|
+| Retrieval fusion | 6/8 → 6/8 | 0.87 / 2.52 | 17/24 |
+| Selective VLM | 7/8 → 8/8 | 1.12 / 6.00 | 20/24 |
+| Forced VLM | 8/8 → 8/8 | 7.14 / 10.37 | 21/24 |
+
+Selective three-photo verification fixed one ATMEGA328P error without a regression; forced single-photo verification also identified all eight first views. Adding photos alone did not improve Top-1. The24 standalone views are clustered in eight units, not24 independent objects. Times include requested VLM process/loading and exclude retrieval setup; fresh query extraction, single-first order and no historical VLM cache. No catalog/model/prompt/fusion tuning.
+
+The trilingual page distinguishes the expanded cohort, reports p50/p95 and actual VLM calls, offers stratified metrics and per-model replay, and shows licensed source credit, real blur/occlusion flags and each view's separately measured output. [Full results and interpretation](docs/research/2026-10-31-public-triplets-results.md) · [Source/license audit and all three commands](data/public_triplets/README.md) · [Multi-photo guide](docs/MULTI_IMAGE_GUIDE.md).
+
+```bash
+uv run --frozen python scripts/prepare_public_triplets.py
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --output results/multi_image/public_retrieval.json
+# Add --visual for selective verification; add --visual --force-visual for forced verification.
+uv run --frozen python -I -m partsid.multi_image_experiments report
+```
+
 ## SQLite keyword retrieval and candidate verification (2026-10-31)
 
 The new flow is `photo → multiview RapidOCR → SQLite keywords → image supplements → shape reranking → optional VLM`. The [complete stage comparison](results/candidates/comparison.md) and per-query `results/experiments/sqlite_*.json` distinguish database recall from downstream reranking:

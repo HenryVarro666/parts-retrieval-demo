@@ -80,8 +80,9 @@ def test_saved_multi_photo_analysis_is_translatable_but_raw_markings_are_exclude
     directory = tmp_path / "results/multi_image"; directory.mkdir(parents=True)
     (directory / "paired.json").write_text(json.dumps({"records": [{
         "gt": "SECRET", "record": {"ocr_text": "RAW OCR", "vlm": {"reason": "Three views agree.", "observed_text": "RAW MODEL"}},
-        "baseline_record": {"vlm": {"reason": "One view is ambiguous.", "observed_text": "RAW PART"}}}]}))
-    assert set(saved_prose(tmp_path)) == {"Three views agree.", "One view is ambiguous."}
+        "baseline_record": {"vlm": {"reason": "One view is ambiguous.", "observed_text": "RAW PART"}},
+        "single_photo_records": [{"ocr_text": "RAW SECOND", "vlm": {"reason": "The second view is blurred.", "observed_text": "RAW CHIP"}}]}]}))
+    assert set(saved_prose(tmp_path)) == {"Three views agree.", "One view is ambiguous.", "The second view is blurred."}
 
 
 def test_frozen_translation_replays_without_local_model_and_ignores_stale_entries(tmp_path):

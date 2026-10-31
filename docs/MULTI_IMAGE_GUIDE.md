@@ -14,7 +14,25 @@
 
 第一张清晰拍丝印，第二张轻微斜拍或调整光照以避开反光，第三张拍有线索的侧面/背面。保持同一实物，尽量保留整个元件并让文字有足够像素。三张同角度、同反光照片不会凭空增加信息；完全相同像素只提取一次，近乎相同的照片合并计票。
 
-单图基准固定使用第一张，没有根据评估标签挑选“最好”一张。真实比较应固定拍摄顺序，增加实物数量，保留所有成功和失败组。现有 80286 只有一个实物假设，主要是不同取景，不能据此推断一般多角度收益。
+单图基准固定使用第一张，没有根据评估标签挑选“最好”一张。真实比较应固定拍摄顺序，增加实物数量，保留所有成功和失败组。最初只有 80286 一个实物假设。新增公开组见下节；样本仍小且经过筛选，不能据此推断一般多角度收益。
+
+## 公开扩展测试集
+
+[来源与许可](../data/public_triplets/README.md)记录本轮 7 个新实物假设和原 80286 对照，共 8 组 /24 张。涵盖 UA741、ULN2003、ATMEGA328P、I8088、Z80、MC68000、ESP8266 和 I80286。I8088 是同一视频中三个实际摄像视角，独立于 7 个静态照片组统计。所有组仅为可见特征支持的同一实物推断，未经物主确认；UA741、ATMEGA328P 各有一张来自原 44 查询。
+
+网页实验表区分公开扩展与此前实验，提供检索融合、按需视觉、强制视觉三种策略。可展开分层统计，按型号打开实测组，查看逐图来源、许可、模糊/遮挡标记，以及每张照片独立运行的 Top-1 和耗时。单图分析与联合分析同样随中英西切换；OCR 原文与元件型号保持原文。
+
+```bash
+# 离线重建精确裁剪与清单，不重新下载原图。
+uv run --frozen python scripts/prepare_public_triplets.py
+# 重测：固定第一张 vs 三张，再单独测第2、3张。
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/public_triplets/manifest.json --all-single-views --output results/multi_image/public_retrieval.json
+# 在上述命令中加 --visual 测按需核验；再加 --force-visual 测全部核验。
+# 三份保存结果均可离线重算指标和校验来源。
+uv run --frozen python -I -m partsid.multi_image_experiments report
+```
+
+[完整比较](../results/multi_image/comparison.md)同时公布 8 组配对基准与全部 24 张独立单图。24 张属于 8 个实物组，不能当作 24 个独立实物。第一张按事先固定顺序选定，没有按识别结果挑选最好或最差照片。输入是预先裁剪的元件区域，本轮没有评价整块电路板上自动定位元件的能力。
 
 ## 给自己的三图建清单
 
@@ -47,7 +65,7 @@ uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments
 uv run --frozen python -I -m partsid.multi_image_experiments report
 ```
 
-加 `--visual` 测试按需视觉核验；加 `--visual --force-visual` 强制单图/多图都执行视觉模型。推理只收到图片和公开候选，清单型号仅在外层评分。每次命令使用新的 VLM 缓存命名空间；结果包含原始模型输出与输入/提示/模型指纹。
+加 `--all-single-views` 另测每一张的独立单图输出；第一张测量会复用为配对基准，不额外重跑第一张。加 `--visual` 测试按需视觉核验；加 `--visual --force-visual` 强制单图/多图都执行视觉模型。推理只收到图片和公开候选，清单型号仅在外层评分。每次命令使用新的 VLM 缓存命名空间；结果包含原始模型输出与输入/提示/模型指纹。
 
 ## 常见情况
 

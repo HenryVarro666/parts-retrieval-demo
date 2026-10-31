@@ -65,3 +65,23 @@ test('photo navigation uses that photo identifier evidence rather than the first
   assert.doesNotMatch(content(el('identifier-hits')), /A/);
   assert.match(content(el('candidate-list')), /A/);
 });
+
+test('public replay shows source credit and a separately measured single-view output', async () => {
+  const r = {ocr_text: 'RAW741CN', evidence: {views: [], conflicts: []}, id_hits: [],
+    rankings: {shape: ['A'], sql: ['A'], image: ['A'], fused: ['A']},
+    retrieval: {keywords: [], candidates: [], pool: [], strong_ids: []}, shape: {query: {available: false}}, ms: {total: 17}};
+  const source = {page_url: 'https://commons.wikimedia.org/wiki/File:Photo.jpg', artist: 'Photographer', license: 'CC BY 2.0', capture_kind: 'video_frame', video_timecode: '00:00:22.800', quality_flags: ['blur']};
+  const fused = {...r, photos: [0,1,2].map(index => ({index, group: index, duplicate_of: null, file: `p${index}.png`, source, record: r})), fusion: {weights: [1,1,1], support: {}}};
+  const single = {...r, rankings: {...r.rankings, gated: ['B', 'A']}};
+  const pair = {single: {top3: ['A'], top10: ['A'], elapsed_ms: 17}, multi: {top3: ['A'], top10: ['A'], elapsed_ms: 40}, photo_count: 3, independent_groups: 3};
+  const {el} = await app({runs: [], samples: [], records: {}, catalog: {A: {}, B: {}}, multi_image_runs: [{scope: 'exploratory_same_object', visual_enabled: false,
+    summary: {objects: 1, single: {n:1, top1_k:1, top3_k:1, recall10_k:1, latency_ms:{p50:17}}, multi: {n:1, top1_k:1, top3_k:1, recall10_k:1, latency_ms:{p50:40}}},
+    records: [{object_id:'public',gt:'A',record:fused,comparison:pair,single_photo_records:[r,single,r]}]}]});
+  await all(el('multi-experiments-body')).find(n => n.tagName === 'BUTTON').fire('click', {});
+  await el('photo-strip').children[1].fire('click', {});
+  assert.equal(el('source-link').href, source.page_url);
+  assert.match(el('image-attribution').textContent, /Photographer.*CC BY 2.0/);
+  assert.match(content(el('multi-photo-evidence')), /B/);
+  assert.match(content(el('multi-photo-evidence')), /00:00:22.800/);
+  assert.equal(el('ocr-text').textContent, 'RAW741CN');
+});
