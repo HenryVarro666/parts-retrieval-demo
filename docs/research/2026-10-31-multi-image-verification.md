@@ -43,3 +43,17 @@
 原有 249 个数据/结果文件与 `95923ed` 逐字节一致；原 354 条译文完整保留，新增 6 条，共 360 条。四条新模型翻译中一条西语术语经助手润色，保留原模型草稿。新增图像是三个明确记录父图/裁剪/作者/许可证的 PNG，原始 JPEG 不变。
 
 新结果在 `results/multi_image/`，真实三图清单、来源验证、CLI 命令和采集建议见 [多图使用指南](../MULTI_IMAGE_GUIDE.md) 与 [data/ 核对](2026-10-31-multi-image-data-audit.md)。Git 不包含模型权重、环境和实时上传缓存；可回放保存的视觉判断。Apple Silicon 的实际联合 VLM 已运行；CUDA 联合 VLM 尚未实现/验证。
+
+## 私有远端新克隆验证
+
+实现与审查修复已推送 `350cf334b57e6d14f0ec1881a690a371b0461dd4`，远端 `main` 与 `feature/multi-image-fusion` 指向相同版本。GitHub 元数据再次确认仓库 visibility 为 private。
+
+从 GitHub 远端新克隆到 `/tmp/partsid-multi-verify-350cf33`，完成：
+
+- `uv sync --frozen --extra experiments`：成功，锁定依赖安装，无修改 lockfile。
+- Python 全套 **169 passed**；Node 全套 **15 passed**。
+- 重建三张目标裁剪和清单、验证全部来源并重建报告、回放 **120 个原文 /360 条三语条目** 后，`git status --short` 为空，产物逐字节一致。
+- 新克隆没有 `.venv-vlm`，仍能读取全部旧 44 样本 /15 个旧实验与3个新多图实验，展示三图文件和保存的视觉判断，不调用模型。
+- 在新克隆中另行实际运行三图 OCR /SQLite /SigLIP /形状对照，输出到 `/tmp/partsid-multi-fresh-smoke-350cf33.json`；**单图全部名次、多图全部名次、三张 OCR 文本均与冻结结果一致**。使用同一台 Mac 的已有模型缓存；这不代表已验证另一种硬件或 CUDA。
+
+后续交付提交只更新计划和本验证文档，代码及已验证结果相同。

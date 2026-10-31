@@ -32,9 +32,9 @@
 
 **Interfaces:** `run_group(pipeline, paths, verify_visual=False, namespace=None) -> record`; `compare_paths(pipeline, paths, verify_visual=False, namespace=None) -> {record, baseline_record, comparison}`. Per-photo evidence lives in `record.photos`; aggregate rankings remain compatible with the workbench.
 
-- [ ] Write and run failing behavior tests for candidate recovery by complementary evidence, conflict-aware gate, duplicate invariance, near-duplicate group weights and independent paired execution.
-- [ ] Implement pixel fingerprints, deterministic group-normalized RRF, merged SQL receipts / origins / support, constrained joint VLM preparation, and measured paired runtime.
-- [ ] Verify prompt/image hashes cover all inputs, no labels enter prompts, single-image unchanged, abstention preserves fused order; run focused tests and commit.
+- [x] Write and run failing behavior tests for candidate recovery by complementary evidence, conflict-aware gate, duplicate invariance, near-duplicate group weights and independent paired execution.
+- [x] Implement pixel fingerprints, deterministic group-normalized RRF, merged SQL receipts / origins / support, constrained joint VLM preparation, and measured paired runtime.
+- [x] Verify prompt/image hashes cover all inputs, no labels enter prompts, single-image unchanged, abstention preserves fused order; run focused tests and commit.
 
 ### Task 2: Upload API and three-language evidence UI
 
@@ -42,9 +42,9 @@
 
 **Interfaces:** `/api/predict` accepts legacy `image` or new `images` (mutually exclusive). Multiple images require SQLite. Response adds baseline / comparison and per-photo records. Optional label stays client-only.
 
-- [ ] Write and observe failing tests for 0/4 images, malformed third image, both payload forms, oversized aggregate, and multi-image legacy rejection before model startup.
-- [ ] Add atomic multi-file selection, photo navigation / OCR geometry, per-photo evidence, fused support and paired candidate/time display; local optional scoring and three-language strings.
-- [ ] Test UI consumer behavior and existing saved-record replay, then verify in the actual local browser; commit.
+- [x] Write and observe failing tests for 0/4 images, malformed third image, both payload forms, oversized aggregate, and multi-image legacy rejection before model startup.
+- [x] Add atomic multi-file selection, photo navigation / OCR geometry, per-photo evidence, fused support and paired candidate/time display; local optional scoring and three-language strings.
+- [x] Test UI consumer behavior and existing saved-record replay, then verify in the actual local browser; commit.
 
 ### Task 3: Reproducible experiments and delivery
 
@@ -52,7 +52,9 @@
 
 **Interfaces:** CLI `python -m partsid.multi_image_experiments control` runs 44 duplicate controls; `run MANIFEST` validates and runs real paired triplets. `report` regenerates a standalone comparison. API includes separate multi-image experiment status/report.
 
-- [ ] Write and run failing tests for manifest identity, grouping provenance, image hashes, no catalog-query overlap, missing/stale sources and duplicate-file rejection for real pairs.
-- [ ] Implement complete-run / source-pixel validation and metric report with explicit data scope; run available real pairs or honestly record zero, plus control and local joint-VLM smoke experiments.
-- [ ] Run Python / Node tests, browser checks and independent whole-branch review; fix substantive findings with reproducing tests. Verify all pre-existing data hashes remain unchanged.
-- [ ] Commit and push to the existing private repository, then validate fresh-clone setup, tests, report replay and private remote refs. Record limitations and deliver browser.
+- [x] Write and run failing tests for manifest identity, grouping provenance, image hashes, no catalog-query overlap, missing/stale sources and duplicate-file rejection for real pairs.
+- [x] Implement complete-run / source-pixel validation and metric report with explicit data scope; run available real pairs or honestly record zero, plus control and local joint-VLM smoke experiments.
+- [x] Run Python / Node tests, browser checks and independent whole-branch review; fix substantive findings with reproducing tests. Verify all pre-existing data hashes remain unchanged.
+- [x] Commit and push to the existing private repository, then validate fresh-clone setup, tests, report replay and private remote refs. Record limitations and deliver browser.
+
+Delivery evidence: implementation and fixes pushed as `350cf33`; private GitHub `main` and `feature/multi-image-fusion` match. Fresh remote clone `/tmp/partsid-multi-verify-350cf33` passed frozen installation, 169 Python /15 Node tests, fixture/report/360-entry translation replay with a clean tree and no `.venv-vlm`. Final documentation-only delivery update records the same verified code.
