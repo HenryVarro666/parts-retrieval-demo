@@ -60,4 +60,3 @@
 - [公开三图扩展交付验证 — 2026-10-31](research/2026-10-31-public-triplets-verification.md)
 - [SQLite candidate pipeline code review](research/2026-10-31-sqlite-code-review.md)
 - [SQLite candidate pipeline verification, 2026-10-31](research/2026-10-31-sqlite-verification.md)
-
