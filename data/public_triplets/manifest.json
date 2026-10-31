@@ -1,0 +1,988 @@
+{
+  "schema": 1,
+  "cohort": "public-triplets-2026-10-31",
+  "scope": "exploratory_same_object",
+  "frozen_at_utc": "2026-10-31T20:58:31.809626+00:00",
+  "inference_run_at_freeze": false,
+  "selection_policy": "Root reviewed target identity, capture independence, ROI and catalog-unit exclusion before inference. No OCR/model outcome used in photo selection. New groups chronological; prior anchor keeps previous order.",
+  "evaluation_policy": "First predetermined photo vs three; additionally each photo standalone. Frozen retrieval-only, selective VLM, forced VLM. No model/catalog/prompt/fusion tuning.",
+  "limitations": [
+    "Eight physical-unit hypotheses, not a representative population or blind holdout.",
+    "Seven still-photo groups; one video-frame group from one recording, reported separately.",
+    "All same-unit identities visually supported; zero owner/expert confirmations.",
+    "UA741 and ATMEGA328P each reuse one historical44 query capture; prior I80286 anchor reused. Full209 overlap recorded per source.",
+    "Crops isolate target components and may omit pin tips or include real board context/occluders as declared. This tests recognition/fusion on supplied component crops, not automatic board-wide detection."
+  ],
+  "groups": [
+    {
+      "object_id": "public-01",
+      "part_id": "UA741",
+      "source_group_id": "ua741_dov1x_lm741cn_m8930",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "no_marked_blur_or_occlusion",
+      "observed_model": "National Semiconductor LM741CN",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "All three frames show LM741CN with the same M8930 lot/date marking, white left-end stripe, notch and molded dot placement. The overview and oblique capture place that chip beside the same LM393N M9107 and green WIMA capacitors; only one LM741CN is visible on the overview board. The macro and overview agree on package face/stripe geometry; the oblique frame shows the same markings and matching fixed board position.",
+        "limitations": "Physical identity is a visual inference, not an explicit source/owner statement. The overview ROI is only109x128 pixels at the1920px board download. The oblique target lies near the right source-image edge. The frozen ROI preserves all model text and most of the package top/body but intentionally excludes lower leads and neighboring LM393N."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/UA741/484975.jpg",
+        "reference_sha256": "f684ccda0e08d938b7e0b346d0a1f077d500bafe41076a36ecb1350e69626ebb",
+        "visual_basis": "Catalog is a separate TO-5 metal-can 741; selected LM741CN is black DIP8 soldered on DOV-1X."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/56426658.jpg",
+            "sha256": "8b32b243bfd1e0264b6ab3cdf4575864b5836972c981dc0aa41a42e0a1ad9cb5",
+            "crop": [
+              595,
+              378,
+              704,
+              506
+            ],
+            "pageid": 56426658,
+            "title": "File:DOV-1X - printed circuit board-9784.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:DOV-1X_-_printed_circuit_board-9784.jpg",
+            "artist": "Raimond Spekking",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/DOV-1X_-_printed_circuit_board-9784.jpg",
+            "original_sha1": "4fe86445d68a0aaff8c651b917c2c46ae80d14f4",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/DOV-1X_-_printed_circuit_board-9784.jpg/1920px-DOV-1X_-_printed_circuit_board-9784.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2017:02:16 17:44:36.99",
+            "capture_timezone": null,
+            "original_document_id": "C065754F01E6D6492CA96725F3B2CB6B",
+            "capture_id": "document:C065754F01E6D6492CA96725F3B2CB6B",
+            "quality_flags": [
+              "low_resolution"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-01/photo-1.png",
+          "sha256": "feaf13d344a816ddaa143a424f7572a5523859caf1589b9b9029b00d8194a449"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/56426698.jpg",
+            "sha256": "bc1a19fff2205bdd290a8f72f6d7ee1c99b97cc940021e708fd7e6ef859b846f",
+            "crop": [
+              260,
+              116,
+              1655,
+              1352
+            ],
+            "pageid": 56426698,
+            "title": "File:DOV-1X - National Semiconductor LM741CN on printed circuit board-9801.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:DOV-1X_-_National_Semiconductor_LM741CN_on_printed_circuit_board-9801.jpg",
+            "artist": "Raimond Spekking",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/DOV-1X_-_National_Semiconductor_LM741CN_on_printed_circuit_board-9801.jpg",
+            "original_sha1": "22863e7d8b4833efbaa06566bf84f017e7d36f51",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/DOV-1X_-_National_Semiconductor_LM741CN_on_printed_circuit_board-9801.jpg/1920px-DOV-1X_-_National_Semiconductor_LM741CN_on_printed_circuit_board-9801.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2017:02:16 17:50:03.47",
+            "capture_timezone": null,
+            "original_document_id": "1046042D5D32C7C7802C1F68C7AAB58E",
+            "capture_id": "document:1046042D5D32C7C7802C1F68C7AAB58E",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": true,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/public-01/photo-2.png",
+          "sha256": "d6b88af8797d6a68da44b2b2468ce26caef0c1f35278e925e80f38c451c63634"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/56426711.jpg",
+            "sha256": "5d1b8add7b4ab618826a06759416473d0bf7260d224b313a002d56a171d87e89",
+            "crop": [
+              1530,
+              795,
+              1920,
+              1050
+            ],
+            "pageid": 56426711,
+            "title": "File:DOV-1X - Philips 3H1 RM cores on printed circuit board-9805.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:DOV-1X_-_Philips_3H1_RM_cores_on_printed_circuit_board-9805.jpg",
+            "artist": "Raimond Spekking",
+            "license": "CC BY-SA 4.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/DOV-1X_-_Philips_3H1_RM_cores_on_printed_circuit_board-9805.jpg",
+            "original_sha1": "1fd65dbcfd921f8831cab034e68e0061d6a6aa2e",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/DOV-1X_-_Philips_3H1_RM_cores_on_printed_circuit_board-9805.jpg/1920px-DOV-1X_-_Philips_3H1_RM_cores_on_printed_circuit_board-9805.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2017:02:16 17:52:51.84",
+            "capture_timezone": null,
+            "original_document_id": "77FE298936432D02221AE1AA3C05033F",
+            "capture_id": "document:77FE298936432D02221AE1AA3C05033F",
+            "quality_flags": [
+              "partial_package_crop"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-01/photo-3.png",
+          "sha256": "7d312e8140ebd19b1789c5f9c27c7eb8b0dcc443945c441be3a4cb7ef326ba17"
+        }
+      ]
+    },
+    {
+      "object_id": "public-02",
+      "part_id": "ULN2003",
+      "source_group_id": "uln2003a_revox_b215_signal_relay_implant_2022",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "blur_or_occlusion",
+      "observed_model": "ULN2003A",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "The hand-built green perfboard has the same stepped lower edge, three vertical relay sockets, three LEDs along the opposite edge, and one horizontal DIP driver below the sockets. The yellow/green/blue wires entering from the left, gray/black wires leaving right, and red wire route match across the construction and installed views. Capture 03 shows this daughterboard before wiring into the deck; capture 04 shows the installed board with sockets empty; capture 07 shows relays inserted into those sockets with the driver at the same soldered board location. No source explicitly confirms the driver was never replaced; same-unit identity is visual/source-sequence support, not explicit author confirmation.",
+        "limitations": "Admitted by root after visual quality review as an occlusion stress case. Third view retains a partial driver body/pin strip between relays; it is not a clear text view. Sockets populated across assembly sequence; driver continuity is inferred."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/ULN2003/44140189.jpg",
+        "reference_sha256": "ac59eb07cf697b4d9841cf70cc26c49d822659a079af8ce6633a8f1fcf6420f5",
+        "visual_basis": "Catalog ULN2003APG on yellow board; selected ST ULN2003A is soldered on a distinctive green hand-built Revox perfboard."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/114335035.jpg",
+            "sha256": "a7efb6515075ddc3da2425e37ec28bcfb4948025cb23ac0e2c8833bd98eae820",
+            "crop": [
+              1560,
+              1225,
+              1955,
+              1455
+            ],
+            "pageid": 114335035,
+            "title": "File:Revox B215 - implanting signal relays 03 - the implant.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Revox_B215_-_implanting_signal_relays_03_-_the_implant.jpg",
+            "artist": "Retired electrician",
+            "license": "CC0",
+            "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Revox_B215_-_implanting_signal_relays_03_-_the_implant.jpg",
+            "original_sha1": "a0abfd1f662bdebfb51e6bc333ebacd128e1eb00",
+            "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Revox_B215_-_implanting_signal_relays_03_-_the_implant.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2022:01:15 03:25:55",
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "commons:114335035",
+            "quality_flags": [
+              "marking_unreadable"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-02/photo-1.png",
+          "sha256": "b7335d2a35a20b76ab35a51e3e3240e4fde836cf587e65cc3c17175579192bf9"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/114335037.jpg",
+            "sha256": "81a57dc3c13fc9e8d3a235257fb2676374caf4a02ab57a9e5d76aef0c5f665aa",
+            "crop": [
+              1089,
+              1624,
+              2055,
+              2097
+            ],
+            "pageid": 114335037,
+            "title": "File:Revox B215 - implanting signal relays 04 - implant in place.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Revox_B215_-_implanting_signal_relays_04_-_implant_in_place.jpg",
+            "artist": "Retired electrician",
+            "license": "CC0",
+            "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Revox_B215_-_implanting_signal_relays_04_-_implant_in_place.jpg",
+            "original_sha1": "22aea5528100ca86b9b158c6589af63df614f6f9",
+            "download_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Revox_B215_-_implanting_signal_relays_04_-_implant_in_place.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2022:01:15 17:08:08",
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "commons:114335037",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-02/photo-2.png",
+          "sha256": "e99aa1ba5959e0d4396714023c95ab9f8e1fcf2cd338a8be7fb6a6ee2c2d6a1a"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/114517910.jpg",
+            "sha256": "bbfe3cd57fe7e0a899bd28e647dce3ece465865de1d34a7fb17cd7c3870e7963",
+            "crop": [
+              254,
+              679,
+              680,
+              865
+            ],
+            "pageid": 114517910,
+            "title": "File:Revox B215 - implanting signal relays 07 - implant in place.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Revox_B215_-_implanting_signal_relays_07_-_implant_in_place.jpg",
+            "artist": "Retired electrician",
+            "license": "CC0",
+            "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Revox_B215_-_implanting_signal_relays_07_-_implant_in_place.jpg",
+            "original_sha1": "3d26781a340d4edffa83c5322cc6870927e00eb6",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Revox_B215_-_implanting_signal_relays_07_-_implant_in_place.jpg/1280px-Revox_B215_-_implanting_signal_relays_07_-_implant_in_place.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2022:01:21 14:13:49",
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "commons:114517910",
+            "quality_flags": [
+              "partial_occlusion",
+              "marking_unreadable"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-02/photo-3.png",
+          "sha256": "18d38e250e5ec1dda62ee23c385b5f8cdd612a50afb3325d3a4dc7925680d94b"
+        }
+      ]
+    },
+    {
+      "object_id": "public-03",
+      "part_id": "ATMEGA328P",
+      "source_group_id": "atmega328p_ardutouch_rev_a_mitch_altman_2016_unit_a",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "blur_or_occlusion",
+      "observed_model": "ATMEGA328P-PU",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "Same package notch, molded dots and brown discoloration/dimple near the left end across bare and installed views; same ArduTouch revA U1 location and distinctive surrounding speaker, unpopulated resistor footprints, wires and solder details in assembled views. ATMEGA328P-PU is readable in the first two views; third lettering is obscured by glare. The ambiguous upper lot/date code is not used as exact transcription.",
+        "limitations": "Physical continuity is not explicitly asserted by source owner and there is no unique serial number on the chip. Frame52 has specular glare, so chip lettering is unreadable; identity is traced through the same PCB and U1 location. All captureEXIF times lack a timezone. Frame41 overlaps the old44 query pool. This is an exploratory source set and must not be presented as a fresh independent benchmark."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/ATMEGA328P/23315198.jpg",
+        "reference_sha256": "ab6cb4acb29cbf9475f674514182c042d185c1c7a17bc53a4338a29439e73080",
+        "visual_basis": "Catalog is a separate loose oomlout ATMEGA328P-PU; selected part is from Mitch Altman ArduTouch assembly with different package surface/context."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/149126951.jpg",
+            "sha256": "3fcc4a1b652a2d97612be15dd5585f8b37f9244f338be040f0f382d77ba7e7af",
+            "crop": [
+              107,
+              95,
+              1165,
+              535
+            ],
+            "pageid": 149126951,
+            "title": "File:ArduTouch Music Synthesizer kit assembly March-2016 - 41 (25731304436).jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_41_(25731304436).jpg",
+            "artist": "Mitch Altman from Berlin, Germany",
+            "license": "CC BY-SA 2.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_41_%2825731304436%29.jpg",
+            "original_sha1": "01ed62250c4d65c0b5b4b55f43f67c30b8882bf6",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_41_%2825731304436%29.jpg/1280px-ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_41_%2825731304436%29.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2016:03:08 17:18:36",
+            "capture_timezone": null,
+            "original_document_id": "FF442165E39D724C5F274521415EF32F",
+            "capture_id": "document:FF442165E39D724C5F274521415EF32F",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": true,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/public-03/photo-1.png",
+          "sha256": "0b779ed39701d5c3af74007c653bb1807e341a8ef7f0ae04b4b6df169d0e5a3a"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/149126936.jpg",
+            "sha256": "1b7cc774baf56e9f5959c807588723ae2a60c6607169e6ec5d572043b1e3a1b3",
+            "crop": [
+              209,
+              307,
+              605,
+              464
+            ],
+            "pageid": 149126936,
+            "title": "File:ArduTouch Music Synthesizer kit assembly March-2016 - 50 (25757382705).jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_50_(25757382705).jpg",
+            "artist": "Mitch Altman from Berlin, Germany",
+            "license": "CC BY-SA 2.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_50_%2825757382705%29.jpg",
+            "original_sha1": "0f2c886996f9b93b136e36a41efde30df2a9142e",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_50_%2825757382705%29.jpg/1280px-ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_50_%2825757382705%29.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2016:03:08 17:48:30",
+            "capture_timezone": null,
+            "original_document_id": "77BF58ADBC67A05C6BA2BA18B52C6AFD",
+            "capture_id": "document:77BF58ADBC67A05C6BA2BA18B52C6AFD",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-03/photo-2.png",
+          "sha256": "d6464d52c23a39812507328694fe42b4a9a37663edcca494450a53c6d028469c"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/149126939.jpg",
+            "sha256": "6088061509657751db8008cedbd8c9c3b6748f32f9a0483e1a49faa2dab26825",
+            "crop": [
+              164,
+              307,
+              478,
+              399
+            ],
+            "pageid": 149126939,
+            "title": "File:ArduTouch Music Synthesizer kit assembly March-2016 - 52 (25130773273).jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_52_(25130773273).jpg",
+            "artist": "Mitch Altman from Berlin, Germany",
+            "license": "CC BY-SA 2.0",
+            "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_52_%2825130773273%29.jpg",
+            "original_sha1": "ef4b47d04ddecb35484796d95f790b3a2e5b95f1",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_52_%2825130773273%29.jpg/1280px-ArduTouch_Music_Synthesizer_kit_assembly_March-2016_-_52_%2825130773273%29.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2016:03:08 17:51:20",
+            "capture_timezone": null,
+            "original_document_id": "BBFF101C322299B3DACD1FA5996DEC07",
+            "capture_id": "document:BBFF101C322299B3DACD1FA5996DEC07",
+            "quality_flags": [
+              "glare",
+              "marking_unreadable"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-03/photo-3.png",
+          "sha256": "ded40624892685e85dc7dd861bc705664c6141ef5cabc859b4b973d9b8f4e648"
+        }
+      ]
+    },
+    {
+      "object_id": "public-04",
+      "part_id": "I8088",
+      "source_group_id": "i8088_zmaslo_ibm5150_video_r6UHaHUWcSw_unit_a",
+      "cohort_kind": "new_public",
+      "capture_kind": "video_frame",
+      "quality_stratum": "no_marked_blur_or_occlusion",
+      "observed_model": "Intel P8088",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "All three show P8088 with identical lotL3507160 and copyright lineINTEL78'81. The exact lot alone is not treated as unique unit proof. The same visible chip right-top scuff pattern, left notch/circular mold marks and footprint are preserved across views. The same PCB socket above the CPU with an off-center yellow205 sticker and worn AMP surface, AMD P8259A8404WMA below the CPU, Omron relay at left and identical trace pattern physically locate the target.",
+        "limitations": "Actual video capture date and timezone are unknown. Commons file date2024-10-30 must not be represented as a verified sensor timestamp. All three frames belong to one video. Keep this cohort separate from independently taken still photographs and independent recording sessions. Physical identity is visually supported, not explicitly owner-confirmed."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/I8088/6692144.jpg",
+        "reference_sha256": "09f130919fbbcbc4cc32bbf494f1b6028e36203cf6d18b51117654d39f3b0f22",
+        "visual_basis": "Catalog ceramic TD8088; selected black plastic P8088 is installed on IBM5150 board."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/156176792.png",
+            "sha256": "208c130b70405a7c6c7b63d2e6f875e3a7e2ac6a58f906f2366f5fd30542563d",
+            "crop": [
+              412,
+              198,
+              986,
+              500
+            ],
+            "pageid": 156176792,
+            "title": "File:RETRO; Pierwszy komputer PC (2160p 30fps VP9 LQ-128kbit AAC)-00.00.22.800.png",
+            "page_url": "https://commons.wikimedia.org/wiki/File:RETRO;_Pierwszy_komputer_PC_(2160p_30fps_VP9_LQ-128kbit_AAC)-00.00.22.800.png",
+            "artist": "ZMASLO",
+            "license": "CC BY 3.0",
+            "license_url": "https://creativecommons.org/licenses/by/3.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/77/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.00.22.800.png",
+            "original_sha1": "f0a2782319e8935b4c692543b51b240ee3a53629",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.00.22.800.png/1280px-RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.00.22.800.png",
+            "capture_kind": "video_frame",
+            "capture_datetime_local": null,
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "youtube:r6UHaHUWcSw@00:00:22.800",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "source_video_url": "https://www.youtube.com/watch?v=r6UHaHUWcSw",
+            "video_timecode": "00:00:22.800",
+            "video_time_seconds": 22.8
+          },
+          "file": "public_triplets/public-04/photo-1.png",
+          "sha256": "4cf23f824c4b84f755560a37badd973f0e81f82e38049f9ae00f4aee7833671a"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/156176818.png",
+            "sha256": "b14b119b5e9ae6ff478484b264aeb98fa1059b0017a594a951d6917eef2b592b",
+            "crop": [
+              367,
+              241,
+              955,
+              431
+            ],
+            "pageid": 156176818,
+            "title": "File:RETRO; Pierwszy komputer PC (2160p 30fps VP9 LQ-128kbit AAC)-00.04.38.000.png",
+            "page_url": "https://commons.wikimedia.org/wiki/File:RETRO;_Pierwszy_komputer_PC_(2160p_30fps_VP9_LQ-128kbit_AAC)-00.04.38.000.png",
+            "artist": "ZMASLO",
+            "license": "CC BY 3.0",
+            "license_url": "https://creativecommons.org/licenses/by/3.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.04.38.000.png",
+            "original_sha1": "bdd0b66109778f65b89e9d68f49d883a37124ff0",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.04.38.000.png/1280px-RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.04.38.000.png",
+            "capture_kind": "video_frame",
+            "capture_datetime_local": null,
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "youtube:r6UHaHUWcSw@00:04:38.000",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "source_video_url": "https://www.youtube.com/watch?v=r6UHaHUWcSw",
+            "video_timecode": "00:04:38.000",
+            "video_time_seconds": 278.0
+          },
+          "file": "public_triplets/public-04/photo-2.png",
+          "sha256": "442da300213d22a6a5f873ddcc8dd8c7c56bc2aca926d3462624b411acb32d52"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/156176867.png",
+            "sha256": "56590077565d05ae6e0f8596821348244ac71ec15f6c0b34495a31c9053de284",
+            "crop": [
+              408,
+              224,
+              940,
+              549
+            ],
+            "pageid": 156176867,
+            "title": "File:RETRO; Pierwszy komputer PC (2160p 30fps VP9 LQ-128kbit AAC)-00.16.34.800.png",
+            "page_url": "https://commons.wikimedia.org/wiki/File:RETRO;_Pierwszy_komputer_PC_(2160p_30fps_VP9_LQ-128kbit_AAC)-00.16.34.800.png",
+            "artist": "ZMASLO",
+            "license": "CC BY 3.0",
+            "license_url": "https://creativecommons.org/licenses/by/3.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.16.34.800.png",
+            "original_sha1": "c405bdb35086b436993c459bd009695666cad3ab",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.16.34.800.png/1280px-RETRO%3B_Pierwszy_komputer_PC_%282160p_30fps_VP9_LQ-128kbit_AAC%29-00.16.34.800.png",
+            "capture_kind": "video_frame",
+            "capture_datetime_local": null,
+            "capture_timezone": null,
+            "original_document_id": null,
+            "capture_id": "youtube:r6UHaHUWcSw@00:16:34.800",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "source_video_url": "https://www.youtube.com/watch?v=r6UHaHUWcSw",
+            "video_timecode": "00:16:34.800",
+            "video_time_seconds": 994.8
+          },
+          "file": "public_triplets/public-04/photo-3.png",
+          "sha256": "e3ecf86a3fcd2e1f73a9884b0647eec49f0edb34406d5b5a6f2d316d82356064"
+        }
+      ]
+    },
+    {
+      "object_id": "public-05",
+      "part_id": "Z80",
+      "source_group_id": "z80_neogeo_aes_9113_b5",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "blur_or_occlusion",
+      "observed_model": "Zilog Z0840004PSC Z80 CPU",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "FL and FR reveal identical Zilog Z0840004PSC / Z80 CPU /9113/B5 markings, large white logo, and package mold-dot arrangement. All views place the CPU on the same side of the SNK FCG-H100 cartridge connector, beside the same SNK PROG chip, RAM and blue bodge wire. The rear BL view reveals the matching9113 and B5 printing on the same fixed package while the cartridge connector occludes most of its face. Same unique orange PL241S daughterboard with black handwritten mark, blue bodge-wire routing, wiring tie, capacitor and mounting screw layout support board identity.",
+        "limitations": "BL is a severe real occlusion: the cartridge connector covers most of the Z80 top. Its crop retains the visible package strip plus the physical occluder; it is a difficult view, not an isolated full chip. FR crop trims the lowest lead tips to remove competing SNK-package lettering."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/Z80/1830432.jpg",
+        "reference_sha256": "5c8084e87fe41fafa611e3fc95decf0f8be8e9fbc8782ec3fa6851682c65f549",
+        "visual_basis": "Catalog white ceramic/gold Z8400APS DALLAS7523; selected black Z0840004PSC 9113/B5 on NeoGeo board."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/41018750.jpg",
+            "sha256": "f620d69669de6801bea4bf4cba84d0a23efd77f4b6071cac601cebf11c8af396",
+            "crop": [
+              1810,
+              975,
+              2370,
+              1210
+            ],
+            "pageid": 41018750,
+            "title": "File:Neo-Geo-AES-Opened-FL.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Neo-Geo-AES-Opened-FL.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Neo-Geo-AES-Opened-FL.jpg",
+            "original_sha1": "059ff47b291a677bfd0a927c769a6f1b76608aee",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Neo-Geo-AES-Opened-FL.jpg/3840px-Neo-Geo-AES-Opened-FL.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:06:16 14:07:38",
+            "capture_timezone": null,
+            "original_document_id": "482ACD1CF56C579798C26613E8795ED0",
+            "capture_id": "document:482ACD1CF56C579798C26613E8795ED0",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/public-05/photo-1.png",
+          "sha256": "29e8b951232092534ad441662d21357cff5ce68d931daf076ff389c3fd03cdd8"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/41018739.jpg",
+            "sha256": "46830a6a2a25dcad38751789481cf51097f163920efcf790192ddd00fe11337e",
+            "crop": [
+              1430,
+              965,
+              2110,
+              1140
+            ],
+            "pageid": 41018739,
+            "title": "File:Neo-Geo-AES-Opened-BL.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Neo-Geo-AES-Opened-BL.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Neo-Geo-AES-Opened-BL.jpg",
+            "original_sha1": "1791c24880dcd7bd2e75904ad0d9be1eda939571",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Neo-Geo-AES-Opened-BL.jpg/3840px-Neo-Geo-AES-Opened-BL.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:06:16 14:10:09",
+            "capture_timezone": null,
+            "original_document_id": "327317DB71A96DB923842D3FCEC4A37C",
+            "capture_id": "document:327317DB71A96DB923842D3FCEC4A37C",
+            "quality_flags": [
+              "partial_occlusion",
+              "marking_unreadable"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/public-05/photo-2.png",
+          "sha256": "9b9a30c577b46d49768c73ffb447e060dac451efc331df594c13bac8b85d20e1"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/41018754.jpg",
+            "sha256": "886baf2349fbefde06acdcdeffdf38d687ade8708119f87e0b2f7dab969def24",
+            "crop": [
+              1790,
+              835,
+              2315,
+              1035
+            ],
+            "pageid": 41018754,
+            "title": "File:Neo-Geo-AES-Opened-FR.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Neo-Geo-AES-Opened-FR.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Neo-Geo-AES-Opened-FR.jpg",
+            "original_sha1": "2d4c9848d01956ba084906cf1a244aa312e9bcae",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Neo-Geo-AES-Opened-FR.jpg/3840px-Neo-Geo-AES-Opened-FR.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:06:16 14:10:49",
+            "capture_timezone": null,
+            "original_document_id": "EEBDA474315A8B5ACDE5CDDF7764C5EB",
+            "capture_id": "document:EEBDA474315A8B5ACDE5CDDF7764C5EB",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/public-05/photo-3.png",
+          "sha256": "8ee337ba1d3aa1cbabb5d872550f5df2ab84f2082dae1ed81f67251431195eed"
+        }
+      ]
+    },
+    {
+      "object_id": "public-06",
+      "part_id": "MC68000",
+      "source_group_id": "mc68000_superacan_4c91e_9548",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "no_marked_blur_or_occlusion",
+      "observed_model": "Motorola MC68000P10",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "All three poses show the same Motorola-logo MC68000P10, mask4C91E and identical lot/date printing ending9548. The CPU remains next to the same black TEST switch, TXC oscillator, PCGAM16000-2A board marking, UMC chips and cartridge slot. A distinctive worn black circular inspection stamp on the board next to the CPU and edge connector matches in all three poses. Matching soldered pin rows, package mold marks and local board/component wear support the same physical package rather than another board of the same model.",
+        "limitations": "Commons pageid31983614 was retaken/replaced in2018; these downloads use its current2018 source SHA1, not its older2014 version. Capture times and unique document IDs support separate photos, but owner has not explicitly confirmed same physical unit."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/MC68000/1139113.jpg",
+        "reference_sha256": "c5ea0d2cf2d69aace96e54ce2f3ad5bb12d913326eebb96658a5c5c00e1d5001",
+        "visual_basis": "Catalog purple ceramic/gold XC68000; selected black plastic MC68000P10 4C91E on SuperAcan board."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/31983614.jpg",
+            "sha256": "f58651877b56f7b53d4e6b0397e4c516041073f9f1f6e4512037ddf225678af4",
+            "crop": [
+              870,
+              695,
+              1455,
+              980
+            ],
+            "pageid": 31983614,
+            "title": "File:Super-Acan-Motherboard-01.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Super-Acan-Motherboard-01.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Super-Acan-Motherboard-01.jpg",
+            "original_sha1": "b8cab904bc16659b8e396a0a10a6d79bccf9c67f",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Super-Acan-Motherboard-01.jpg/1920px-Super-Acan-Motherboard-01.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2018:06:29 03:56:31",
+            "capture_timezone": null,
+            "original_document_id": "FD4BCD9DE24D596240A83FB15BD6D4F6",
+            "capture_id": "document:FD4BCD9DE24D596240A83FB15BD6D4F6",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-06/photo-1.png",
+          "sha256": "50992a8bc6587f4e7396fd3737dbe9f67b3aaeb38c3be6e7fd7a47d15d2a58c4"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/70574276.jpg",
+            "sha256": "0df84bccde4204c919beef25a49ca5dbb2d82dad65314e74662d1cc797a6bb58",
+            "crop": [
+              675,
+              555,
+              1025,
+              975
+            ],
+            "pageid": 70574276,
+            "title": "File:Super-Acan-Motherboard-02.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Super-Acan-Motherboard-02.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Super-Acan-Motherboard-02.jpg",
+            "original_sha1": "3a034b6658ffa9efd3916351e2515a12fcbc2f71",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Super-Acan-Motherboard-02.jpg/1920px-Super-Acan-Motherboard-02.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2018:06:29 03:57:12",
+            "capture_timezone": null,
+            "original_document_id": "149956CC6455573D20C5CE76663C543B",
+            "capture_id": "document:149956CC6455573D20C5CE76663C543B",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-06/photo-2.png",
+          "sha256": "301e08cc7053b6a74b49fe5981037d05b948ad0b1fde2ef389d9cff88d0c3211"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/70574301.jpg",
+            "sha256": "a4a04522da03488f4a4db07d047ec295d19e578b42e09a454732a946c750f35d",
+            "crop": [
+              485,
+              505,
+              1070,
+              780
+            ],
+            "pageid": 70574301,
+            "title": "File:Super-Acan-Motherboard-03.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:Super-Acan-Motherboard-03.jpg",
+            "artist": "Evan-Amos",
+            "license": "Public domain (PD-self source declaration)",
+            "license_url": null,
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Super-Acan-Motherboard-03.jpg",
+            "original_sha1": "b4fc90f218d45e2518cd65b78b703fb3aefbf580",
+            "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Super-Acan-Motherboard-03.jpg/1920px-Super-Acan-Motherboard-03.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2018:06:29 03:57:37",
+            "capture_timezone": null,
+            "original_document_id": "A4487690E4F9B9F09EDA2E441AC1B561",
+            "capture_id": "document:A4487690E4F9B9F09EDA2E441AC1B561",
+            "quality_flags": [],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false
+          },
+          "file": "public_triplets/public-06/photo-3.png",
+          "sha256": "44eb9140551188311b58888bf4d537dfb96273c9f1fe17e961a4294bc5bd8085"
+        }
+      ]
+    },
+    {
+      "object_id": "public-07",
+      "part_id": "ESP8266",
+      "source_group_id": "esp8266_sparkfun13711_dev_board_20151103_unit_a",
+      "cohort_kind": "new_public",
+      "capture_kind": "still_photo",
+      "quality_stratum": "blur_or_occlusion",
+      "observed_model": "ESP8266EX",
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant visual review; not owner/expert confirmed",
+        "evidence": "The same SparkFun13711 Dev Board is presented over an81-second camera sequence. Product identity alone is not treated as physical-unit proof. ESP8266EX package inscription/printing layout and chip placement match in oblique01 and top02. Package markings are too small to transcribe the full batch string confidently. The same component placements, solder patterns, unpopulated power-terminal holes, U.FL connector and power-switch/USB assembly are consistent across all three photographs. The low-angle04 view traces the ESP target by this layout.",
+        "limitations": "There is no unique serial number or explicit owner statement linking the physical unit. Same-unit identity is visually supported, not confirmed. The low-angle ESP chip is strongly blurred. Do not substitute the sharper FTDI chip in that photograph, enlarge the ROI to PCB model-name lettering, or select another image after seeing inference outcomes. Source photos are only600x600; tight chip ROIs have little text detail. EXIF times have no timezone."
+      },
+      "catalog_exclusion": {
+        "reference_file": "images/raw/ESP8266/50769722.jpg",
+        "reference_sha256": "434cdea71b5b3de4ac1428cd724d62f3d0a42f15e58e0bcf9cf02dbd6001cd0b",
+        "visual_basis": "Catalog blue Zeptomoon ESP-01 module; selected actual ESP8266EX QFN is soldered on red SparkFun13711 board."
+      },
+      "photo_order": "Ascending source capture time or video timecode, frozen before inference",
+      "photos": [
+        {
+          "source": {
+            "file": "public_triplets/sources/110929858.jpg",
+            "sha256": "06e5939342ceffdbb05406a63c839272e37698b48a1e79f60dd458b25871874e",
+            "crop": [
+              245,
+              288,
+              342,
+              358
+            ],
+            "pageid": 110929858,
+            "title": "File:SparkFun13711-01.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:SparkFun13711-01.jpg",
+            "artist": "SparkFun Electronics",
+            "license": "CC BY 2.0",
+            "license_url": "https://creativecommons.org/licenses/by/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/SparkFun13711-01.jpg",
+            "original_sha1": "c2341947ed319f16a17c73ae9209824a6b9085b3",
+            "download_url": "https://www.sparkfun.com/media/catalog/product/cache/f8158826193ba5faa8b862a9bd1eb9e9/1/3/13711-01.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:11:03 13:22:10",
+            "capture_timezone": null,
+            "original_document_id": "CEDC26D92724CE53903FF1DEDD40BC07",
+            "capture_id": "document:CEDC26D92724CE53903FF1DEDD40BC07",
+            "quality_flags": [
+              "low_resolution"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "download_note": "Current author-hosted600px copy of the same source photograph. Commons original download returned429; Commons330px and author600px photographs visually match. Author copy may be recompressed; local hashes refer to the downloaded bytes."
+          },
+          "file": "public_triplets/public-07/photo-1.png",
+          "sha256": "8382fec13462c3819694a3ba54771350d2a5139f8603949d9973bd0f61344836"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/110929856.jpg",
+            "sha256": "7829046fb82bd4adb8971a43672e0f8368146ab09fe69d6935bbb145088cfa02",
+            "crop": [
+              301,
+              290,
+              363,
+              351
+            ],
+            "pageid": 110929856,
+            "title": "File:SparkFun13711-02.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:SparkFun13711-02.jpg",
+            "artist": "SparkFun Electronics",
+            "license": "CC BY 2.0",
+            "license_url": "https://creativecommons.org/licenses/by/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/SparkFun13711-02.jpg",
+            "original_sha1": "0772ab2044e5884994dd31168f18e18e748f791e",
+            "download_url": "https://www.sparkfun.com/media/catalog/product/cache/f8158826193ba5faa8b862a9bd1eb9e9/1/3/13711-02.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:11:03 13:22:47",
+            "capture_timezone": null,
+            "original_document_id": "7EE32EEAF465AAB665052937E7E6CCD2",
+            "capture_id": "document:7EE32EEAF465AAB665052937E7E6CCD2",
+            "quality_flags": [
+              "low_resolution"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "download_note": "Current author-hosted600px copy of the same source photograph. Commons original download returned429; Commons330px and author600px photographs visually match. Author copy may be recompressed; local hashes refer to the downloaded bytes."
+          },
+          "file": "public_triplets/public-07/photo-2.png",
+          "sha256": "4416f881cd3ff2f7c1cc5eee433d0f904d27cb42c96711966ff893c26935df84"
+        },
+        {
+          "source": {
+            "file": "public_triplets/sources/110929857.jpg",
+            "sha256": "a03add8f46c869b901d3b6ee55042d65c96e63928cb3eb9800ee8f692987020d",
+            "crop": [
+              201,
+              154,
+              311,
+              221
+            ],
+            "pageid": 110929857,
+            "title": "File:SparkFun13711-04.jpg",
+            "page_url": "https://commons.wikimedia.org/wiki/File:SparkFun13711-04.jpg",
+            "artist": "SparkFun Electronics",
+            "license": "CC BY 2.0",
+            "license_url": "https://creativecommons.org/licenses/by/2.0",
+            "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/SparkFun13711-04.jpg",
+            "original_sha1": "f89b7dd9a666d7cd7e6768289a7677d992c104a0",
+            "download_url": "https://www.sparkfun.com/media/catalog/product/cache/f8158826193ba5faa8b862a9bd1eb9e9/1/3/13711-04.jpg",
+            "capture_kind": "still_photo",
+            "capture_datetime_local": "2015:11:03 13:23:31",
+            "capture_timezone": null,
+            "original_document_id": "BBE13ADDC04650BF6AD5B43E2F938E9A",
+            "capture_id": "document:BBE13ADDC04650BF6AD5B43E2F938E9A",
+            "quality_flags": [
+              "blur",
+              "marking_unreadable"
+            ],
+            "change": "Target-only integer crop from downloaded source; no synthetic angle, rescaling or added text",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": false,
+            "download_note": "Current author-hosted600px copy of the same source photograph. Commons original download returned429; Commons330px and author600px photographs visually match. Author copy may be recompressed; local hashes refer to the downloaded bytes."
+          },
+          "file": "public_triplets/public-07/photo-3.png",
+          "sha256": "782695b6b22b1306793180bc4fc0c2e0175aebe0a119cd3928f21c5781b5db5f"
+        }
+      ]
+    },
+    {
+      "object_id": "anchor-01",
+      "part_id": "I80286",
+      "photos": [
+        {
+          "source": {
+            "file": "images/raw/I80286/158840809.jpg",
+            "sha256": "fff674cd82bc5eddb16ee8aefadee6084a1b3ceb6a44308964be4a55faeb9184",
+            "crop": [
+              20,
+              125,
+              146,
+              275
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_387_486_pentium_size_comparison_01.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits",
+            "pageid": 158840809,
+            "capture_id": "commons:158840809",
+            "capture_kind": "still_photo",
+            "quality_flags": [
+              "low_resolution",
+              "limited_viewpoint_change"
+            ],
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/anchor-01/photo-1.png",
+          "sha256": "f46fa93dbd76c56674ab991412b1e358b2d244f7f4679b3d93357a74bbfb0ed7"
+        },
+        {
+          "source": {
+            "file": "images/raw/I80286/158840810.jpg",
+            "sha256": "45e568cd3ebf95fb3ff17d04db36d1d52fb7216e54756d4a2c578819b000aa50",
+            "crop": [
+              24,
+              128,
+              193,
+              326
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_387_486_size_comparison.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits",
+            "pageid": 158840810,
+            "capture_id": "commons:158840810",
+            "capture_kind": "still_photo",
+            "quality_flags": [
+              "low_resolution",
+              "limited_viewpoint_change"
+            ],
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/anchor-01/photo-2.png",
+          "sha256": "059504631c5ab90e92e02cd49005a5156cb3c1a52bd65b3ad6763e4deea5a3ae"
+        },
+        {
+          "source": {
+            "file": "images/raw/I80286/158840814.jpg",
+            "sha256": "a05368488a566f4f8c4260cb69f0193c8fe8d91851bd572b756b081429b89d87",
+            "crop": [
+              15,
+              170,
+              245,
+              408
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_486_size_comparison.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits",
+            "pageid": 158840814,
+            "capture_id": "commons:158840814",
+            "capture_kind": "still_photo",
+            "quality_flags": [
+              "low_resolution",
+              "limited_viewpoint_change"
+            ],
+            "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+            "known_old44_query_overlap": false,
+            "known_original209_overlap": true
+          },
+          "file": "public_triplets/anchor-01/photo-3.png",
+          "sha256": "0f26d4e41f48f469f54f68e932aa03473b0badfa735bcb49815748841addaa9e"
+        }
+      ],
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant, not a component expert",
+        "evidence": "Same N80286-10 / SX004 markings, lower lot line, corner mould marks and visible wear in all three photos; Sgroey source series dated 2025-01-31 at 14:33:46, 14:31:06 and 14:29:00. Same physical unit is inferred from visible/source consistency, not confirmed by the owner.",
+        "limitations": "One physical-unit hypothesis; mainly scale/framing changes and limited viewpoint variation. Low-resolution target crops from multi-chip comparison photos, not a dedicated close-up capture set. No population-level accuracy claim."
+      },
+      "cohort_kind": "prior_anchor",
+      "capture_kind": "still_photo",
+      "quality_stratum": "no_marked_blur_or_occlusion",
+      "observed_model": "Intel N80286-10",
+      "photo_order": "Preserved historical manifest order; not chronological"
+    }
+  ],
+  "selection_file": "data/public_triplets/selection.json",
+  "selection_sha256": "778dde96b9f1626bd8d41e52b03518a3b076aebb1ba4ca5c57d4fbf06086f18f"
+}
