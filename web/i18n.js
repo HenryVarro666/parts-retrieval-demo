@@ -412,7 +412,71 @@
     "quality.multiple": ["多个前景区域使轮廓不确定。", "Multiple foreground regions make the silhouette ambiguous.", "Varias regiones de primer plano hacen ambiguo el contorno."],
     "quality.tooLarge": ["前景占据图像过多，无法可靠分割。", "Foreground occupies too much of the image for reliable segmentation.", "El primer plano ocupa demasiado espacio para una segmentación fiable."],
     "quality.fragmented": ["前景分散，没有足够明显的主要区域。", "Fragmented foreground has no sufficiently dominant component.", "El primer plano está fragmentado, sin una región suficientemente dominante."],
-    "raw.note": ["原始模型输出保留其生成语言。", "Raw model outputs retain their original language.", "Las salidas originales del modelo conservan su idioma de generación."]
+    "raw.note": ["模型分析和复核笔记随语言切换；OCR 原始文字与型号保持原文。", "Analysis and review notes follow the selected language; raw OCR text and part numbers remain unchanged.", "El análisis y las notas siguen el idioma elegido; el texto OCR original y los modelos se conservan."],
+    "review.comparisonNote": ["复核分析", "Review analysis", "Análisis de la revisión"],
+    "prose.translated": ["模型辅助译文", "Model-assisted translation", "Traducción asistida por modelo"],
+    "prose.original": ["原文", "Original", "Original"],
+    "prose.viewOriginal": ["查看原文", "View original", "Ver original"],
+    "prose.reviewOriginal": ["查看原始复核笔记", "View original review notes", "Ver notas de revisión originales"],
+    "prose.pending": ["正在本地翻译分析…", "Translating the analysis locally…", "Traduciendo el análisis localmente…"],
+    "prose.failed": ["译文暂不可用，可展开查看原文。", "Translation unavailable; expand to view the original.", "Traducción no disponible; despliegue el texto original."],
+    "prose.retry": ["重试翻译", "Retry translation", "Reintentar traducción"],
+    "review.value.readable": ["可读", "Readable", "Legible"],
+    "review.value.partially_readable": ["部分可读", "Partially readable", "Parcialmente legible"],
+    "review.value.agrees": ["与标签一致", "Agrees with label", "Coincide con la etiqueta"],
+    "review.value.uncertain": ["不确定", "Uncertain", "Incierto"],
+    "review.issue.PCB_background": ["PCB 背景", "PCB background", "Fondo de PCB"],
+    "review.issue.PCB_silkscreen_distractors": ["PCB 丝印干扰", "Distracting PCB silkscreen", "Serigrafía de PCB que distrae"],
+    "review.issue.PCB_text_distractors": ["PCB 文字干扰", "Distracting PCB text", "Texto de PCB que distrae"],
+    "review.issue.adjacent_components": ["相邻元件干扰", "Adjacent components", "Componentes adyacentes"],
+    "review.issue.blurred_background_unit": ["背景元件模糊", "Blurred background component", "Componente de fondo desenfocado"],
+    "review.issue.compression_or_quantization_artifacts": ["压缩或量化伪影", "Compression or quantization artifacts", "Artefactos de compresión o cuantización"],
+    "review.issue.curved_surface_text": ["曲面文字", "Text on a curved surface", "Texto en superficie curva"],
+    "review.issue.curved_text_baseline": ["弧形文字基线", "Curved text baseline", "Línea de texto curva"],
+    "review.issue.faded_dotted_print": ["褪色点阵印字", "Faded dotted printing", "Impresión de puntos desvanecida"],
+    "review.issue.fine_texture_on_package": ["封装表面细纹", "Fine package-surface texture", "Textura fina del encapsulado"],
+    "review.issue.flat_lighting": ["平淡光照", "Flat lighting", "Iluminación plana"],
+    "review.issue.glare_on_gold_center": ["金色中心区域眩光", "Glare on gold center", "Reflejo en el centro dorado"],
+    "review.issue.limited_resolution": ["分辨率有限", "Limited resolution", "Resolución limitada"],
+    "review.issue.logo_adjacent_to_part_number": ["标志紧邻型号", "Logo beside part number", "Logotipo junto al modelo"],
+    "review.issue.low_contrast_etched_print": ["蚀刻文字对比度低", "Low-contrast etched text", "Texto grabado de bajo contraste"],
+    "review.issue.low_contrast_laser_marking": ["激光丝印对比度低", "Low-contrast laser marking", "Marcado láser de bajo contraste"],
+    "review.issue.low_contrast_package_text": ["封装文字对比度低", "Low-contrast package text", "Texto del encapsulado de bajo contraste"],
+    "review.issue.low_contrast_print": ["印字对比度低", "Low-contrast print", "Impresión de bajo contraste"],
+    "review.issue.low_to_moderate_contrast": ["对比度偏低", "Low to moderate contrast", "Contraste bajo a moderado"],
+    "review.issue.metal_reflection": ["金属反光", "Metal reflection", "Reflejo metálico"],
+    "review.issue.minor_specular_reflection": ["轻微镜面反光", "Minor specular reflection", "Reflejo especular leve"],
+    "review.issue.mixed_depth_of_field": ["景深不一致", "Mixed depth of field", "Profundidad de campo desigual"],
+    "review.issue.mixed_text_orientations": ["文字方向混杂", "Mixed text orientations", "Orientaciones de texto mezcladas"],
+    "review.issue.multiple_components": ["多个元件", "Multiple components", "Varios componentes"],
+    "review.issue.multiple_similar_units": ["多个相似元件", "Multiple similar units", "Varias unidades similares"],
+    "review.issue.multiple_units": ["多个器件", "Multiple units", "Varias unidades"],
+    "review.issue.oblique_angle": ["拍摄角度倾斜", "Oblique angle", "Ángulo oblicuo"],
+    "review.issue.oblique_view": ["倾斜视角", "Oblique view", "Vista oblicua"],
+    "review.issue.paint_wear": ["漆面磨损", "Paint wear", "Desgaste de pintura"],
+    "review.issue.partial_left_edge_wrap": ["部分文字绕至左侧边缘", "Text partly wraps around the left edge", "Texto parcialmente curvado sobre el borde izquierdo"],
+    "review.issue.patterned_background": ["花纹背景", "Patterned background", "Fondo con patrón"],
+    "review.issue.perspective_angle": ["透视角度影响", "Perspective angle", "Ángulo de perspectiva"],
+    "review.issue.regulatory_and_pin_text_distractors": ["认证文字及引脚标注干扰", "Regulatory and pin-label distractions", "Texto normativo y de pines que distrae"],
+    "review.issue.rotated_text": ["文字旋转", "Rotated text", "Texto girado"],
+    "review.issue.rough_package_surface": ["封装表面粗糙", "Rough package surface", "Superficie rugosa del encapsulado"],
+    "review.issue.ruler_text_distractors": ["尺子文字干扰", "Distracting ruler text", "Texto de regla que distrae"],
+    "review.issue.several_numeric_marking_lines": ["多行数字丝印", "Several numeric marking lines", "Varias líneas de marcas numéricas"],
+    "review.issue.shallow_depth_of_field": ["景深浅", "Shallow depth of field", "Poca profundidad de campo"],
+    "review.issue.slight_oblique_angle": ["轻微倾斜角度", "Slightly oblique angle", "Ángulo ligeramente oblicuo"],
+    "review.issue.small_marking_region": ["丝印区域小", "Small marking region", "Zona de marcado pequeña"],
+    "review.issue.small_model_text_relative_to_package": ["型号文字相对封装较小", "Part text small relative to package", "Texto del modelo pequeño respecto al encapsulado"],
+    "review.issue.small_regulatory_print": ["认证文字细小", "Small regulatory print", "Texto normativo pequeño"],
+    "review.issue.small_stored_image_440x294": ["存储图像较小（440×294）", "Small stored image (440×294)", "Imagen guardada pequeña (440×294)"],
+    "review.issue.small_text_relative_to_frame": ["文字相对画面较小", "Text small relative to frame", "Texto pequeño respecto al encuadre"],
+    "review.issue.specular_reflection": ["镜面反光", "Specular reflection", "Reflejo especular"],
+    "review.issue.split_model_across_lines": ["型号跨行分割", "Part number split across lines", "Modelo dividido entre líneas"],
+    "review.issue.stencil_like_font": ["模板式字体", "Stencil-like font", "Tipografía de estarcido"],
+    "review.issue.strong_oblique_angle": ["明显倾斜角度", "Strongly oblique angle", "Ángulo muy oblicuo"],
+    "review.issue.textured_bright_background": ["明亮纹理背景", "Bright textured background", "Fondo brillante con textura"],
+    "review.issue.very_low_contrast_print": ["印字对比度极低", "Very low-contrast print", "Impresión de contraste muy bajo"],
+    "review.issue.very_small_stored_image_225x230": ["存储图像很小（225×230）", "Very small stored image (225×230)", "Imagen guardada muy pequeña (225×230)"],
+    "review.issue.worn_low_contrast_print": ["印字磨损且对比度低", "Worn low-contrast print", "Impresión desgastada de bajo contraste"]
   };
   const languages = ["zh", "en", "es"];
   const storageKey = "parts-lab-language";
@@ -426,6 +490,7 @@
   const known = new Map();
   for (const [key, translations] of Object.entries(messages)) {
     if (!translations[0].includes("{")) for (const value of translations) known.set(value, key);
+    for (const prefix of ["review.issue.", "review.value."]) if (key.startsWith(prefix)) known.set(key.slice(prefix.length), key);
   }
   const aliases = {
     "Failed to fetch": "error.network", "Load failed": "error.network", "NetworkError when attempting to fetch resource.": "error.network",
@@ -446,7 +511,24 @@
     const select = document.getElementById("language-select");
     if (select) select.value = current;
   }
-  const api = { messages, t, localize, apply, language: () => current, setLanguage(value) {
+  const proseCache = new Map();
+  function registerProse(resources) {
+    for (const [source, translations] of Object.entries(resources || {})) {
+      for (const [language, entry] of Object.entries(translations || {})) {
+        if (languages.includes(language) && typeof entry?.text === "string") proseCache.set(JSON.stringify([language, source]), { text: entry.text, original: entry.text === source });
+      }
+    }
+  }
+  function proseBatches(sources) {
+    const batches = []; let batch = []; let characters = 0;
+    for (const source of sources) {
+      if (batch.length === 8 || characters + source.length > 12000) { batches.push(batch); batch = []; characters = 0; }
+      batch.push(source); characters += source.length;
+    }
+    if (batch.length) batches.push(batch);
+    return batches;
+  }
+  const api = { messages, t, localize, apply, registerProse, proseBatches, prose: source => proseCache.get(JSON.stringify([current, source])) || null, language: () => current, setLanguage(value) {
     current = normalize(value);
     try { root.localStorage?.setItem(storageKey, current); } catch { /* Switching still works without persistence. */ }
     return current;

@@ -78,7 +78,15 @@ def web_payload(root=ROOT):
             info["summary"].update(wins=sum(not a and b for a, b in pairs), regressions=sum(a and not b for a, b in pairs))
         runs.append(info)
         records[doc["name"]] = {r["file"]: r for r in doc["records"]}
-    return {"runs": runs, "samples": samples, "catalog": catalog, "records": records}
+    from .translation import translation_payload
+    return {"runs": runs, "samples": samples, "catalog": catalog, "records": records,
+            "prose_translations": translation_payload(root)}
+
+
+def translate(payload):
+    from .translation import translate_texts
+    with _lock:
+        return translate_texts(payload.get("texts"), payload.get("language"), ROOT)
 
 
 def predict(payload):
@@ -173,7 +181,9 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(400, {"error": "Invalid dataset image or request"})
 
     def do_POST(self):
-        if urlparse(self.path).path != "/api/predict":
+        path = urlparse(self.path).path
+        is_translation = path == "/api/translate"
+        if path not in ("/api/predict", "/api/translate"):
             return self.respond(404, {"error": "Not found"})
         origin = self.headers.get("Origin")
         if origin and urlparse(origin).netloc != self.headers.get("Host"):
@@ -182,17 +192,18 @@ class Handler(BaseHTTPRequestHandler):
             return self.respond(415, {"error": "Use application/json"})
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            if not 0 < length <= MAX_UPLOAD * 4 // 3 + 1024:
-                return self.respond(413, {"error": "Image request too large"})
+            limit = 65536 if is_translation else MAX_UPLOAD * 4 // 3 + 1024
+            if not 0 < length <= limit:
+                return self.respond(413, {"error": "Translation request too large" if is_translation else "Image request too large"})
             payload = json.loads(self.rfile.read(length))
             if not isinstance(payload, dict):
                 raise ValueError("Invalid payload")
-            return self.respond(200, predict(payload))
+            return self.respond(200, translate(payload) if is_translation else predict(payload))
         except (ValueError, TypeError):
-            self.respond(400, {"error": "Invalid image request"})
+            self.respond(400, {"error": "Invalid translation request" if is_translation else "Invalid image request"})
         except Exception as exc:
-            print(f"Prediction failed: {type(exc).__name__}: {exc}", flush=True)
-            self.respond(500, {"error": "Local inference failed. Check the server log and optional model dependencies."})
+            print(f"{'Translation' if is_translation else 'Prediction'} failed: {type(exc).__name__}: {exc}", flush=True)
+            self.respond(503 if is_translation else 500, {"error": "Local translation unavailable" if is_translation else "Local inference failed. Check the server log and optional model dependencies."})
 
 
 def main():

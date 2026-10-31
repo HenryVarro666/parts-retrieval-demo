@@ -69,3 +69,30 @@ test('every UI message has all three languages and the same interpolation fields
     assert.deepEqual(fields(values[0]), fields(values[2]), key);
   }
 });
+
+test('prose translations are selected by the exact source and current language', () => {
+  const i18n = fresh();
+  assert.equal(typeof i18n.registerProse, 'function');
+  i18n.registerProse({ 'The NE555N marking is clear.': {
+    zh: { text: 'NE555N 丝印清晰。', original: false },
+    es: { text: 'La inscripción NE555N es clara.', original: false }
+  }});
+  assert.equal(i18n.prose('The NE555N marking is clear.').text, 'NE555N 丝印清晰。');
+  i18n.setLanguage('es');
+  assert.equal(i18n.prose('The NE555N marking is clear.').text, 'La inscripción NE555N es clara.');
+  assert.equal(i18n.prose('A different NE555N analysis.'), null);
+  assert.equal(i18n.localize('NE555N FEF2209 8809VL'), 'NE555N FEF2209 8809VL');
+  i18n.setLanguage('en');
+  assert.equal(i18n.prose('The NE555N marking is clear.'), null);
+});
+
+test('coalesced prose requests fit backend text-count and character limits', () => {
+  const i18n = fresh();
+  assert.equal(typeof i18n.proseBatches, 'function');
+  const sources = Array.from({length:12}, (_, i) => `${i} ${'a'.repeat(999)}`);
+  const batches = i18n.proseBatches(sources);
+  assert.deepEqual(batches.map(batch => batch.length), [8,4]);
+  assert.deepEqual(batches.flat(), sources);
+  const long = Array.from({length:4}, (_, i) => `${i}${'a'.repeat(3999)}`);
+  assert.deepEqual(i18n.proseBatches(long).map(batch => batch.length), [3,1]);
+});

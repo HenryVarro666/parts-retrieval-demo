@@ -24,6 +24,55 @@
     if (value != null) el.textContent = String(value);
     return el;
   };
+  const prosePending = new Set();
+  const proseFailed = new Set();
+  const proseQueue = new Map();
+  let proseTimer = null;
+  function queueProse(source) {
+    const language = I.language();
+    const key = JSON.stringify([language, source]);
+    if (typeof source !== "string" || !source.trim() || source.length > 4000) { proseFailed.add(key); return; }
+    if (I.prose(source) || prosePending.has(key) || proseFailed.has(key)) return;
+    prosePending.add(key); proseQueue.set(key, { source, language });
+    if (!proseTimer) proseTimer = setTimeout(flushProse, 0);
+  }
+  async function flushProse() {
+    proseTimer = null;
+    const queued = [...proseQueue.values()]; proseQueue.clear();
+    for (const language of [...new Set(queued.map(item => item.language))]) {
+      for (const texts of I.proseBatches(queued.filter(item => item.language === language).map(item => item.source))) {
+        try {
+          const response = await fetch("/api/translate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texts, language }) });
+          const result = await response.json();
+          if (!response.ok || result.language !== language || texts.some(source => typeof result.translations?.[source]?.text !== "string")) throw new Error("Translation unavailable");
+          I.registerProse(Object.fromEntries(texts.map(source => [source, { [language]: result.translations[source] }])));
+        } catch {
+          for (const source of texts) proseFailed.add(JSON.stringify([language, source]));
+        } finally {
+          for (const source of texts) prosePending.delete(JSON.stringify([language, source]));
+          if (I.language() === language) { renderEvidence(currentRecord()); renderSampleComparison(currentRecord()); }
+        }
+      }
+    }
+  }
+  function proseElement(source) {
+    const container = node("div", "model-prose");
+    const entry = I.prose(source);
+    const key = JSON.stringify([I.language(), source]);
+    if (!entry) queueProse(source);
+    const failed = proseFailed.has(key);
+    if (entry) container.append(node("span", "prose-label", t(entry.original ? "prose.original" : "prose.translated")), node("p", "", entry.text));
+    else container.append(node("p", "prose-status", t(failed ? "prose.failed" : "prose.pending")));
+    if (!entry || !entry.original) {
+      const original = node("details", "prose-source"); original.append(node("summary", "", t("prose.viewOriginal")), node("pre", "", source)); container.append(original);
+    }
+    if (failed && typeof source === "string" && source.length <= 4000) {
+      const retry = node("button", "prose-retry", t("prose.retry")); retry.type = "button";
+      retry.addEventListener("click", () => { proseFailed.delete(key); queueProse(source); renderEvidence(currentRecord()); renderSampleComparison(currentRecord()); });
+      container.append(retry);
+    }
+    return container;
+  }
   const finite = (value) => value != null && value !== "" && Number.isFinite(Number(value));
   const number = (value) => finite(value) ? Number(value) : null;
   const basename = (file) => String(file || "").split(/[\\/]/).pop();
@@ -170,6 +219,7 @@
       if (!response.ok || data.error) throw data.error ? new Error(data.error) : uiError("error.loadHTTP", { status: response.status });
       if (!Array.isArray(data.runs) || !Array.isArray(data.samples) || !data.catalog) throw new Error(t("error.incompleteData"));
       state.data = data;
+      I.registerProse(data.prose_translations);
       state.baseline = data.runs.find((run) => run.name === "easyocr_whole") || data.runs.find((run) => run.config?.baseline || /baseline|基线/i.test(`${run.name} ${run.label || ""}`)) || data.runs[0] || null;
       state.run = data.runs.find((run) => run.name === state.run?.name) || data.runs.filter(complete).reduce((best, run) => !best || (rate(run.summary, "top1") || 0) > (rate(best.summary, "top1") || 0) ? run : best, null) || state.baseline;
       if (!data.samples.some((item) => item.file === state.file)) state.file = data.samples[0]?.file || null;
@@ -398,7 +448,7 @@
       const abstained = Boolean(vlm.abstained);
       text("vlm-status", abstained ? combined ? t("vlm.noVote") : t("vlm.keepOrder") : vlm.selected_id || t("vlm.decided"));
       $("vlm-status").className = `tag ${abstained ? "tag-warning" : "tag-teal"}`;
-      text("vlm-reason", vlm.reason || (abstained ? t("vlm.fallback") : t("vlm.noReason")));
+      $("vlm-reason").replaceChildren(vlm.reason ? proseElement(vlm.reason) : node("p", "", abstained ? t("vlm.fallback") : t("vlm.noReason")));
       text("vlm-observed", vlm.observed_text ? t("vlm.observed", { text: valueText(vlm.observed_text) }) : "");
       show("vlm-observed", Boolean(vlm.observed_text));
       text("vlm-scope-note", live ? t("vlm.liveScope") : combined ? t("vlm.ensembleScope") : record?.retrieval ? t("vlm.sqliteScope") : t("vlm.oldScope"));
@@ -573,12 +623,20 @@
     const content = $("review-content"); content.replaceChildren();
     if (review) {
       const dl = node("dl");
-      for (const [key, label] of [["observed_text", t("review.observed")], ["observed_part_number", t("review.part")], ["legibility", t("review.legibility")], ["label_comparison", t("review.comparison")], ["quality_issues", t("review.quality")], ["suggested_action", t("review.action")]]) {
+      const fields = [["observed_text", t("review.observed")], ["observed_part_number", t("review.part")], ["legibility", t("review.legibility")], ["label_comparison", t("review.comparison")], ["comparison_note", t("review.comparisonNote")], ["quality_issues", t("review.quality")], ["suggested_action", t("review.action")]];
+      for (const [key, label] of fields) {
         const value = valueText(review[key]);
-        if (value) { const row = node("div"); row.append(node("dt", "", label), node("dd", "", value)); dl.append(row); }
+        if (!value) continue;
+        const row = node("div"); const body = node("dd");
+        if (["comparison_note", "suggested_action"].includes(key)) body.append(proseElement(value));
+        else body.textContent = ["observed_text", "observed_part_number"].includes(key) ? value : Array.isArray(review[key]) ? review[key].map(I.localize).join(t("separator.semicolon")) : I.localize(value);
+        row.append(node("dt", "", label), body); dl.append(row);
       }
       if (!dl.childElementCount) dl.append(node("dd", "", valueText(review)));
       content.append(dl, node("p", "review-provenance", t("review.provenance")));
+      const original = node("details", "prose-source");
+      original.append(node("summary", "", t("prose.reviewOriginal")), node("pre", "", JSON.stringify(Object.fromEntries(fields.map(([key]) => [key, review[key]])), null, 2)));
+      content.append(original);
     }
   }
 
