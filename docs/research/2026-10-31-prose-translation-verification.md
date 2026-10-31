@@ -36,3 +36,7 @@ Screenshots: [Chinese live analysis](../screenshots/prose-analysis-zh-2026-10-31
 ## Reproduction and limits
 
 Saved replay uses the shipped JSON cache and does not require MLX or model downloads. `uv run --extra experiments python -I -m partsid.translation warm` reuses valid entries and generates only missing translations when the existing Apple Silicon VLM environment is installed. New live translation is currently tested only on this Mac. Environments, model weights and runtime upload caches remain excluded from Git; the original catalog, labels, model outputs and benchmark files are preserved.
+
+## Private remote verification
+
+Implementation commit `94a45e73c07e4e032b7b0660ebb50f24ab711606` was atomically pushed by normal fast-forward to the private repository's `main` and `feature/prose-translations`. The earlier clean remote clone was updated directly from GitHub to that commit. It has no `.venv-vlm` environment. Standard Python successfully replayed all 118 sources and 354 entries through `warm` without generation, and the artifact hash remained identical. The updated clone also passed all 18 focused Python translation/web tests and all eight Node language tests. This is a same-Mac remote-source replay check, not a different-hardware model benchmark. The follow-up documentation commit records this verification without changing executable code or translations.
