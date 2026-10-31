@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "scope": "exploratory_same_object",
+  "groups": [
+    {
+      "object_id": "unit-01",
+      "part_id": "I80286",
+      "photos": [
+        {
+          "file": "multi_image/unit-01/photo-1.png",
+          "sha256": "f46fa93dbd76c56674ab991412b1e358b2d244f7f4679b3d93357a74bbfb0ed7",
+          "source": {
+            "file": "images/raw/I80286/158840809.jpg",
+            "sha256": "fff674cd82bc5eddb16ee8aefadee6084a1b3ceb6a44308964be4a55faeb9184",
+            "crop": [
+              20,
+              125,
+              146,
+              275
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_387_486_pentium_size_comparison_01.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits"
+          }
+        },
+        {
+          "file": "multi_image/unit-01/photo-2.png",
+          "sha256": "059504631c5ab90e92e02cd49005a5156cb3c1a52bd65b3ad6763e4deea5a3ae",
+          "source": {
+            "file": "images/raw/I80286/158840810.jpg",
+            "sha256": "45e568cd3ebf95fb3ff17d04db36d1d52fb7216e54756d4a2c578819b000aa50",
+            "crop": [
+              24,
+              128,
+              193,
+              326
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_387_486_size_comparison.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits"
+          }
+        },
+        {
+          "file": "multi_image/unit-01/photo-3.png",
+          "sha256": "0f26d4e41f48f469f54f68e932aa03473b0badfa735bcb49815748841addaa9e",
+          "source": {
+            "file": "images/raw/I80286/158840814.jpg",
+            "sha256": "a05368488a566f4f8c4260cb69f0193c8fe8d91851bd572b756b081429b89d87",
+            "crop": [
+              15,
+              170,
+              245,
+              408
+            ],
+            "page_url": "https://commons.wikimedia.org/wiki/File:Intel_chips_286_386_486_size_comparison.jpg",
+            "artist": "Sgroey",
+            "license": "CC BY-SA 4.0",
+            "change": "Target-only crop; no synthetic angle, rescaling or pixel edits"
+          }
+        }
+      ],
+      "identity_basis": {
+        "status": "visually_supported",
+        "reviewer": "Codex assistant, not a component expert",
+        "evidence": "Same N80286-10 / SX004 markings, lower lot line, corner mould marks and visible wear in all three photos; Sgroey source series dated 2025-01-31 at 14:33:46, 14:31:06 and 14:29:00. Same physical unit is inferred from visible/source consistency, not confirmed by the owner.",
+        "limitations": "One physical-unit hypothesis; mainly scale/framing changes and limited viewpoint variation. Low-resolution target crops from multi-chip comparison photos, not a dedicated close-up capture set. No population-level accuracy claim."
+      }
+    }
+  ]
+}

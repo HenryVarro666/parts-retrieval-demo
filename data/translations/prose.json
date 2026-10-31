@@ -182,6 +182,21 @@
       "generation_ms": 1863.4340000025986
     },
     {
+      "key": "042abbc347c8dd3ec2cd60f415e95ca06abb3a18c701dd5d6c4a21dc342fd044",
+      "source": "The visible text 'N80286-1.0' on the chip matches the I80286 microprocessor alias, and the package shape (square with pins) is consistent with the I80286's known PGA or PLCC package, though pin count is not visible.",
+      "source_sha256": "446e2d9782d2b9605099d4e71cae74bd9cd84fca7b5471ec46257fba4ed49ef3",
+      "target": "en",
+      "prompt_sha256": "5d3c746a61539f3e48f6268ed5c1b44b6ba8cceea218c2a39a437ed05fc587bd",
+      "translation": "The visible text 'N80286-1.0' on the chip matches the I80286 microprocessor alias, and the package shape (square with pins) is consistent with the I80286's known PGA or PLCC package, though pin count is not visible.",
+      "raw": "{\"translation\": \"The visible text __KEEP_000__ on the chip matches the __KEEP_001__ microprocessor alias, and the package shape (square with pins) is consistent with the __KEEP_002__'s known __KEEP_003__ or __KEEP_004__ package, though pin count is not visible.\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "source",
+      "generation_ms": 0,
+      "attempt": 0
+    },
+    {
       "key": "042cbd0e5470a50f5841fee33b6f319c5a98ae6f77749e9ba6fc4cf20a4471a5",
       "source": "仅记录前景清晰模块的型号行与明确无线制式文字，不从其它模糊模块推断。",
       "source_sha256": "3c2a2b81605f5b57752f369a0813ad0aa9e1e217143c82171620e476f10fc70f",
@@ -652,6 +667,21 @@
       "policy": "prose-translation-v1",
       "provider": "local_model",
       "generation_ms": 1638.7397500002407
+    },
+    {
+      "key": "1802dc4321e665a4f63ce234f923993745cdda6c94d904144efd82246d4074f0",
+      "source": "The visible text 'N80286-1.0' on the chip matches the I80286 microprocessor alias, and the package shape (square with pins) is consistent with the I80286's known PGA or PLCC package, though pin count is not visible.",
+      "source_sha256": "446e2d9782d2b9605099d4e71cae74bd9cd84fca7b5471ec46257fba4ed49ef3",
+      "target": "es",
+      "prompt_sha256": "83f5e94390ea16497ef503f108b87aa7326395c89c3ef392c308233d1dbd5c92",
+      "translation": "El texto visible 'N80286-1.0' en el chip coincide con el alias del microprocesador I80286, y la forma del paquete (cuadrado con pines) es consistente con el paquete conocido PGA o PLCC del I80286, aunque el número de pines no es visible.",
+      "raw": "{\"translation\":\"El texto visible __KEEP_000__ en el chip coincide con el alias del microprocesador __KEEP_001__, y la forma del paquete (cuadrado con pines) es consistente con el paquete conocido __KEEP_003__ o __KEEP_004__ del __KEEP_002__, aunque el número de pines no es visible.\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "local_model",
+      "generation_ms": 1327.5880830042297,
+      "attempt": 0
     },
     {
       "key": "186fe0d2fbd505626719828e9133aef65eb0f7d310f9311e53357e98b7b34e8f",
@@ -2172,6 +2202,21 @@
       "generation_ms": 0
     },
     {
+      "key": "5a7d7861d9d88bd4fa1df8d7ae8a30d05ceca610e80fcb7d8e115aa58de878ba",
+      "source": "The markings 'N80286-1.0' and 'L8190315' and '© 82 85' are visible on the component in all three images. The package is a square with pins around the edges, consistent with the I80286's PLCC (Plastic Leaded Chip Carrier) package. The catalog image for I80286 also shows a component with identical markings and package shape.",
+      "source_sha256": "c3658e6b5e96999bbb93aa013b146c79c01da9dcbf823a87d8f02809e3150709",
+      "target": "zh",
+      "prompt_sha256": "16b9b31788a7f16af0abbec69a84f40942746e79c104eb878f5ad8d7709ec93c",
+      "translation": "三个图像中的组件上可见标记 'N80286-1.0' 和 'L8190315' 和 '© 82 85'。封装为方形，边缘有引脚，与 I80286 的 PLCC（塑料引脚芯片载体）封装一致。I80286 的目录图像也显示了一个具有相同标记和封装形状的组件。",
+      "raw": "{\"translation\":\"三个图像中的组件上可见标记 __KEEP_000__ 和 __KEEP_001__ 和 __KEEP_002__。封装为方形，边缘有引脚，与 __KEEP_003__ 的 __KEEP_004__（塑料引脚芯片载体）封装一致。__KEEP_005__ 的目录图像也显示了一个具有相同标记和封装形状的组件。\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "local_model",
+      "generation_ms": 1476.3404170007561,
+      "attempt": 0
+    },
+    {
       "key": "5a921def79d963a5553b87770c0624a25d47103aa8e9c1b159b586004e57a43e",
       "source": "主型号Z80 CPU可辨；其它微小序列/批次文字保留未知，未从目录反填。",
       "source_sha256": "e21e3bc9a48479c9f832d68aeab681143f9bd803898536d842292e6ed2ca92da",
@@ -3497,6 +3542,21 @@
       "attempt": 0
     },
     {
+      "key": "8d6fefce827892852dbe68179727a155d3e433033c6344069d371b911f71527e",
+      "source": "The markings 'N80286-1.0' and 'L8190315' and '© 82 85' are visible on the component in all three images. The package is a square with pins around the edges, consistent with the I80286's PLCC (Plastic Leaded Chip Carrier) package. The catalog image for I80286 also shows a component with identical markings and package shape.",
+      "source_sha256": "c3658e6b5e96999bbb93aa013b146c79c01da9dcbf823a87d8f02809e3150709",
+      "target": "en",
+      "prompt_sha256": "45679b8244c1ecc3914f68d8a73359491554b0dbea66d206195436d9b3f57bfe",
+      "translation": "The markings 'N80286-1.0' and 'L8190315' and '© 82 85' are visible on the component in all three images. The package is a square with pins around the edges, consistent with the I80286's PLCC (Plastic Leaded Chip Carrier) package. The catalog image for I80286 also shows a component with identical markings and package shape.",
+      "raw": "{\"translation\": \"The markings __KEEP_000__ and __KEEP_001__ and __KEEP_002__ are visible on the component in all three images. The package is a square with pins around the edges, consistent with the __KEEP_003__'s __KEEP_004__ (Plastic Leaded Chip Carrier) package. The catalog image for __KEEP_005__ also shows a component with identical markings and package shape.\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "source",
+      "generation_ms": 0,
+      "attempt": 0
+    },
+    {
       "key": "8e3a385a595349e893724b837caa940c145970ccb8327aed7fbc674a02377ecb",
       "source": "The central component in the query image is a Wi-Fi module with 'ESP32' clearly printed on its surface, matching the ESP32 module shown in the catalog reference image. The module's form factor, pin layout, and visible 'Wi-Fi' and 'ESP32' markings confirm its identity.",
       "source_sha256": "4aaa6addeae5cb686744ccffc62c4a6d46ad68f00a076a54188219537c9c64f4",
@@ -3827,6 +3887,21 @@
       "policy": "prose-translation-v1",
       "provider": "source",
       "generation_ms": 0,
+      "attempt": 0
+    },
+    {
+      "key": "a57bab315a642cc046c6e19b6ed3c8a0d41a46f9615291269c74d04f03913f6b",
+      "source": "The visible text 'N80286-1.0' on the chip matches the I80286 microprocessor alias, and the package shape (square with pins) is consistent with the I80286's known PGA or PLCC package, though pin count is not visible.",
+      "source_sha256": "446e2d9782d2b9605099d4e71cae74bd9cd84fca7b5471ec46257fba4ed49ef3",
+      "target": "zh",
+      "prompt_sha256": "e55c75947abe55940314b791c502f9b35421af876c77f22fdf398edc73608dea",
+      "translation": "芯片上的可见文字'N80286-1.0'与I80286微处理器别名相符，封装形状（方形带引脚）与I80286所知的PGA或PLCC封装一致，但引脚数量不可见。",
+      "raw": "{\"translation\":\"芯片上的可见文字__KEEP_000__与__KEEP_001__微处理器别名相符，封装形状（方形带引脚）与__KEEP_002__所知的__KEEP_003__或__KEEP_004__封装一致，但引脚数量不可见。\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "local_model",
+      "generation_ms": 1142.669458000455,
       "attempt": 0
     },
     {
@@ -5170,6 +5245,38 @@
       "policy": "prose-translation-v1",
       "provider": "source",
       "generation_ms": 0
+    },
+    {
+      "key": "dcb45190d7246104de41e76c2ec4ae872c20ead0f484d13460183730ddb984ff",
+      "source": "The markings 'N80286-1.0' and 'L8190315' and '© 82 85' are visible on the component in all three images. The package is a square with pins around the edges, consistent with the I80286's PLCC (Plastic Leaded Chip Carrier) package. The catalog image for I80286 also shows a component with identical markings and package shape.",
+      "source_sha256": "c3658e6b5e96999bbb93aa013b146c79c01da9dcbf823a87d8f02809e3150709",
+      "target": "es",
+      "prompt_sha256": "dc36964243e95a4eaefbeb37d93e2e07bd2da6275cacaa98310b577993359dd6",
+      "translation": "Las marcas 'N80286-1.0', 'L8190315' y '© 82 85' son visibles en el componente en las tres imágenes. El encapsulado es cuadrado y tiene pines alrededor de los bordes, lo que concuerda con el encapsulado PLCC (portador de chip con terminales de plástico) de I80286. La imagen de catálogo de I80286 también muestra un componente con marcas y forma de encapsulado idénticas.",
+      "raw": "{\"translation\": \"Las marcas __KEEP_000__, __KEEP_001__ y __KEEP_002__ son visibles en el componente en las tres imágenes. El encapsulado es cuadrado y tiene pines alrededor de los bordes, lo que concuerda con el encapsulado __KEEP_004__ (portador de chip con terminales de plástico) de __KEEP_003__. La imagen de catálogo de __KEEP_005__ también muestra un componente con marcas y forma de encapsulado idénticas.\"}",
+      "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+      "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+      "policy": "prose-translation-v1",
+      "provider": "assistant_postedit",
+      "generation_ms": 1742.3567079968052,
+      "attempt": 0,
+      "draft": {
+        "key": "dcb45190d7246104de41e76c2ec4ae872c20ead0f484d13460183730ddb984ff",
+        "source": "The markings 'N80286-1.0' and 'L8190315' and '© 82 85' are visible on the component in all three images. The package is a square with pins around the edges, consistent with the I80286's PLCC (Plastic Leaded Chip Carrier) package. The catalog image for I80286 also shows a component with identical markings and package shape.",
+        "source_sha256": "c3658e6b5e96999bbb93aa013b146c79c01da9dcbf823a87d8f02809e3150709",
+        "target": "es",
+        "prompt_sha256": "dc36964243e95a4eaefbeb37d93e2e07bd2da6275cacaa98310b577993359dd6",
+        "translation": "Las marcas 'N80286-1.0' y 'L8190315' y '© 82 85' son visibles en el componente en las tres imágenes. El paquete es un cuadrado con pinos alrededor de los bordes, consistente con el I80286's PLCC (Plástico con pines en forma de chip). La imagen de catálogo para I80286 también muestra un componente con marcas y forma de paquete idénticas.",
+        "raw": "{\"translation\":\"Las marcas __KEEP_000__ y __KEEP_001__ y __KEEP_002__ son visibles en el componente en las tres imágenes. El paquete es un cuadrado con pinos alrededor de los bordes, consistente con el __KEEP_003__'s __KEEP_004__ (Plástico con pines en forma de chip). La imagen de catálogo para __KEEP_005__ también muestra un componente con marcas y forma de paquete idénticas.\"}",
+        "model": "mlx-community/Qwen3-VL-4B-Instruct-4bit",
+        "revision": "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b",
+        "policy": "prose-translation-v1",
+        "provider": "local_model",
+        "generation_ms": 1742.3567079968052,
+        "attempt": 0
+      },
+      "editor": "Codex assistant",
+      "edit_note": "Polish Spanish package terminology and translate the English possessive; preserve all source model claims and identifiers."
     },
     {
       "key": "ddcb050610142fd76b2bee4b2bbb7561dcfa4390ac525d207376da9efe917143",

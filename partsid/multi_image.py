@@ -170,7 +170,7 @@ def prepare_group_visual(pipeline, record, paths, namespace):
             "prompt": prompt, "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(), "candidate_ids": ids}
 
 
-def run_group(pipeline, paths, verify_visual=False, namespace=None):
+def run_group(pipeline, paths, verify_visual=False, namespace=None, force_visual=False):
     if not 1 <= len(paths) <= 3:
         raise ValueError("Use one to three photos")
     started = time.perf_counter()
@@ -192,7 +192,7 @@ def run_group(pipeline, paths, verify_visual=False, namespace=None):
                     for stage in ("ocr", "sqlite", "image", "shape")}
     result["ms"]["fusion"] = (time.perf_counter()-fusion_start)*1000
     if verify_visual:
-        if can_accept_group(result):
+        if can_accept_group(result) and not force_visual:
             result["rankings"]["gated"] = list(result["rankings"]["shape"])
             result["decision"] = {"used_vlm": False, "actual_vlm_executed": False, "reason_code": "single_strong" if len(paths) == 1 else "multi_consensus"}
         else:
@@ -207,11 +207,11 @@ def run_group(pipeline, paths, verify_visual=False, namespace=None):
     return result
 
 
-def compare_paths(pipeline, paths, verify_visual=False, namespace=None):
+def compare_paths(pipeline, paths, verify_visual=False, namespace=None, force_visual=False):
     started = time.perf_counter()
     namespace = namespace or "multi_live/" + uuid.uuid4().hex
-    single = run_group(pipeline, paths[:1], verify_visual, namespace + "/single")
-    multi = run_group(pipeline, paths, verify_visual, namespace + "/multi") if len(paths) > 1 else single
+    single = run_group(pipeline, paths[:1], verify_visual, namespace + "/single", force_visual)
+    multi = run_group(pipeline, paths, verify_visual, namespace + "/multi", force_visual) if len(paths) > 1 else single
     def summary(record):
         ids = record["rankings"].get("gated", record["rankings"]["shape"])
         return {"top3": ids[:3], "top10": ids[:10], "elapsed_ms": record["ms"]["total"],

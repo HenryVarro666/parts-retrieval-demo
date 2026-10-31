@@ -76,6 +76,14 @@ def test_saved_prose_collects_only_explanations_and_keeps_observations_out(tmp_p
     assert set(saved_prose(tmp_path)) == {"型号可见。", "裁剪主体。", "The marking is unclear."}
 
 
+def test_saved_multi_photo_analysis_is_translatable_but_raw_markings_are_excluded(tmp_path):
+    directory = tmp_path / "results/multi_image"; directory.mkdir(parents=True)
+    (directory / "paired.json").write_text(json.dumps({"records": [{
+        "gt": "SECRET", "record": {"ocr_text": "RAW OCR", "vlm": {"reason": "Three views agree.", "observed_text": "RAW MODEL"}},
+        "baseline_record": {"vlm": {"reason": "One view is ambiguous.", "observed_text": "RAW PART"}}}]}))
+    assert set(saved_prose(tmp_path)) == {"Three views agree.", "One view is ambiguous."}
+
+
 def test_frozen_translation_replays_without_local_model_and_ignores_stale_entries(tmp_path):
     from partsid.translation import make_entry
     request = build_request("NE555N is visible.", "es")

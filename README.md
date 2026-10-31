@@ -23,6 +23,32 @@ The page shows the selected OCR view, text boxes, keyword matches and database f
 
 To regenerate the saved analysis/review translations with the existing Apple Silicon environment, run `uv run --extra experiments python -I -m partsid.translation warm`. This writes only `data/translations/prose.json`; upload translations remain in ignored local caches. Source/target/prompt/model fingerprints prevent stale reuse, and protected marking/identifier tokens must survive translation exactly. See [translation verification](docs/research/2026-10-31-prose-translation-verification.md).
 
+## One component, multiple photos (2026-10-31)
+
+Upload **1–3 photos of the same physical component** in one selection. The first is the single-photo baseline. Inspect each thumbnail to see that photo's original OCR, boxes, SQL matches, appearance candidates, shape availability and extraction time; the candidate list shows the fused result. An optional known-model selector scores Top-1 / Top-3 / Recall@10 entirely in the browser and is never sent to inference. The original retrieval option remains single-photo only. The new separate experiment table can replay the saved three-photo examples without model downloads.
+
+Each photo runs the existing OCR/SQLite/SigLIP/shape flow. Exact decoded-pixel duplicates are extracted once; near-copy groups share one total vote. Fusion uses fixed k=60 reciprocal ranks, preserves strong SQL aliases and exposes disagreements. Shape is a soft per-photo hint. Optional VLM verification sees all distinct input photos plus a shuffled reference contact sheet; a multi-photo direct acceptance requires at least two independent groups to support one strong identifier without conflicts. These are uncalibrated rules, not a guarantee that photographed objects are identical.
+
+The server measures first-photo and all-photo paths separately, sharing loaded retrieval models but **re-extracting query evidence in each path**. Requested VLM subprocess/model loading is included, retrieval initialization and total comparison-request time are listed separately. The single path runs first, so startup and warm-cache effects remain possible. Live VLM requests use fresh namespaces, not historical saved judgments.
+
+[Measured comparison](results/multi_image/comparison.md): the 44-query duplicate control stayed **38/44 → 38/44**, with no gains/regressions. Existing `data/` sources yielded **one exploratory 80286 three-photo group** after target-only cropping. Same physical identity is visually supported by matching marks/wear and source-session metadata, not owner/expert-confirmed; viewpoints differ mainly in scale/framing. Both single and three-photo identification were correct. Retrieval-only measured **1.04 s / 1.97 s**; forcing actual VLM execution in both paths measured **8.67 s / 8.58 s**, including VLM loading. One trial on one object cannot establish an accuracy or latency improvement. Other apparent series contain different parts or derived copies: see [data audit](docs/research/2026-10-31-multi-image-data-audit.md).
+
+Reproduce the supplied fixture and experiments:
+
+```bash
+uv run --frozen python scripts/prepare_multi_image_fixture.py
+# No inference; validate source hashes and rebuild the comparison.
+uv run --frozen python -I -m partsid.multi_image_experiments report
+# Real extraction on all 44 queries, each supplied three times (control only).
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments control
+# One visually supported physical-unit hypothesis; kept separate from the 44 queries.
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/multi_image/manifest.json
+# Apple Silicon .venv-vlm required; bypass the gate to measure actual single/joint VLM calls.
+uv run --frozen --extra experiments python -I -m partsid.multi_image_experiments run data/multi_image/manifest.json --visual --force-visual
+```
+
+For normal selective VLM testing, omit `--force-visual`. Each inference command makes fresh measurements and replaces only its named multi-image result. Manifest validation rejects repeated pixels, catalog-image overlap, missing grouping provenance and stale/incorrect source crops. [Multi-photo guide](docs/MULTI_IMAGE_GUIDE.md) describes capturing new triplets and adding a manifest. Historical catalog/labels/results stay unchanged; the analysis-translation cache adds the new explanations while retaining all existing entries.
+
 ## SQLite keyword retrieval and candidate verification (2026-10-31)
 
 The new flow is `photo → multiview RapidOCR → SQLite keywords → image supplements → shape reranking → optional VLM`. The [complete stage comparison](results/candidates/comparison.md) and per-query `results/experiments/sqlite_*.json` distinguish database recall from downstream reranking:

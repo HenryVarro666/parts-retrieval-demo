@@ -7,6 +7,44 @@ from PIL import Image
 from partsid.web import dataset_path, decode_upload, web_payload
 
 
+def upload_data():
+    import base64
+    image = io.BytesIO()
+    Image.new("RGB", (20, 15), "red").save(image, format="PNG")
+    return "data:image/png;base64," + base64.b64encode(image.getvalue()).decode()
+
+
+def test_multi_upload_is_atomic_and_rejects_ambiguous_or_excess_inputs():
+    from partsid.web import decode_uploads
+    image = upload_data()
+    assert len(decode_uploads({"image": image})) == 1
+    assert len(decode_uploads({"images": [image] * 3})) == 3
+    for bad in ({}, {"images": []}, {"images": [image]*4}, {"images": image},
+                {"image": image, "images": [image]}, {"images": [image, image, "invalid"]}):
+        with pytest.raises(ValueError):
+            decode_uploads(bad)
+
+
+def test_multi_image_legacy_rejected_before_model_loading():
+    from partsid.web import predict
+    with pytest.raises(ValueError, match="single photo"):
+        predict({"images": [upload_data()] * 3, "pipeline": "legacy"})
+
+
+def test_multi_image_predict_returns_measured_pair_and_each_photo(tmp_path, monkeypatch):
+    import partsid.web as web
+    from tests.test_multi_image import evidence
+    class Pipeline:
+        def run(self, path): return evidence(["A"], ["A", "B"], ["A"])
+    monkeypatch.setitem(web._candidate_pipes, ("rapidocr", False), Pipeline())
+    monkeypatch.setattr(web, "web_payload", lambda: {"catalog": {"A": {"id": "A"}}})
+    response = web.predict({"images": [upload_data()] * 3})
+    assert len(response["record"]["photos"]) == 3
+    assert response["comparison"]["single"]["top3"] == ["A", "B"]
+    assert response["comparison"]["multi"]["elapsed_ms"] > 0
+    assert response["setup_ms"] >= 0
+
+
 def test_image_serving_rejects_paths_outside_the_dataset(tmp_path):
     data = tmp_path / "data"
     allowed = {"images/raw/A/1.jpg"}

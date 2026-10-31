@@ -114,3 +114,21 @@ def test_similar_compressed_photos_share_one_vote_group(tmp_path):
     second = tmp_path / "compressed.jpg"
     Image.open(first).save(second, quality=92)
     assert multi.correlation_groups([multi.image_signature(p) for p in [first, second]]) == [0, 0]
+
+
+def test_force_visual_experiment_really_checks_single_and_all_three_images(tmp_path, monkeypatch):
+    paths = photos(tmp_path)
+    class Pipeline:
+        root = tmp_path
+        parts = {"A": {"id": "A", "aliases": ["A"]}, "B": {"id": "B", "aliases": ["B"]}}
+        reference_paths = {"A": paths[0], "B": paths[1]}
+        def run(self, p): return evidence(["A"], ["A", "B"], ["A"])
+    requested = []
+    def external_worker(root, requests, namespace):
+        requested.extend(requests)
+        return [{"selected_id": "A", "abstained": False, "cache_reused": False}], {"actual_new_generations": 1}
+    monkeypatch.setattr(multi, "run_visual_requests", external_worker)
+    result = multi.compare_paths(Pipeline(), paths, True, force_visual=True)
+    assert [len(r["images"]) for r in requested] == [2, 4]
+    assert result["comparison"]["single"]["vlm_executed"]
+    assert result["comparison"]["multi"]["vlm_executed"]

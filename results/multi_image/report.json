@@ -1,0 +1,99 @@
+{
+  "runs": [
+    {
+      "file": "duplicate_control.json",
+      "scope": "duplicate_control",
+      "visual_enabled": false,
+      "summary": {
+        "objects": 44,
+        "cases": 44,
+        "single": {
+          "n": 44,
+          "top1_k": 38,
+          "top3_k": 40,
+          "recall10_k": 42,
+          "latency_ms": {
+            "p50": 816.9336460050545,
+            "p95": 1421.524745550414
+          }
+        },
+        "multi": {
+          "n": 44,
+          "top1_k": 38,
+          "top3_k": 40,
+          "recall10_k": 42,
+          "latency_ms": {
+            "p50": 809.8732914986613,
+            "p95": 1305.1985687034175
+          }
+        },
+        "wins": 0,
+        "regressions": 0
+      }
+    },
+    {
+      "file": "paired_retrieval.json",
+      "scope": "exploratory_same_object",
+      "visual_enabled": false,
+      "summary": {
+        "objects": 1,
+        "cases": 1,
+        "single": {
+          "n": 1,
+          "top1_k": 1,
+          "top3_k": 1,
+          "recall10_k": 1,
+          "latency_ms": {
+            "p50": 1042.3535840018303,
+            "p95": 1042.3535840018303
+          }
+        },
+        "multi": {
+          "n": 1,
+          "top1_k": 1,
+          "top3_k": 1,
+          "recall10_k": 1,
+          "latency_ms": {
+            "p50": 1965.7807920011692,
+            "p95": 1965.7807920011692
+          }
+        },
+        "wins": 0,
+        "regressions": 0
+      }
+    },
+    {
+      "file": "paired_visual.json",
+      "scope": "exploratory_same_object",
+      "visual_enabled": true,
+      "summary": {
+        "objects": 1,
+        "cases": 1,
+        "single": {
+          "n": 1,
+          "top1_k": 1,
+          "top3_k": 1,
+          "recall10_k": 1,
+          "latency_ms": {
+            "p50": 8671.0948750042,
+            "p95": 8671.0948750042
+          }
+        },
+        "multi": {
+          "n": 1,
+          "top1_k": 1,
+          "top3_k": 1,
+          "recall10_k": 1,
+          "latency_ms": {
+            "p50": 8577.899791001983,
+            "p95": 8577.899791001983
+          }
+        },
+        "wins": 0,
+        "regressions": 0
+      }
+    }
+  ],
+  "confirmed_objects": 0,
+  "exploratory_objects": 1
+}

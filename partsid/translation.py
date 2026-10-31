@@ -194,6 +194,12 @@ def saved_prose(root=ROOT):
         for record in json.loads(path.read_text()).get("records", []):
             if record.get("vlm", {}).get("reason"):
                 texts.add(record["vlm"]["reason"])
+    for path in (root / "results/multi_image").glob("*.json"):
+        for pair in json.loads(path.read_text()).get("records", []):
+            for key in ("record", "baseline_record"):
+                reason = pair.get(key, {}).get("vlm", {}).get("reason")
+                if isinstance(reason, str) and reason:
+                    texts.add(reason)
     path = root / "data/reviews/error_review_2026-10-30.json"
     if path.exists():
         for review in json.loads(path.read_text()).get("reviews", []):

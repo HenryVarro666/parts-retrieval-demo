@@ -48,6 +48,46 @@ def decode_upload(value):
         raise ValueError("Invalid image: use a JPEG, PNG or WebP up to 10 MB / 16 megapixels") from exc
 
 
+def decode_uploads(payload):
+    if ("image" in payload) == ("images" in payload):
+        raise ValueError("Supply image or images, exclusively")
+    values = payload.get("images") if "images" in payload else [payload["image"]]
+    if not isinstance(values, list) or not 1 <= len(values) <= 3:
+        raise ValueError("Use one to three photos")
+    images = [decode_upload(value) for value in values]
+    if sum(image.width * image.height for image in images) > 48_000_000:
+        raise ValueError("Total images exceed 48 megapixels")
+    return images
+
+
+def allowed_images(root=ROOT):
+    with open(root / "data/labels.csv", encoding="utf-8") as f:
+        allowed = {r["file"] for r in csv.DictReader(f)}
+    manifest = root / "data/multi_image/manifest.json"
+    if manifest.exists():
+        allowed.update(p["file"] for g in json.loads(manifest.read_text()).get("groups", []) for p in g.get("photos", []))
+    for run in multi_payload(root):
+        allowed.update(p["file"] for pair in run["records"] for p in pair["record"]["photos"])
+    return allowed
+
+
+def multi_payload(root=ROOT):
+    from .multi_image_experiments import validate_saved
+    runs = []
+    for path in sorted((root / "results/multi_image").glob("*.json")):
+        doc = json.loads(path.read_text())
+        if doc.get("schema") != 1:
+            continue
+        try:
+            validate_saved(doc, root)
+        except ValueError:
+            continue
+        runs.append({"name": path.stem, "scope": doc["scope"], "visual_enabled": doc["visual_enabled"],
+                     "summary": doc["summary"], "setup_ms": doc.get("retrieval_setup_ms"),
+                     "records": [] if doc["scope"] == "duplicate_control" else doc["records"]})
+    return runs
+
+
 def web_payload(root=ROOT):
     data = root / "data"
     parts = json.loads((data / "parts.json").read_text())
@@ -80,7 +120,7 @@ def web_payload(root=ROOT):
         records[doc["name"]] = {r["file"]: r for r in doc["records"]}
     from .translation import translation_payload
     return {"runs": runs, "samples": samples, "catalog": catalog, "records": records,
-            "prose_translations": translation_payload(root)}
+            "prose_translations": translation_payload(root), "multi_image_runs": multi_payload(root)}
 
 
 def translate(payload):
@@ -90,7 +130,7 @@ def translate(payload):
 
 
 def predict(payload):
-    image = decode_upload(payload.get("image"))
+    images = decode_uploads(payload)
     engine, multiview = payload.get("engine", "rapidocr"), payload.get("multiview", False)
     if engine not in ("easyocr", "rapidocr") or not isinstance(multiview, bool):
         raise ValueError("Unknown OCR configuration")
@@ -98,24 +138,28 @@ def predict(payload):
     verify_visual = payload.get("verify_visual", False)
     if pipeline_name not in ("sqlite", "legacy") or not isinstance(verify_visual, bool) or (pipeline_name == "legacy" and verify_visual):
         raise ValueError("Unknown retrieval or visual-verification configuration")
+    if pipeline_name == "legacy" and len(images) > 1:
+        raise ValueError("Legacy retrieval supports a single photo only")
     started = time.perf_counter()
     with _lock:
         if pipeline_name == "sqlite":
-            from .candidate_pipeline import make_candidate_pipeline, verify_live
+            from .candidate_pipeline import make_candidate_pipeline
+            from .multi_image import compare_paths
+            setup_started = time.perf_counter()
             key = (engine, multiview)
             if key not in _candidate_pipes:
                 _candidate_pipes[key] = make_candidate_pipeline(ROOT, engine, multiview)
             pipe = _candidate_pipes[key]
+            setup_ms = (time.perf_counter()-setup_started)*1000
             with tempfile.TemporaryDirectory(prefix="partsid-sqlite-upload-") as directory:
-                path = Path(directory) / "query.png"
-                image.save(path)
-                result = pipe.run(path)
-                if verify_visual:
-                    result = verify_live(pipe, result, path)
-            result["ms"]["total"] = (time.perf_counter()-started)*1000
-            return {"record": result, "catalog": web_payload()["catalog"], "live": True,
+                paths = [Path(directory) / f"query-{i}.png" for i in range(len(images))]
+                for image, path in zip(images, paths):
+                    image.save(path)
+                output = compare_paths(pipe, paths, verify_visual)
+            return {**output, "catalog": web_payload()["catalog"], "live": True,
+                    "setup_ms": setup_ms, "request_ms": (time.perf_counter()-started)*1000,
                     "channel": "gated" if verify_visual else "shape",
-                    "timing": "measured live end-to-end including requested VLM process/model loading"}
+                    "timing": "measured live paired inference; loaded retrieval models shared; single first; VLM process/load included"}
         from .experiments import make_pipeline
         key = (engine, multiview)
         if key not in _pipes:
@@ -130,7 +174,7 @@ def predict(payload):
         pipe = _pipes[key]
         with tempfile.TemporaryDirectory(prefix="partsid-upload-") as directory:
             path = Path(directory) / "query.png"
-            image.save(path)
+            images[0].save(path)
             result = pipe.run(path)
             result["evidence"] = pipe.ocr.last_result
         return {"record": result, "catalog": web_payload()["catalog"], "live": True, "channel": "fused"}
@@ -155,9 +199,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(200, web_payload())
             if parsed.path == "/api/image":
                 query = parse_qs(parsed.query)
-                with open(ROOT / "data/labels.csv", encoding="utf-8") as f:
-                    allowed = {r["file"] for r in csv.DictReader(f)}
-                path = dataset_path(query.get("file", [""])[0], ROOT / "data", allowed)
+                path = dataset_path(query.get("file", [""])[0], ROOT / "data", allowed_images())
                 with Image.open(path) as source:
                     image = ImageOps.exif_transpose(source).convert("RGB")
                     if "crop" in query:
@@ -170,11 +212,12 @@ class Handler(BaseHTTPRequestHandler):
                         raise ValueError("Invalid rotation")
                     image = image.rotate(angle, expand=True)
                     output = io.BytesIO()
-                    image.save(output, format="JPEG", quality=92)
-                return self.respond(200, output.getvalue(), "image/jpeg")
-            if parsed.path in ("/", "/index.html", "/app.js", "/i18n.js", "/style.css"):
+                    is_png = path.suffix.lower() == ".png"
+                    image.save(output, format="PNG" if is_png else "JPEG", **({} if is_png else {"quality": 92}))
+                return self.respond(200, output.getvalue(), "image/png" if is_png else "image/jpeg")
+            if parsed.path in ("/", "/index.html", "/app.js", "/i18n.js", "/multi_image.js", "/style.css"):
                 name = "index.html" if parsed.path == "/" else parsed.path[1:]
-                mime = {"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "i18n.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}[name]
+                mime = {"index.html": "text/html; charset=utf-8", "app.js": "text/javascript; charset=utf-8", "i18n.js": "text/javascript; charset=utf-8", "multi_image.js": "text/javascript; charset=utf-8", "style.css": "text/css; charset=utf-8"}[name]
                 return self.respond(200, (ROOT / "web" / name).read_bytes(), mime)
             self.respond(404, {"error": "Not found"})
         except (ValueError, FileNotFoundError):
@@ -192,7 +235,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.respond(415, {"error": "Use application/json"})
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            limit = 65536 if is_translation else MAX_UPLOAD * 4 // 3 + 1024
+            limit = 65536 if is_translation else MAX_UPLOAD * 4 + 4096
             if not 0 < length <= limit:
                 return self.respond(413, {"error": "Translation request too large" if is_translation else "Image request too large"})
             payload = json.loads(self.rfile.read(length))
