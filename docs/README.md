@@ -5,10 +5,16 @@
 ## 先读这几项
 
 - [当前交接与未解决事项](HANDOFF.md)：工程边界、最近验证版本、下一步。
-- [问题与改进台账](ISSUES_AND_IMPROVEMENTS.md)：已补录PR-001至PR-023及GEO对接项，链接到原始审查/结果。
+- [问题与改进台账](ISSUES_AND_IMPROVEMENTS.md)：已补录PR-001至PR-024及GEO对接项，链接到原始审查/结果。
 - [文档保存与交接约定](DOCUMENTATION_WORKFLOW.md)：从发现到验证、同步的必要记录。
 - [点云与真实尺寸接续](RECONSTRUCTION_HANDOFF.md)：三维工程实际已到V3，后续修复和尺度验证路线。
 - [公开三图实测结论](research/2026-10-31-public-triplets-results.md)及[交付验证](research/2026-10-31-public-triplets-verification.md)。
+
+## 双语介绍与配图
+
+- [中文 README](../README.md) / [English README](../README.en.md)：上手、两套统计单位、架构与限制。
+- [完整旧README实验/复现记录](EXPERIMENTS_AND_REPRODUCTION.en.md)：1675d0f历史快照，完整分析保留。
+- [配图来源与更新](assets/README.md)、[本次双语文档检查](research/2026-10-31-bilingual-readmes.md)。
 
 ## 数据与运行入口
 

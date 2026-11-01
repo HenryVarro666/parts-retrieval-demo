@@ -17,6 +17,10 @@ The user requires previous, current and future problems and improvements to be s
 5. Keep status precise: proposed, implemented, tested, model-evaluated, browser-checked and remotely synchronized are different claims. Unit tests alone do not establish recognition accuracy, geometry quality or measurement precision. Same-machine clone verification does not establish CUDA/different-hardware performance.
 6. At handoff, verify links/paths and metric denominators against saved artifacts. Record what was actually checked this turn and what is inherited evidence. Commits/pushes follow the current conversation's authorization; logging future work does not authorize new publication or model services.
 
+## Bilingual README and figures
+
+Maintain `README.md` (Chinese) and `README.en.md` together. Match metrics, denominators, latency scope, install commands and caveats. The original detailed README is retained as `docs/EXPERIMENTS_AND_REPRODUCTION.en.md`; do not erase historical analyses. Follow `docs/assets/README.md` for original SVG generation and authentic screenshot/source attribution. Label saved playback separately from new inference. Never publish private uploads or relabel multi-view counts as independent objects.
+
 ## Experiment boundaries
 
 - Ground truth, filenames, source descriptions and review transcriptions are for scoring/display, never inference prompts or query-derived catalog aliases.

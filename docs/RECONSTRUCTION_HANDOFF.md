@@ -2,6 +2,12 @@
 
 日期：2026-10-31。本文把用户贴出的早期点云建议接到实际工程状态；属于跨项目研究/交接记录，不是本轮新模型评测或新测量功能的完成声明。三维产品代码、照片及当前修复以独立的[2Dto3D仓库](https://github.com/HenryVarro666/2Dto3D)为准。
 
+## 后续完成情况（2026-10-31，保留原调研正文）
+
+三维私有main已经完成E04同4组修复复测，以及E05已知长度标定、原坐标两点测距和独立长度误差记录。参见[中英文README](https://github.com/HenryVarro666/2Dto3D)、[测量指南](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/measurement/README.md)与[E05证据](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/quality/2026-10-31-scale-measurement.md)。4组目标主机已合并，细线/分类仅部分改善，新增错误仍开放。
+
+用户在异步回复中明确“暂时没有”实测尺寸。当前只有解析几何验证与旧真实GLB兼容性，不是现场尺寸精度。下文“待做”与“正在修复”描述此前快照，不替代上述当前工程状态；原研究与失败依据保留。原始GLB仍为unknown尺度，参考标定属于独立收据。
+
 ## 先纠正工程与版本
 
 - 三维权威目录：`/Users/caochao/Documents/2Dto3D`；已实现V3的2–8图VGGT联合相机/深度、彩色点云、组件ID、逐图修正和GLB/PLY导出。[实际README](https://github.com/HenryVarro666/2Dto3D/blob/main/README.md)、[模型说明](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/v3/models.md)。

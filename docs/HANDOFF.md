@@ -7,7 +7,7 @@
 | 项目 | 权威工程 | 当前能力 / 入口 |
 |---|---|---|
 | 元件识别 | 本仓库 `parts-retrieval-demo` | OCR→SQLite多关键词→外观/形状→可选VLM；1–3图融合；中英西证据网页；`http://127.0.0.1:8765/` |
-| 光伏设备三维重建 | `/Users/caochao/Documents/2Dto3D`；[另一仓库](https://github.com/HenryVarro666/2Dto3D) | 已有V3、2–8图联合VGGT点云与组件修正；`http://127.0.0.1:5173/`。权威说明为该仓库README、AGENTS和`docs/v3/` |
+| 光伏设备三维重建 | `/Users/caochao/Documents/2Dto3D`；[另一仓库](https://github.com/HenryVarro666/2Dto3D) | 已有V3、2–8图联合VGGT点云、组件修正及已知长度标定/独立误差记录；`http://127.0.0.1:5173/`。权威说明为该仓库README、AGENTS和`docs/v3/` |
 | 早期研究 / SigLIP教学 | `/Users/caochao/Documents/ChatGPT/2Dto3D` | 历史研究、教学脚本与跨项目导航，不是三维服务工程根目录 |
 
 “多视图OCR”是在一张图片内做固定裁剪/旋转；“元件三图融合”是同一元件的多张照片检索；“V3多角度”是同一静止设备的联合几何。三者不是同一个实验。
@@ -31,7 +31,13 @@
 4. **拍摄质量、细节和未知项。** 反光、失焦、同封装仍困难；补拍清晰铭文可能比加一张模糊角度更有效。加入目录外型号/拒答评估，避免强制选目录内答案。
 5. **几何作为辅助证据。** 当前形状仅启发式；不要把另一个项目的相对点云直接当作元件真实尺寸/精确型号证据。点云与尺寸路线见[跨项目接续](RECONSTRUCTION_HANDOFF.md)。
 
-## 三维项目的正在进行项
+## 本次双语文档与三维状态更新（2026-10-31）
+
+- 元件识别现有[中文](../README.md)/[English](../README.en.md)入口、原创流程/架构图和MC68000公开来源的真实回放截图。完整旧README保留在[实验与复现](EXPERIMENTS_AND_REPRODUCTION.en.md)，算法/目录/数据/结果不因文档更新改变。本轮检查见[PR-024记录](research/2026-10-31-bilingual-readmes.md)。
+- 三维工程已在私有main发布E04修复和E05标定/两点测距，参见其[问题台账](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/quality/issues.md)与[测量指南](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/measurement/README.md)。原GLB/PLY仍相对尺度，参照校准收据单独保存。
+- 用户随后明确回复“暂时没有”实测尺寸；现场精度未验证。不得编造参考尺寸，也不能把元件形状启发式变成真实尺寸或把解析测试当现场验收。
+
+## 三维项目的此前核查快照（后续状态见上）
 
 本次只读核查时，三维工程基于`0522a8524f930cb613fdf2528d610e11bbed7652`，另一“2Dto3D”聊天（`01a18fd8-39de-7142-9d6b-0d5b9d42a9f8`）已在`fix/v3-real-multiview-regressions`处理同机合并、细线点丢失、插接件/线槽误分类，并要求用同样4组复跑。
 
