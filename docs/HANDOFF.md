@@ -6,6 +6,8 @@
 
 本轮不改模型、目录、标签、结果与排序规则，只做服务与工程加固：Host/Origin 校验、统一异常响应、CSP、socket 超时、损坏结果文件容错、原子写入、VLM 子进程超时、实时缓存上限、`catalog_payload` 与诚实的 `request_ms`、CI 与 ruff/pytest 配置。本机 191 Python + 16 Node 测试、ruff、report 重建无差异、README 图校验与无头浏览器加载均通过。已观察但未改的排序问题 PR-034/PR-035 与翻译缓存 PR-036 需在新对照或产品决策后处理。详见[记录](research/2026-11-04-production-hardening.md)与台账。
 
+同日补充：PR-034/PR-035 两条规则已实现为可选策略（默认 `frozen`），在 44 图与 8 组公开三图的冻结证据上离线回放（无新推理、无耗时）：冻结规则回放 44/44、8/8 复现；中性形状规则改变 10 条形状排序与 1 组三图排序，批号守卫去掉 1 条误报冲突，所有 Top-1/Top-3 不变。结果在 `results/policy_replay/`，记录见[回放记录](research/2026-11-04-policy-replay.md)；采用任一规则前需要独立实物验证。
+
 启动方式不变：`uv run --frozen --extra experiments python -I -m partsid.web --port 8765`；新增 `--host`（非回环会警告，仍无认证）、`--allowed-host`、`--log-level`。
 
 ## 项目边界

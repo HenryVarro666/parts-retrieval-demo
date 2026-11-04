@@ -89,6 +89,6 @@ GEO-001至003原始证据统一位于 `/Users/caochao/Documents/2Dto3D/data/coll
 | PR-031 | VLM 子进程无超时 | 600s + 120s/请求 | 已修复 | 同上 |
 | PR-032 | 浏览器按扩展名放行空 MIME 文件，服务端只认 data URL 前缀且不校验真实格式 | 按解码容器格式校验（JPEG/PNG/WebP），接受空/octet-stream 前缀 | 已修复并验证 | 同上 |
 | PR-033 | 实时视觉缓存 `data/cache/multi_live` 无限增长 | 保留最近 50 个命名空间 | 已修复并验证 | 同上 |
-| PR-034 | RRF 中“形状未知”不中性，8 个无参考形状类被结构性压低 | 未改动；单元可复现用例已记录 | 已观察；待新对照评估 | 同上 |
-| PR-035 | identifier 把纯数字批号中的别名当精确命中，与 SQLite 通道不一致 | 未改动 | 已观察；待新对照评估 | 同上 |
+| PR-034 | RRF 中“形状未知”不中性，8 个无参考形状类被结构性压低 | 中性规则以可选策略实现（`shape_rerank(policy="neutral")`、`fuse_records(shape_policy="neutral")`），默认仍冻结；44 图/8 组离线回放：10 条形状排序变化、1 组三图排序变化，Top-1/Top-3 全部不变 | 已回放评估；未默认启用，采用需独立实物验证 | [回放记录](research/2026-11-04-policy-replay.md)、`results/policy_replay/` |
+| PR-035 | identifier 把纯数字批号中的别名当精确命中，与 SQLite 通道不一致 | 守卫规则以可选策略实现（`rank(digit_policy="guard")`），默认仍冻结；回放只影响 1 条查询：去掉 `0808S`→`8085` 的误报冲突并省去一次 VLM 调用，排序不变 | 已回放评估；未默认启用 | 同上 |
 | PR-036 | `/api/translate` 任意文本永久写入 runtime.json 并每次全量校验 | 未改动 | 已记录；需产品决策 | 同上 |

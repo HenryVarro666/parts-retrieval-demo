@@ -6,6 +6,7 @@
 
 - [当前交接与未解决事项](HANDOFF.md)：工程边界、最近验证版本、下一步。
 - [2026-11-04 生产化加固与代码审查](research/2026-11-04-production-hardening.md)：PR-025–036、服务加固、CI、未改动的排序观察。
+- [2026-11-04 PR-034/PR-035 规则回放](research/2026-11-04-policy-replay.md)：冻结证据上的离线对照，无新推理，Top-1/Top-3 不变，默认规则未改。
 - [问题与改进台账](ISSUES_AND_IMPROVEMENTS.md)：已补录PR-001至PR-024及GEO对接项，链接到原始审查/结果。
 - [文档保存与交接约定](DOCUMENTATION_WORKFLOW.md)：从发现到验证、同步的必要记录。
 - [点云与真实尺寸接续](RECONSTRUCTION_HANDOFF.md)：三维工程实际已到V3，后续修复和尺度验证路线。
@@ -68,3 +69,4 @@
 - [SQLite candidate pipeline code review](research/2026-10-31-sqlite-code-review.md)
 - [SQLite candidate pipeline verification, 2026-10-31](research/2026-10-31-sqlite-verification.md)
 - [生产化加固与代码审查 — 2026-11-04](research/2026-11-04-production-hardening.md)
+- [PR-034/PR-035 规则回放 — 2026-11-04](research/2026-11-04-policy-replay.md)

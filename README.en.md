@@ -106,7 +106,7 @@ node --test tests/web_i18n.test.cjs tests/web_multi_image.test.cjs tests/web_app
 python3 scripts/readme_figures.py --check
 ```
 
-GitHub Actions runs the same checks on every push (CPU PyTorch) and rebuilds the paired report to confirm `results/` is unchanged. The local server listens on 127.0.0.1 only and has no authentication; `--host` on any other address prints a warning and must sit behind an authenticating reverse proxy, and browser host names need `--allowed-host`. The 2026-11-04 service hardening and review findings are in the [record (Chinese)](docs/research/2026-11-04-production-hardening.md).
+GitHub Actions runs the same checks on every push (CPU PyTorch) and rebuilds the paired report to confirm `results/` is unchanged. The local server listens on 127.0.0.1 only and has no authentication; `--host` on any other address prints a warning and must sit behind an authenticating reverse proxy, and browser host names need `--allowed-host`. The 2026-11-04 service hardening and review findings are in the [record (Chinese)](docs/research/2026-11-04-production-hardening.md); the offline replay of the two candidate ranking rules (PR-034/PR-035) on the frozen evidence is in the [replay record (Chinese)](docs/research/2026-11-04-policy-replay.md) and `results/policy_replay/`, and the default rules are unchanged.
 
 [Previous complete verification](docs/research/2026-10-31-public-triplets-verification.md) passed 178 Python + 16 Node tests and a GitHub fresh clone. [This documentation check](docs/research/2026-10-31-bilingual-readmes.md) records its actual scope; no heavy models were rerun to claim new accuracy. Use new output paths and preserve earlier results; `multi_image_experiments report` rewrites summaries, so preserve and inspect its diff.
 

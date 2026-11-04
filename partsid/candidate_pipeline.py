@@ -49,11 +49,36 @@ def merge_candidates(sql_candidates, image_ids, strong_ids, k=10):
     return pool
 
 
-def shape_rerank(ids, strong_ids, scores):
+SHAPE_POLICIES = ("frozen", "neutral")
+
+
+def neutral_rrf(ids, known, k=60, top_k=10):
+    """RRF where a candidate without shape evidence receives the mean shape contribution.
+
+    PR-034 (replay only so far): in the frozen rule a candidate whose reference silhouette is
+    unavailable gets no shape contribution at all and therefore always ranks below a candidate
+    with any shape score at the same retrieval rank. Here "unknown" is neutral: it receives the
+    average contribution of the known candidates, so shape evidence can reorder known candidates
+    without structurally demoting the unknown ones. Ties fall back to retrieval order, then ID.
+    """
+    retrieval = {pid: 1.0 / (k + r) for r, pid in enumerate(ids[:top_k], 1)}
+    shape = {pid: 1.0 / (k + r) for r, pid in enumerate(known[:top_k], 1)}
+    fill = math.fsum(shape.values()) / len(shape) if shape else 0.0
+    position = {pid: r for r, pid in enumerate(ids, 1)}
+    totals = {pid: math.fsum([retrieval.get(pid, 0.0), shape.get(pid, fill)]) for pid in ids}
+    return sorted(ids, key=lambda pid: (-totals[pid], position[pid], pid))
+
+
+def shape_rerank(ids, strong_ids, scores, policy="frozen"):
+    if policy not in SHAPE_POLICIES:
+        raise ValueError(f"unknown shape policy {policy!r}")
     strong = [pid for pid in ids if pid in strong_ids]
     known = [pid for pid in ids if scores.get(pid) is not None and math.isfinite(scores[pid])]
     known.sort(key=lambda pid: (-scores[pid], pid))
-    ranked = [pid for pid, _ in rrf({"retrieval": ids, "shape": known})]
+    if policy == "neutral":
+        ranked = neutral_rrf(ids, known)
+    else:
+        ranked = [pid for pid, _ in rrf({"retrieval": ids, "shape": known})]
     return strong + [pid for pid in ranked if pid not in strong]
 
 

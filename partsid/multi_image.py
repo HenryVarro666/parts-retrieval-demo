@@ -48,7 +48,9 @@ def correlation_groups(signatures):
     return groups
 
 
-def fuse_records(records, groups):
+def fuse_records(records, groups, shape_policy="frozen"):
+    if shape_policy not in ("frozen", "neutral"):
+        raise ValueError(f"unknown shape policy {shape_policy!r}")
     if not records or len(records) != len(groups):
         raise ValueError("Every photo needs a record and correlation group")
     weights = [1 / Counter(groups)[group] for group in groups]
@@ -76,6 +78,12 @@ def fuse_records(records, groups):
         for rank, pid in enumerate(known, 1):
             shape_scores[pid] += weight / (60 + rank)
             support[pid]["shape_photos"].append(index)
+        if shape_policy == "neutral" and known:
+            # PR-034 replay rule: unknown shape is neutral, not a missing vote.
+            fill = sum(weight / (60 + rank) for rank in range(1, len(known) + 1)) / len(known)
+            for pid in universe:
+                if pid not in known:
+                    shape_scores[pid] += fill
         for pid in record["retrieval"].get("strong_ids", []):
             if pid in support:
                 support[pid]["strong_photos"].append(index)
