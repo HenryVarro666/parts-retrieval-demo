@@ -22,7 +22,7 @@ experiments = [
 ]
 
 [dependency-groups]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "ruff>=0.13,<1"]
 
 # On Linux / Windows pull CUDA builds of torch (cu132 includes Blackwell sm_120,
 # e.g. RTX 5080); macOS keeps the PyPI wheels with MPS.
@@ -41,3 +41,21 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["partsid"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
+filterwarnings = ["error::DeprecationWarning:partsid.*"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py311"
+extend-exclude = ["data", "results", "docs", "experiments", ".venv-vlm"]
+
+[tool.ruff.lint]
+# Explicit rule set so results do not drift with ruff's defaults.
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
+ignore = [
+  "B905",  # zip(strict=) would change behavior in evidence-generating code paths.
+  "E701", "E702", "E731",  # Compact one-line style is used deliberately in experiment runners.
+]

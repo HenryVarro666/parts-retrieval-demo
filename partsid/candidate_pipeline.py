@@ -15,6 +15,8 @@ from .rerank import build_prompt, validate_response
 ROOT = Path(__file__).resolve().parent.parent
 MODEL = "mlx-community/Qwen3-VL-4B-Instruct-4bit"
 REVISION = "2fd8dacbdb8f1e54b8c005f081ec5bf79c56376b"
+VISUAL_TIMEOUT_S = 600  # Worker start plus model load.
+VISUAL_TIMEOUT_PER_REQUEST_S = 120
 
 
 def sha256(path):
@@ -93,6 +95,7 @@ def candidate_prompt(candidates, query_shape, scores):
 class CandidatePipeline:
     def __init__(self, root, parts, references, db, ocr, image_encoder, device):
         import numpy as np
+
         from .images import load_rgb
         from .shape import describe_shape
         self.root, self.parts, self.references = Path(root), {p["id"]: p for p in parts}, references
@@ -115,7 +118,7 @@ class CandidatePipeline:
         from . import identifier
         from .device import synchronize
         from .images import load_rgb
-        from .shape import describe_shape, compare_shapes
+        from .shape import compare_shapes, describe_shape
         start = time.perf_counter()
         text = self.ocr.read(path)
         evidence = copy.deepcopy(self.ocr.last_result)
@@ -178,7 +181,7 @@ def make_candidate_pipeline(root=ROOT, engine="rapidocr", multiview=True, reques
 
 
 def prepare_visual(root, record, path, parts, reference_paths, namespace):
-    from .experiments import contact_sheet, save
+    from .experiments import contact_sheet
     ids = list(record["retrieval"]["candidate_ids"])
     shuffled = list(ids)
     random.Random(sha256(path)).shuffle(shuffled)
@@ -209,7 +212,9 @@ def run_visual_requests(root, requests, namespace):
     reusable = old.get("responses", []) if old.get("model") == MODEL and old.get("revision") == REVISION else []
     cache_hits = {r["key"] for r in requests if any(cache_matches(response, r, config) for response in reusable)}
     save(request_path, config)
-    subprocess.run([str(python), str(root / "partsid/vlm_worker.py"), str(request_path), str(response_path)], check=True)
+    # Model load plus generation; a hung worker must not pin the serving thread forever.
+    subprocess.run([str(python), str(root / "partsid/vlm_worker.py"), str(request_path), str(response_path)],
+                   check=True, timeout=VISUAL_TIMEOUT_S + VISUAL_TIMEOUT_PER_REQUEST_S * len(requests))
     output = json.loads(response_path.read_text())
     responses = {r["key"]: r for r in output["responses"]}
     decisions = []

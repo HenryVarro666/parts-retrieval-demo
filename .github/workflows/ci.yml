@@ -1,0 +1,49 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python (lint, offline tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+          cache: pip
+      - name: Install CPU PyTorch and the package
+        # The lock file pins CUDA wheels for Linux; CI uses the CPU index to stay small and offline-safe.
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e '.[experiments]' pytest ruff
+      - name: Lint
+        run: ruff check partsid tests scripts
+      - name: Offline tests (no model weights)
+        run: python -I -m pytest
+      - name: Saved paired-experiment report validates
+        run: python -I -m partsid.multi_image_experiments report && git diff --exit-code -- results/multi_image/report.json results/multi_image/comparison.md
+      - name: README figures are up to date
+        run: python -I scripts/readme_figures.py --check
+
+  web:
+    name: Web behavior tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests/web_i18n.test.cjs tests/web_multi_image.test.cjs tests/web_app_multi.test.cjs

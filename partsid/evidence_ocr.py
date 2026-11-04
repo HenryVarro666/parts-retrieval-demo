@@ -13,8 +13,8 @@ import math
 import statistics
 import time
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import numpy as np
 from PIL import Image

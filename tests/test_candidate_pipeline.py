@@ -1,7 +1,5 @@
-import copy
-import json
 
-from partsid.candidate_pipeline import merge_candidates, shape_rerank, apply_visual, candidate_prompt
+from partsid.candidate_pipeline import apply_visual, candidate_prompt, merge_candidates, shape_rerank
 
 
 def test_pool_retains_strong_sql_and_marks_supplement_without_fake_sql_hits():

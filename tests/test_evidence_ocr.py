@@ -8,7 +8,6 @@ import numpy as np
 import pytest
 from PIL import Image
 
-
 PARTS = [
     {"id": "LM317", "aliases": ["LM317", "LM317T"]},
     {"id": "NE555", "aliases": ["NE555", "555"]},

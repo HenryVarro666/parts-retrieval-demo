@@ -1,15 +1,15 @@
 """Text-only translation in the existing isolated MLX environment."""
 import json
-from pathlib import Path
 import sys
 import time
+from pathlib import Path
 
 from translation import make_entry, valid_entry
 
 
 def main():
     import mlx.core as mx
-    from mlx_vlm import load, generate
+    from mlx_vlm import generate, load
     from mlx_vlm.prompt_utils import apply_chat_template
     request_path, response_path = map(Path, sys.argv[1:3])
     config = json.loads(request_path.read_text())

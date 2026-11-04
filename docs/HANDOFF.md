@@ -2,6 +2,12 @@
 
 更新时间：2026-10-31。本文件是后续工作的起点；详细实验、失败和原始模型输出继续保存在各自记录中。
 
+## 生产化加固（2026-11-04）
+
+本轮不改模型、目录、标签、结果与排序规则，只做服务与工程加固：Host/Origin 校验、统一异常响应、CSP、socket 超时、损坏结果文件容错、原子写入、VLM 子进程超时、实时缓存上限、`catalog_payload` 与诚实的 `request_ms`、CI 与 ruff/pytest 配置。本机 191 Python + 16 Node 测试、ruff、report 重建无差异、README 图校验与无头浏览器加载均通过。已观察但未改的排序问题 PR-034/PR-035 与翻译缓存 PR-036 需在新对照或产品决策后处理。详见[记录](research/2026-11-04-production-hardening.md)与台账。
+
+启动方式不变：`uv run --frozen --extra experiments python -I -m partsid.web --port 8765`；新增 `--host`（非回环会警告，仍无认证）、`--allowed-host`、`--log-level`。
+
 ## 项目边界
 
 | 项目 | 权威工程 | 当前能力 / 入口 |

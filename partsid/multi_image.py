@@ -11,8 +11,7 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
-from .candidate_pipeline import (can_accept_sql, prepare_visual, run_visual_requests,
-                                 sha256)
+from .candidate_pipeline import can_accept_sql, prepare_visual, run_visual_requests, sha256
 from .rerank import build_prompt
 
 POLICY = "multi-photo-rrf60-v1"

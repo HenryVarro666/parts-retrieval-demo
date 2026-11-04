@@ -1,6 +1,5 @@
 import hashlib
 import json
-from pathlib import Path
 
 import pytest
 
@@ -24,7 +23,7 @@ def fixture(root):
 
 
 def test_complete_stage_rejects_partial_duplicate_and_changed_labels(tmp_path):
-    from partsid.candidate_experiments import validate_rows, stage_document
+    from partsid.candidate_experiments import stage_document, validate_rows
     doc = fixture(tmp_path)
     validate_rows(doc["records"], tmp_path)
     for rows in (doc["records"][:1], doc["records"] * 2, [{"file": "q1.jpg", "gt": "B"}, doc["records"][1]]):
@@ -51,9 +50,9 @@ def test_visual_stage_rejects_stale_input_bytes_before_inference(tmp_path, chang
 
 
 def test_factory_rejects_stale_reference_manifest_before_model_load(tmp_path, monkeypatch):
-    from partsid.sqlite_catalog import build_catalog
-    from partsid.candidate_pipeline import make_candidate_pipeline
     from partsid import embed
+    from partsid.candidate_pipeline import make_candidate_pipeline
+    from partsid.sqlite_catalog import build_catalog
     data = tmp_path / "data"
     data.mkdir()
     parts = [{"id": "A", "aliases": ["A123"], "makers": []}]

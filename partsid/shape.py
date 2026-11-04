@@ -13,7 +13,6 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps
 
-
 METHOD = "border_lab_otsu_v1"
 MAX_SIDE = 384
 

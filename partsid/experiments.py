@@ -6,8 +6,6 @@ import hashlib
 import json
 import random
 import subprocess
-import sys
-import time
 from pathlib import Path
 
 from .rerank import apply_selection, build_prompt, summarize, validate_response
@@ -82,6 +80,7 @@ def run_ocr(engine, multiview=False, limit=None):
 
 def contact_sheet(candidates, refs, output):
     from PIL import Image, ImageDraw, ImageOps
+
     from .images import load_rgb
     cell_w, cell_h = 180, 155
     canvas = Image.new("RGB", (cell_w * 5, cell_h * 2), "white")
@@ -97,6 +96,7 @@ def contact_sheet(candidates, refs, output):
 
 def run_vlm(baseline="easyocr_whole", limit=None):
     import csv
+
     from .evaluate import upright_path
     source = OUT / f"{baseline}.json"
     base = json.loads(source.read_text())

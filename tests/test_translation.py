@@ -3,8 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from partsid.translation import (build_request, parse_translation, valid_entry,
-                                 saved_prose, translation_payload, translate_texts)
+from partsid.translation import build_request, parse_translation, saved_prose, translate_texts, translation_payload, valid_entry
 
 
 def test_part_numbers_quoted_markings_and_numbers_survive_translation_exactly():
@@ -120,6 +119,7 @@ def test_http_translation_uses_frozen_text_without_an_ocr_or_vlm_rerun(tmp_path,
     import threading
     import urllib.request
     from http.server import ThreadingHTTPServer
+
     from partsid import web
     from partsid.translation import make_entry
     request = build_request("NE555N is visible.", "es")

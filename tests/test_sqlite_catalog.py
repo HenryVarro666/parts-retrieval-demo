@@ -8,7 +8,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
-
 PARTS = [
     {"id": "NE555", "name": "555 timer IC", "family": "analog",
      "aliases": ["NE555", "NE555N", "555"], "makers": ["Texas Instruments", "Signetics"],

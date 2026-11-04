@@ -5,10 +5,8 @@ import csv
 import hashlib
 import json
 import time
-from pathlib import Path
 
-from .candidate_pipeline import (ROOT, MODEL, REVISION, make_candidate_pipeline, prepare_visual,
-                                 run_visual_requests, apply_visual, sha256)
+from .candidate_pipeline import MODEL, REVISION, ROOT, apply_visual, make_candidate_pipeline, prepare_visual, run_visual_requests, sha256
 from .experiments import save
 from .rerank import summarize
 

@@ -37,7 +37,7 @@ def test_multi_image_predict_returns_measured_pair_and_each_photo(tmp_path, monk
     class Pipeline:
         def run(self, path): return evidence(["A"], ["A", "B"], ["A"])
     monkeypatch.setitem(web._candidate_pipes, ("rapidocr", False), Pipeline())
-    monkeypatch.setattr(web, "web_payload", lambda: {"catalog": {"A": {"id": "A"}}})
+    monkeypatch.setattr(web, "catalog_payload", lambda root: ({"A": {"id": "A"}}, []))
     response = web.predict({"images": [upload_data()] * 3})
     assert len(response["record"]["photos"]) == 3
     assert response["comparison"]["single"]["top3"] == ["A", "B"]
@@ -104,6 +104,7 @@ def test_language_module_is_served_as_javascript():
     import threading
     import urllib.request
     from http.server import ThreadingHTTPServer
+
     from partsid.web import Handler
 
     server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)

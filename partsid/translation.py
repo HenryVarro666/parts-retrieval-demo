@@ -1,11 +1,11 @@
 """Local, source-keyed translations of explanatory prose; never inference evidence."""
 import argparse
-from collections import Counter
 import hashlib
 import json
 import re
 import subprocess
 import tempfile
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

@@ -5,7 +5,7 @@ import json
 import platform
 import statistics
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -173,6 +173,14 @@ def source_snapshot(root, groups, manifest=None):
     return {str(p.resolve().relative_to(root.resolve())): sha256(p) for p in paths}
 
 
+def _write_atomic(path, text):
+    """Readers (the web server) never observe a half-written results file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
+
+
 def replay_fingerprint(doc, root):
     manifest = Path(root) / doc["manifest_file"] if doc.get("manifest_file") else None
     result = []
@@ -261,7 +269,7 @@ def evaluate(groups, pipeline, root=ROOT, scope="exploratory_same_object", visua
         print(f"Paired {i+1}/{len(groups)}: {output['comparison']['single']['top3'][:1]} -> {output['comparison']['multi']['top3'][:1]}", flush=True)
     if source_snapshot(root, groups, manifest) != source:
         raise ValueError("Sources changed during paired experiment")
-    doc = {"schema": 1, "status": "complete", "created_at": datetime.now(timezone.utc).isoformat(),
+    doc = {"schema": 1, "status": "complete", "created_at": datetime.now(UTC).isoformat(),
            "scope": scope, "visual_enabled": visual, "force_visual": force_visual, "groups": groups, "sources_sha256": source,
            "manifest_file": str(Path(manifest).resolve().relative_to(Path(root).resolve())) if manifest else None,
            "pipeline": pipeline.metadata, "records": records, "summary": summarize_pairs(records),
@@ -309,8 +317,8 @@ def report(root=ROOT):
             ids = [(r["rankings"].get("gated", r["rankings"]["shape"]) or ["—"])[0] for r in pair["single_photo_records"]]
             lines.append(f"| {pair['object_id']} / {pair['gt']} / {group['capture_kind']} | {' / '.join(ids)} | {pair['comparison']['multi']['top10'][0]} | {pair['comparison']['single']['elapsed_ms']:.1f} / {pair['comparison']['multi']['elapsed_ms']:.1f} |")
     directory.mkdir(parents=True, exist_ok=True)
-    (directory / "report.json").write_text(json.dumps(result, ensure_ascii=False, indent=2))
-    (directory / "comparison.md").write_text("\n".join(lines) + "\n")
+    _write_atomic(directory / "report.json", json.dumps(result, ensure_ascii=False, indent=2))
+    _write_atomic(directory / "comparison.md", "\n".join(lines) + "\n")
     return result
 
 
@@ -346,7 +354,7 @@ def main():
     doc["retrieval_setup_ms"] = setup_ms
     path = Path(args.output or ROOT / "results/multi_image" / ("duplicate_control.json" if args.command == "control" else "paired_visual.json" if args.visual else "paired_retrieval.json"))
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(doc, ensure_ascii=False, indent=2))
+    _write_atomic(path, json.dumps(doc, ensure_ascii=False, indent=2))
     report()
 
 

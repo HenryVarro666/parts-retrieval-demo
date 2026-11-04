@@ -128,7 +128,7 @@ def run(root=ROOT):
     output = []
     for policy in POLICIES:
         rows = []
-        for file, sources in aligned.items():
+        for _file, sources in aligned.items():
             decision = decide(sources, policy)
             row = copy.deepcopy(sources[RAPID])
             row["rankings"]["ensemble"] = decision["ranking"]

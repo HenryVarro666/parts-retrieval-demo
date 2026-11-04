@@ -74,3 +74,21 @@ GEO-001至003原始证据统一位于 `/Users/caochao/Documents/2Dto3D/data/coll
 ### GEO-001至004 — 2026-10-31 后续对接
 
 此前表格保留原核查快照。三维工程E04已完成：4组目标主机归并，细线与分类部分改善，新增错误仍在其台账。E05已实现标定/两点测距/独立误差记录；原始GLB尺度仍unknown，收据单独保存。用户确认暂时没有实测尺寸，GEO-004的“工具待做”已更新为“工具已实现、现场精度未验证”。以[三维工程台账](https://github.com/HenryVarro666/2Dto3D/blob/main/docs/quality/issues.md)为权威，不跨项目复制原始图片/点云。
+
+
+### PR-025 至 PR-036 — 2026-11-04 生产化加固与代码审查
+
+| ID | 问题 / 触发 | 改进和验证 | 状态 | 证据 |
+|---|---|---|---|---|
+| PR-025 | 无 CI、无 ruff/pytest 配置；Linux 锁文件固定 CUDA 轮子 | 新增 CI（CPU torch、lint、离线测试、report 重建无差异、README 图校验、Node 测试）、ruff/pytest 配置、`.editorconfig` | 已实现；锁文件本身未在 CI 验证 | [记录](research/2026-11-04-production-hardening.md) |
+| PR-026 | `do_GET` 只捕获部分异常、`urlparse` 在 try 外、无 socket 超时、`print` 日志、无 CSP、Server 头泄露版本 | 统一异常→400/500 JSON、安全发送、120s 超时、`logging`、CSP/Referrer-Policy、`--log-level` | 已修复并验证（真实服务 + 无头浏览器） | 同上 |
+| PR-027 | Origin 与可控 Host 比较，DNS 重绑定可绕过；GET 无来源检查 | Host 允许列表（回环 + 绑定地址 + `--allowed-host`），否则 421；Origin 需同在列表 | 已修复并验证 | 同上 |
+| PR-028 | 一个损坏的结果 JSON 使整个网页不可用；report/配对写入非原子 | 跳过并记录损坏文件；临时文件 + replace | 已修复并验证 | 同上 |
+| PR-029 | `predict` 为取目录调用完整 `web_payload`（冷 17s/暖 1.1s）并计入 `request_ms` | `catalog_payload`；计时在响应构造前取值 | 已修复 | 同上 |
+| PR-030 | 未知文件名触发全部保存实验冷校验（约 17s/次） | 允许列表按输入文件 mtime/size 缓存 | 已修复并验证 | 同上 |
+| PR-031 | VLM 子进程无超时 | 600s + 120s/请求 | 已修复 | 同上 |
+| PR-032 | 浏览器按扩展名放行空 MIME 文件，服务端只认 data URL 前缀且不校验真实格式 | 按解码容器格式校验（JPEG/PNG/WebP），接受空/octet-stream 前缀 | 已修复并验证 | 同上 |
+| PR-033 | 实时视觉缓存 `data/cache/multi_live` 无限增长 | 保留最近 50 个命名空间 | 已修复并验证 | 同上 |
+| PR-034 | RRF 中“形状未知”不中性，8 个无参考形状类被结构性压低 | 未改动；单元可复现用例已记录 | 已观察；待新对照评估 | 同上 |
+| PR-035 | identifier 把纯数字批号中的别名当精确命中，与 SQLite 通道不一致 | 未改动 | 已观察；待新对照评估 | 同上 |
+| PR-036 | `/api/translate` 任意文本永久写入 runtime.json 并每次全量校验 | 未改动 | 已记录；需产品决策 | 同上 |

@@ -62,6 +62,7 @@ def test_visual_cache_invalidates_when_reference_pixels_change():
 
 def test_smoke_run_does_not_overwrite_a_completed_full_run(tmp_path, monkeypatch):
     from types import SimpleNamespace
+
     from partsid import experiments
     original = tmp_path / "easyocr_whole.json"
     original.write_text('{"status":"complete","marker":"keep"}')

@@ -101,9 +101,12 @@ uv pip install --python .venv-vlm/bin/python -r experiments/vlm-lock.txt
 
 ```bash
 uv run --frozen --extra experiments pytest -q
+uv run --frozen --extra experiments ruff check partsid tests scripts
 node --test tests/web_i18n.test.cjs tests/web_multi_image.test.cjs tests/web_app_multi.test.cjs
 python3 scripts/readme_figures.py --check
 ```
+
+GitHub Actions 对每次推送执行同样的检查（CPU 版 PyTorch），并重建配对报告确认 `results/` 无差异。本地服务默认只监听 127.0.0.1，且没有认证；`--host` 改为其他地址时会打印警告，只应与带认证的反向代理一起使用，浏览器访问用的主机名需加入 `--allowed-host`。2026-11-04 的服务加固与审查结论见[记录](docs/research/2026-11-04-production-hardening.md)。
 
 [上次完整验证](docs/research/2026-10-31-public-triplets-verification.md)为178 Python＋16 Node测试及GitHub新克隆；[本次文档检查](docs/research/2026-10-31-bilingual-readmes.md)单列实际检查范围，没有重跑模型来宣称新准确率。重新实验请用新运行目录、保留旧结果；`multi_image_experiments report`会重写汇总，先保存并核对差异。
 

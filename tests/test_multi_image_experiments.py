@@ -181,9 +181,11 @@ def test_public_named_run_without_optional_all_single_views_can_be_reported(tmp_
 
 
 def test_web_validation_cache_reuses_only_unchanged_result_and_source_bytes(tmp_path, monkeypatch):
-    from partsid.web import multi_payload
-    from PIL import Image
     import os
+
+    from PIL import Image
+
+    from partsid.web import multi_payload
     doc = completed(tmp_path)
     directory = tmp_path / "results/multi_image"
     directory.mkdir(parents=True)
